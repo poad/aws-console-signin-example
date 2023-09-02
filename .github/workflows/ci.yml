@@ -1,0 +1,69 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: write
+  contents: write
+  deployments: none
+  id-token: write
+  issues: none
+  packages: none
+  pull-requests: write
+  repository-projects: read
+  security-events: write
+  statuses: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        target: [
+          ./,
+          ./cognito-admin/app,
+          ./cognito-admin/infra,
+          ./cognito-trigger-examples,
+        ]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      id: pnpm-install
+      with:
+        run_install: |
+          - recursive: true
+            args: [--no-frozen-lockfile]
+          - args: [--global, aws-cdk]
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3.8.1
+      with:
+        node-version: ${{ matrix.node-version }}
+        check-latest: true
+        cache: pnpm
+
+    - name: build
+      working-directory: ./common/cognito-singin
+      run: pnpm build
+  
+    - name: build
+      env:
+        BASE_PATH: /oauth/device/activate
+        YARN_ENABLE_IMMUTABLE_INSTALLS: false
+      working-directory: ${{ matrix.target }}
+      run: pnpm build

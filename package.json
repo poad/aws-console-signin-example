@@ -1,0 +1,21 @@
+{
+  "name": "aws-console-signin-example",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "prebuild": "pnpm -r install"
+  },
+  "resolutions": {
+    "@aws-example-common/cognito-singin": "./common/cognito-singin/"
+  },
+  "packageManager": "pnpm@8.7.1",
+  "engines": {
+    "npm": "use pnpm please!",
+    "yarn": "use pnpm please!",
+    "pnpm": ">=8.7.1",
+    
+    "node": ">=18.0.0"
+  }
+}
