@@ -10,11 +10,10 @@
   "resolutions": {
     "@aws-example-common/cognito-singin": "./common/cognito-singin/"
   },
-  "packageManager": "pnpm@8.7.1",
   "engines": {
     "npm": "use pnpm please!",
     "yarn": "use pnpm please!",
-    "pnpm": ">=8.7.1",
+    "pnpm": ">=8.7.4",
     
     "node": ">=18.0.0"
   }
