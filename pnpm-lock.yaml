@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@aws-example-common/cognito-singin': ./common/cognito-singin/
+  '@aws-console-signin-example/common-cognito-singin': ./common/cognito-singin/
 
 importers:
 
@@ -141,12 +141,12 @@ importers:
   cognito-admin/infra:
     dependencies:
       '@aws-cdk/aws-apigatewayv2-alpha':
-        specifier: 2.93.0-alpha.0
-        version: 2.93.0-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70)
+        specifier: 2.99.1-alpha.0
+        version: 2.99.1-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70)
       '@aws-cdk/aws-apigatewayv2-integrations-alpha':
-        specifier: 2.93.0-alpha.0
-        version: 2.93.0-alpha.0(@aws-cdk/aws-apigatewayv2-alpha@2.93.0-alpha.0)(aws-cdk-lib@2.94.0)(constructs@10.2.70)
-      '@aws-example-common/cognito-singin':
+        specifier: 2.99.1-alpha.0
+        version: 2.99.1-alpha.0(@aws-cdk/aws-apigatewayv2-alpha@2.99.1-alpha.0)(aws-cdk-lib@2.94.0)(constructs@10.2.70)
+      '@aws-console-signin-example/common-cognito-singin':
         specifier: ./common/cognito-singin/
         version: link:common/cognito-singin
       '@aws-lambda-powertools/logger':
@@ -250,12 +250,12 @@ importers:
   cognito-trigger-examples:
     dependencies:
       '@aws-cdk/aws-apigatewayv2-alpha':
-        specifier: 2.93.0-alpha.0
-        version: 2.93.0-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70)
+        specifier: 2.99.1-alpha.0
+        version: 2.99.1-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70)
       '@aws-cdk/aws-apigatewayv2-integrations-alpha':
-        specifier: 2.93.0-alpha.0
-        version: 2.93.0-alpha.0(@aws-cdk/aws-apigatewayv2-alpha@2.93.0-alpha.0)(aws-cdk-lib@2.94.0)(constructs@10.2.70)
-      '@aws-example-common/cognito-singin':
+        specifier: 2.99.1-alpha.0
+        version: 2.99.1-alpha.0(@aws-cdk/aws-apigatewayv2-alpha@2.99.1-alpha.0)(aws-cdk-lib@2.94.0)(constructs@10.2.70)
+      '@aws-console-signin-example/common-cognito-singin':
         specifier: ./common/cognito-singin/
         version: link:common/cognito-singin
       aws-cdk-lib:
@@ -710,26 +710,26 @@ packages:
     resolution: {integrity: sha512-DDt4SLdLOwWCjGtltH4VCST7hpOI5DzieuhGZsBpZ+AgJdSI2GCjklCXm0GCTwJG/SolkL5dtQXyUKgg9luBDg==}
     dev: false
 
-  /@aws-cdk/aws-apigatewayv2-alpha@2.93.0-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70):
-    resolution: {integrity: sha512-hu+JE1M+P/fI4/78e7zCBJeYE9KArzM6x2jcetbEeWUWet/oxj+CZtI3hWYOn1+42pNAxaMm6EaUWqSfL8TCMg==}
+  /@aws-cdk/aws-apigatewayv2-alpha@2.99.1-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70):
+    resolution: {integrity: sha512-BgHAo0E28c1AgXFZIIFSRPZCfpnASl8KHggJKqMNwDVMVccANIyHh7cUAYi90+lIhi87o3GsrkwCKRVCLNCBvg==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
-      aws-cdk-lib: 2.93.0
+      aws-cdk-lib: 2.99.1
       constructs: ^10.0.0
     dependencies:
       aws-cdk-lib: 2.94.0(constructs@10.2.70)
       constructs: 10.2.70
     dev: false
 
-  /@aws-cdk/aws-apigatewayv2-integrations-alpha@2.93.0-alpha.0(@aws-cdk/aws-apigatewayv2-alpha@2.93.0-alpha.0)(aws-cdk-lib@2.94.0)(constructs@10.2.70):
-    resolution: {integrity: sha512-OxYi+R944T3K05l7eHyfHjDsebs49o+zUUTDlU7XDG0GlHf2uRVl1sTmMHA1fvmxqjifEHjN7WRcinhoyBSctA==}
+  /@aws-cdk/aws-apigatewayv2-integrations-alpha@2.99.1-alpha.0(@aws-cdk/aws-apigatewayv2-alpha@2.99.1-alpha.0)(aws-cdk-lib@2.94.0)(constructs@10.2.70):
+    resolution: {integrity: sha512-hJ+4oSBI1n4kD8+beXKr+qNT1mKiXprOJB6q2R07So3Wm2PCUBEhg58mNS51UI+eS+QWCen957AoJI5BzJfO/w==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
-      '@aws-cdk/aws-apigatewayv2-alpha': 2.93.0-alpha.0
-      aws-cdk-lib: 2.93.0
+      '@aws-cdk/aws-apigatewayv2-alpha': 2.99.1-alpha.0
+      aws-cdk-lib: 2.99.1
       constructs: ^10.0.0
     dependencies:
-      '@aws-cdk/aws-apigatewayv2-alpha': 2.93.0-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70)
+      '@aws-cdk/aws-apigatewayv2-alpha': 2.99.1-alpha.0(aws-cdk-lib@2.94.0)(constructs@10.2.70)
       aws-cdk-lib: 2.94.0(constructs@10.2.70)
       constructs: 10.2.70
     dev: false

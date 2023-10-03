@@ -35,9 +35,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigatewayv2-alpha": "2.93.0-alpha.0",
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.93.0-alpha.0",
-    "@aws-example-common/cognito-singin": "link:../common/cognito-singin",
+    "@aws-cdk/aws-apigatewayv2-alpha": "2.99.1-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.99.1-alpha.0",
+    "@aws-console-signin-example/common-cognito-singin": "link:../common/cognito-singin",
     "aws-cdk-lib": "^2.94.0",
     "aws-lambda": "^1.0.7",
     "constructs": "^10.2.70",

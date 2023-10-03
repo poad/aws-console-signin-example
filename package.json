@@ -8,7 +8,7 @@
     "prebuild": "pnpm -r install"
   },
   "resolutions": {
-    "@aws-example-common/cognito-singin": "./common/cognito-singin/"
+    "@aws-console-signin-example/common-cognito-singin": "./common/cognito-singin/"
   },
   "engines": {
     "npm": "use pnpm please!",
