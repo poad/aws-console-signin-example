@@ -6,7 +6,7 @@ CURRENT=$(cd "$(dirname "$0")" || exit;pwd)
 echo "${CURRENT}"
 
 cd "${CURRENT}" || exit
-if ! git pull --prune; then
+if ! (git pull --prune); then
   cd "${CUR}" || exit
   exit $result
 fi
@@ -19,9 +19,9 @@ if [ $result -ne 0 ]; then
 fi
 echo ""
 pwd
-if ! pnpm install -r && pnpm up -r && pnpm -r build ; then
-  cd "${CUR}" || exit
-  exit $result
+if ! (pnpm install -r && pnpm up -r && pnpm -r build) ; then
+  cd "${CUR}"
+  exit 1
 fi
 
 cd "${CURRENT}" || exit
@@ -32,8 +32,8 @@ if [ $result -ne 0 ]; then
 fi
 
 if ! (git pull --prune && git commit -am "Bumps node modules" && git push); then
-  cd "${CUR}" || exit
-  exit $result
+  cd "${CUR}"
+  exit 1
 fi
 
 cd "${CUR}" || exit

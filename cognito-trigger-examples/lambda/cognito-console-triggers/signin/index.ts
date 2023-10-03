@@ -1,6 +1,5 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
-import fetch from 'node-fetch';
-import { cognitoSignInClient } from '@aws-example-common/cognito-singin';
+import { cognitoSignInClient } from '@aws-console-signin-example/cognito-singin';
 
 interface EnvironmentVariables {
   domain: string,
