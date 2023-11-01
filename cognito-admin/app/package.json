@@ -19,9 +19,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^5.3.1",
-    "@aws-sdk/client-cognito-identity-provider": "^3.438.0",
-    "@aws-sdk/client-iam": "^3.438.0",
-    "@aws-sdk/client-sts": "^3.438.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.441.0",
+    "@aws-sdk/client-iam": "^3.441.0",
+    "@aws-sdk/client-sts": "^3.441.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
