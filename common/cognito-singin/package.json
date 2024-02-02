@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity": "^3.504.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.504.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.505.0",
     "@aws-sdk/client-sts": "^3.504.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
