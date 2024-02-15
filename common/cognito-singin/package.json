@@ -18,8 +18,8 @@
     "lint": "eslint --ext .ts ./lambda"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.513.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.513.0",
+    "@aws-sdk/client-cognito-identity": "^3.514.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.514.0",
     "@aws-sdk/client-sts": "^3.513.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
