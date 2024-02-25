@@ -18,9 +18,9 @@
     "lint": "eslint --ext .ts ./lambda"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.515.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.515.0",
-    "@aws-sdk/client-sts": "^3.515.0",
+    "@aws-sdk/client-cognito-identity": "^3.521.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.521.0",
+    "@aws-sdk/client-sts": "^3.521.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
     "source-map-support": "^0.5.21"
@@ -30,7 +30,7 @@
     "@types/node": "^20.11.20",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^27.9.0",
