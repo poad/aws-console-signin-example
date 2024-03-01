@@ -18,10 +18,10 @@
     "all": "pnpm install && pnpm lint && pnpm build"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.1.4",
-    "@aws-sdk/client-cognito-identity-provider": "^3.523.0",
-    "@aws-sdk/client-iam": "^3.523.0",
-    "@aws-sdk/client-sts": "^3.523.0",
+    "@aws-amplify/ui-react": "^6.1.5",
+    "@aws-sdk/client-cognito-identity-provider": "^3.525.0",
+    "@aws-sdk/client-iam": "^3.525.0",
+    "@aws-sdk/client-sts": "^3.525.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/server": "^11.11.0",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^14.1.0",
     "@stylelint/postcss-css-in-js": "^0.38.0",
-    "@types/node": "^20.11.23",
+    "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-loader": "^2.4.8",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
