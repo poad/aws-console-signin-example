@@ -28,11 +28,11 @@
     "regenerator-runtime": "^0.14.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
-    "@aws-lambda-powertools/logger": "^2.0.3",
+    "@aws-lambda-powertools/logger": "^2.0.4",
     "@aws-sdk/client-cognito-identity": "^3.552.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.552.0",
     "@aws-sdk/client-sts": "^3.552.0",
