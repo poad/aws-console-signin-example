@@ -8,9 +8,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps): JSX.Element {
-  const {
-    children, value, index, ...other
-  } = props;
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -21,7 +19,7 @@ function TabPanel(props: TabPanelProps): JSX.Element {
       {...other}
     >
       {value === index && (
-        <Box p={3} component='div'>
+        <Box p={3} component="div">
           <Typography component="div">{children}</Typography>
         </Box>
       )}

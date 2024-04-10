@@ -21,7 +21,6 @@ import { fetchAuthSession } from 'aws-amplify/auth';
 Amplify.configure(awsconfig);
 
 interface HomeProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   signOut: (opts?: any) => Promise<any>;
 }
 

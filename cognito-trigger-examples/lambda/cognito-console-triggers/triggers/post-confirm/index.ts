@@ -1,13 +1,15 @@
 // import { AdminDeleteUserCommand, AdminLinkProviderForUserCommand, AdminUserGlobalSignOutCommand, CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import {
-  Callback, Context, PostConfirmationTriggerEvent, PostConfirmationTriggerHandler,
+import type {
+  Callback,
+  Context,
+  PostConfirmationTriggerEvent,
+  PostConfirmationTriggerHandler,
 } from 'aws-lambda';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handler: PostConfirmationTriggerHandler = async (
   event: PostConfirmationTriggerEvent,
   _: Context,
-  callback: Callback<any>,
+  callback: Callback<any>
 ): Promise<any> => {
   // console.log(JSON.stringify(event));
 

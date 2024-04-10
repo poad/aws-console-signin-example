@@ -1,34 +1,52 @@
 import {
-  Button, Container, Dialog, DialogContent, DialogContentText, DialogActions, Typography, useTheme, useMediaQuery, DialogTitle,
-  Paper, MenuItem, Select, FormControl, InputLabel, SelectChangeEvent,
+  Button,
+  Container,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  DialogTitle,
+  Paper,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  type SelectChangeEvent,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import UserPoolClient from '../../service/UserPoolClient';
-import { Group } from '../../interfaces';
-import IamClient from '../../service/IamClient';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import type UserPoolClient from '../../service/UserPoolClient';
+import type { Group } from '../../interfaces';
+import type IamClient from '../../service/IamClient';
 import { useListRoles } from '../../hooks/useListRoles';
 import StyledTextField from '../styled/StyledTextField';
 
 interface CreateGroupDialogProps {
   /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-  container?: Element,
-  client: UserPoolClient,
-  iamClient: IamClient,
-  onCreate?: (newUser: Group) => void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  container?: Element;
+  client: UserPoolClient;
+  iamClient: IamClient;
+  onCreate?: (newUser: Group) => void;
+  onError?: (error: any) => void;
 }
 
-const CreateGroupDialog = ({ client, iamClient, onCreate, onError }: CreateGroupDialogProps): JSX.Element => {
+const CreateGroupDialog = ({
+  client,
+  iamClient,
+  onCreate,
+  onError,
+}: CreateGroupDialogProps): JSX.Element => {
   type Inputs = {
-    groupName: string,
-    description?: string,
-    precedence?: number,
-    roleArn?: string,
+    groupName: string;
+    description?: string;
+    precedence?: number;
+    roleArn?: string;
   };
 
   const theme = useTheme();
@@ -39,9 +57,7 @@ const CreateGroupDialog = ({ client, iamClient, onCreate, onError }: CreateGroup
   const [open, setOpen] = useState<boolean>(false);
   const [role, setRole] = useState<string | undefined>(undefined);
 
-  const {
-    register, handleSubmit, reset, unregister,
-  } = useForm<Inputs>();
+  const { register, handleSubmit, reset, unregister } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     const newGroup = {
       groupName: data.groupName,
@@ -49,7 +65,8 @@ const CreateGroupDialog = ({ client, iamClient, onCreate, onError }: CreateGroup
       precedence: data.precedence || 0,
       roleArn: role === '' ? undefined : role,
     };
-    client.createGroup(newGroup)
+    client
+      .createGroup(newGroup)
       .then((group) => {
         if (onCreate !== undefined) {
           onCreate(group);
@@ -89,36 +106,114 @@ const CreateGroupDialog = ({ client, iamClient, onCreate, onError }: CreateGroup
 
   return (
     <Container>
-      <Button variant="contained" style={{ margin: 8 }} color="primary" onClick={() => setOpen(true)}>CREATE GROUP</Button>
-      <Dialog fullScreen={fullScreen} open={open} aria-labelledby="responsive-dialog-title">
+      <Button
+        variant="contained"
+        style={{ margin: 8 }}
+        color="primary"
+        onClick={() => setOpen(true)}
+      >
+        CREATE GROUP
+      </Button>
+      <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        aria-labelledby="responsive-dialog-title"
+      >
         <DialogContent>
-          <DialogTitle id="create-user-dialog-title"><Typography variant="h3" component="span" gutterBottom>{'Create Group'}</Typography></DialogTitle>
+          <DialogTitle id="create-user-dialog-title">
+            <Typography variant="h3" component="span" gutterBottom>
+              {'Create Group'}
+            </Typography>
+          </DialogTitle>
           <DialogContentText id="create-user-dialog" component="div">
             <Container>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Paper variant="outlined">
-                  <StyledTextField id="groupName" label="GroupName" type='groupName'
-                    fullWidth {...register('groupName', { required: true })} />
-                  <StyledTextField id="description" label="Description" type="text"
-                    fullWidth {...register('description', { required: false })} />
-                  <StyledTextField id="precedence" label="Precedence" type="number"
-                    fullWidth {...register('precedence', { required: false })} />
+                  <StyledTextField
+                    id="groupName"
+                    label="GroupName"
+                    type="groupName"
+                    fullWidth
+                    {...register('groupName', { required: true })}
+                  />
+                  <StyledTextField
+                    id="description"
+                    label="Description"
+                    type="text"
+                    fullWidth
+                    {...register('description', { required: false })}
+                  />
+                  <StyledTextField
+                    id="precedence"
+                    label="Precedence"
+                    type="number"
+                    fullWidth
+                    {...register('precedence', { required: false })}
+                  />
 
-                  <FormControl variant="outlined" fullWidth style={{ paddingLeft: 2, paddingRight: 2 }}>
-                    <InputLabel id="roleArn-label" style={{ paddingLeft: 2, paddingRight: 2 }}>Role Arn</InputLabel>
-                    <Select labelId="roleArn-label" style={{ paddingLeft: 2, paddingRight: 2 }} id="roleArn" value={role || ''} onChange={handleRoleChange} label="Role Arn" fullWidth>
-                      <MenuItem key="None" value="" style={{ paddingLeft: 2, paddingRight: 2 }}><em>None</em></MenuItem>
-                      {
-                        roles?.map((iamRole) => (<MenuItem key={iamRole.arn} value={iamRole.arn} style={{
-                          paddingLeft: 2, paddingRight: 2, paddingTop: 4, paddingBottom: 4, marginTop: 4, marginBottom: 4,
-                        }}><em>{iamRole.roleName}</em></MenuItem>))
-                      }
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    style={{ paddingLeft: 2, paddingRight: 2 }}
+                  >
+                    <InputLabel
+                      id="roleArn-label"
+                      style={{ paddingLeft: 2, paddingRight: 2 }}
+                    >
+                      Role Arn
+                    </InputLabel>
+                    <Select
+                      labelId="roleArn-label"
+                      style={{ paddingLeft: 2, paddingRight: 2 }}
+                      id="roleArn"
+                      value={role || ''}
+                      onChange={handleRoleChange}
+                      label="Role Arn"
+                      fullWidth
+                    >
+                      <MenuItem
+                        key="None"
+                        value=""
+                        style={{ paddingLeft: 2, paddingRight: 2 }}
+                      >
+                        <em>None</em>
+                      </MenuItem>
+                      {roles?.map((iamRole) => (
+                        <MenuItem
+                          key={iamRole.arn}
+                          value={iamRole.arn}
+                          style={{
+                            paddingLeft: 2,
+                            paddingRight: 2,
+                            paddingTop: 4,
+                            paddingBottom: 4,
+                            marginTop: 4,
+                            marginBottom: 4,
+                          }}
+                        >
+                          <em>{iamRole.roleName}</em>
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Paper>
                 <DialogActions>
-                  <Button type="reset" autoFocus style={{ margin: 8 }} onClick={onClose}>CLOSE</Button>
-                  <Button type="submit" style={{ margin: 8 }} variant="contained" color="secondary">CREATE</Button>
+                  <Button
+                    type="reset"
+                    autoFocus
+                    style={{ margin: 8 }}
+                    onClick={onClose}
+                  >
+                    CLOSE
+                  </Button>
+                  <Button
+                    type="submit"
+                    style={{ margin: 8 }}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    CREATE
+                  </Button>
                 </DialogActions>
               </form>
             </Container>

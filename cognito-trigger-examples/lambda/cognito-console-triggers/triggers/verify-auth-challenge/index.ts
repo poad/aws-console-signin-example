@@ -1,15 +1,16 @@
 // import { CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import {
-  Callback, Context, VerifyAuthChallengeResponseTriggerEvent, VerifyAuthChallengeResponseTriggerHandler,
+import type {
+  Callback,
+  Context,
+  VerifyAuthChallengeResponseTriggerEvent,
+  VerifyAuthChallengeResponseTriggerHandler,
 } from 'aws-lambda';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handler: VerifyAuthChallengeResponseTriggerHandler = async (
   event: VerifyAuthChallengeResponseTriggerEvent,
   _: Context,
-  callback: Callback<any>,
+  callback: Callback<any>
 ): Promise<any> => {
-  // eslint-disable-next-line no-console
   console.log(JSON.stringify(event));
 
   // const { userPoolId, request, triggerSource } = event;

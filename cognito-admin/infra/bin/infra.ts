@@ -4,28 +4,28 @@ import { App } from 'aws-cdk-lib';
 import { InfraStack } from '../lib/infra-stack';
 
 interface Context {
-  region: string,
-  domain: string,
-  endUserDomain: string,
-  clientId: string,
-  idPoolId: string,
-  userPoolId: string,
-  provider: string,
+  region: string;
+  domain: string;
+  endUserDomain: string;
+  clientId: string;
+  idPoolId: string;
+  userPoolId: string;
+  provider: string;
   triggers: {
-    preSignUp: boolean,
-    preAuth: boolean,
-    postAuth: boolean,
-    defAuthChallenge: boolean,
-    createAuthChallenge: boolean,
-    verifyAuthChallenge: boolean,
-    postConfirm: boolean,
-    preGenToken: boolean,
-    customMessge: boolean,
-    userMigrate: boolean,
-  },
-  groupRoleClassificationTagName: string | undefined,
-  groupRoleClassificationTagValue: string | undefined,
-  testRoles: number | undefined,
+    preSignUp: boolean;
+    preAuth: boolean;
+    postAuth: boolean;
+    defAuthChallenge: boolean;
+    createAuthChallenge: boolean;
+    verifyAuthChallenge: boolean;
+    postConfirm: boolean;
+    preGenToken: boolean;
+    customMessge: boolean;
+    userMigrate: boolean;
+  };
+  groupRoleClassificationTagName: string | undefined;
+  groupRoleClassificationTagValue: string | undefined;
+  testRoles: number | undefined;
 }
 
 const app = new App();
@@ -34,10 +34,15 @@ const env = app.node.tryGetContext('env') as string;
 
 const context = app.node.tryGetContext(env) as Context;
 const {
-  region, domain, endUserDomain, provider, testRoles, groupRoleClassificationTagName, groupRoleClassificationTagValue,
+  region,
+  domain,
+  endUserDomain,
+  provider,
+  testRoles,
+  groupRoleClassificationTagName,
+  groupRoleClassificationTagValue,
 } = context;
 
-// eslint-disable-next-line no-new
 new InfraStack(app, `${env}-cognito-admin-stack`, {
   adminUserPool: `${env}-cognito-admin-user-pool`,
   endUserPool: `${env}-cognito-admin-end-user-pool`,

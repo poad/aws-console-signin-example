@@ -1,10 +1,9 @@
-/* eslint-disable import/prefer-default-export */
 import {
   CognitoIdentityProviderClient,
   ListUsersCommand,
   AdminCreateUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import {
+import type {
   Callback,
   Context,
   PreSignUpTriggerEvent,
@@ -16,8 +15,6 @@ export const handler: PreSignUpTriggerHandler = async (
   _: Context,
   callback: Callback<any>
 ): Promise<any> => {
-  // console.log(JSON.stringify(event));
-
   const { userPoolId, request, triggerSource } = event;
 
   if (triggerSource === 'PreSignUp_ExternalProvider') {
@@ -76,7 +73,7 @@ export const handler: PreSignUpTriggerHandler = async (
     ) {
       return callback('No such link target', event);
     }
-    // eslint-disable-next-line no-param-reassign
+
     event.response.autoVerifyEmail = true;
   }
   return callback(null, event);

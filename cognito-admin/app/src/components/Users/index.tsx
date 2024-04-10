@@ -1,6 +1,4 @@
-import {
-  Container, Box,
-} from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { Page } from '../../hooks/usePagenationTable';
 import { useUser } from '../../hooks/useUser';
 import { useState, Fragment } from 'react';
@@ -15,12 +13,12 @@ import { useListUsers } from '../../hooks/useListUsers';
 
 interface UsersProps {
   /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-  container?: Element,
-  client: UserPoolClient,
-  page: Page,
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  container?: Element;
+  client: UserPoolClient;
+  page: Page;
 }
 
 const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
@@ -28,11 +26,7 @@ const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
 
   const { users, error, loaded, setUsers, clearError } = useListUsers(client);
 
-  const {
-    user,
-    setUser,
-    loadUser,
-  } = useUser(client);
+  const { user, setUser, loadUser } = useUser(client);
 
   const openUserDetail = (origin: User) => {
     loadUser(origin);
@@ -51,8 +45,10 @@ const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
 
   const onUpdate = (newUser: User) => {
     setUser(newUser);
-    if (users?.find(item => item.email === newUser.email)) {
-      setUsers(users?.filter(item => item.email !== newUser.email)?.concat(newUser));
+    if (users?.find((item) => item.email === newUser.email)) {
+      setUsers(
+        users?.filter((item) => item.email !== newUser.email)?.concat(newUser)
+      );
     }
   };
 
@@ -60,25 +56,44 @@ const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
     setUsers(users?.filter((u) => u.email !== target.email));
   };
 
-  return (<Fragment>
-    <LoadingSpinner expose={!loaded && !error} />
-    <ErrorDialog id="alert-dialog" open={error != undefined} message={JSON.stringify(error)} onClose={backdropClose} />
+  return (
+    <Fragment>
+      <LoadingSpinner expose={!loaded && !error} />
+      <ErrorDialog
+        id="alert-dialog"
+        open={error != undefined}
+        message={JSON.stringify(error)}
+        onClose={backdropClose}
+      />
 
-    {
-      user
-        ? (<UserDetail client={client} user={user} open={openDetail} onClose={handleCloseDetail} onUpdate={onUpdate} onDelete={onDelete} />)
-        : ('')
-    }
+      {user ? (
+        <UserDetail
+          client={client}
+          user={user}
+          open={openDetail}
+          onClose={handleCloseDetail}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+        />
+      ) : (
+        ''
+      )}
 
-    <Box component="span" m={1}>
-      <Container fixed>
-        <CreateUserDialog client={client} onCreate={onCreate} />
-        {
-          users ? (<UsersTable users={users} initPage={initPage} onClick={openUserDetail} />) : (<></>)
-        }
-      </Container>
-    </Box>
-  </Fragment>
+      <Box component="span" m={1}>
+        <Container fixed>
+          <CreateUserDialog client={client} onCreate={onCreate} />
+          {users ? (
+            <UsersTable
+              users={users}
+              initPage={initPage}
+              onClick={openUserDetail}
+            />
+          ) : (
+            <></>
+          )}
+        </Container>
+      </Box>
+    </Fragment>
   );
 };
 

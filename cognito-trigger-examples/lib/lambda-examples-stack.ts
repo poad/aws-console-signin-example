@@ -19,12 +19,12 @@ import {
   UserPool,
   CfnIdentityPool,
 } from 'aws-cdk-lib/aws-cognito';
-import { Stack, StackProps, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { Stack, type StackProps, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { HttpApi, HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
 import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Construct } from 'constructs';
+import type { Construct } from 'constructs';
 
 export interface GroupConfig {
   id: string;
@@ -711,13 +711,13 @@ export class LambdaExamplesStack extends Stack {
           `${api.url}/signin`,
           `https://${props.auth0Domain}.auth0.com/login/callback`,
         ]
-      : [`${api.url!}`];
+      : [`${api.url}`];
     const logoutUrls = props.auth0Domain
       ? [
-          `${api.url!}/signout`,
+          `${api.url}/signout`,
           `https://${props.auth0Domain}.auth0.com/logout/callback`,
         ]
-      : [`${api.url!}`];
+      : [`${api.url}`];
 
     const client = new UserPoolClient(this, 'AppClient', {
       userPool,
@@ -763,7 +763,7 @@ export class LambdaExamplesStack extends Stack {
       'IDENTITY_PROVIDER',
       identityPoolProvider.providerName
     );
-    signInFn.addEnvironment('API_URL', api.url!);
+    signInFn.addEnvironment('API_URL', api.url ?? '');
 
     signOutFn.addEnvironment('CLIENT_ID', client.userPoolClientId);
 
@@ -842,20 +842,12 @@ export class LambdaExamplesStack extends Stack {
       }
     );
 
-    // eslint-disable-next-line no-new
     new CfnIdentityPoolRoleAttachment(this, 'IdPoolRoleAttachment', {
       identityPoolId: identityPool.ref,
       roles: {
         authenticated: authenticatedRole.roleArn,
         unauthenticated: unauthenticatedRole.roleArn,
       },
-      // roleMappings: {
-      //   'cognito-lambda': {
-      //     ambiguousRoleResolution: 'AuthenticatedRole',
-      //     identityProvider: `cognito-idp.${Stack.of(this).region}.amazonaws.com/${userPool.userPoolId}:${client.userPoolClientId}`,
-      //     type: 'Token',
-      //   },
-      // },
     });
 
     const conditions = {
@@ -904,13 +896,12 @@ export class LambdaExamplesStack extends Stack {
 
       return { id: group.id, name: group.name, role: groupRole };
     });
-    roles.forEach((role) => {
-      // eslint-disable-next-line no-new
+    for (const role of roles) {
       new CfnUserPoolGroup(this, role.id, {
         groupName: `${props.environment}-${role.name}`,
         userPoolId: userPool.userPoolId,
         roleArn: role.role.roleArn,
       });
-    });
+    }
   }
 }

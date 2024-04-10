@@ -1,15 +1,16 @@
 // import { CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import {
-  Callback, Context, UserMigrationTriggerEvent, UserMigrationTriggerHandler,
+import type {
+  Callback,
+  Context,
+  UserMigrationTriggerEvent,
+  UserMigrationTriggerHandler,
 } from 'aws-lambda';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handler: UserMigrationTriggerHandler = async (
   event: UserMigrationTriggerEvent,
   _: Context,
-  callback: Callback<any>,
+  callback: Callback<any>
 ): Promise<any> => {
-  // eslint-disable-next-line no-console
   console.log(JSON.stringify(event));
 
   // const { userPoolId, request, triggerSource } = event;

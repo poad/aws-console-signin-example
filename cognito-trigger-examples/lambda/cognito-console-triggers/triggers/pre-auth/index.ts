@@ -1,13 +1,15 @@
 // import { CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import {
-  Callback, Context, PreAuthenticationTriggerEvent, PreAuthenticationTriggerHandler,
+import type {
+  Callback,
+  Context,
+  PreAuthenticationTriggerEvent,
+  PreAuthenticationTriggerHandler,
 } from 'aws-lambda';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handler: PreAuthenticationTriggerHandler = async (
   event: PreAuthenticationTriggerEvent,
   _: Context,
-  callback: Callback<any>,
+  callback: Callback<any>
 ): Promise<any> => {
   // console.log(JSON.stringify(event));
 

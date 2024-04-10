@@ -1,29 +1,32 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import { App } from 'aws-cdk-lib';
-import { LambdaExamplesStack, GroupConfig } from '../lib/lambda-examples-stack';
+import {
+  LambdaExamplesStack,
+  type GroupConfig,
+} from '../lib/lambda-examples-stack';
 
 interface Context {
-  region: string,
-  domain: string,
-  auth0Domain?: string,
-  clientId: string,
-  idPoolId: string,
-  userPoolId: string,
-  groups: GroupConfig[],
-  providers?: string,
+  region: string;
+  domain: string;
+  auth0Domain?: string;
+  clientId: string;
+  idPoolId: string;
+  userPoolId: string;
+  groups: GroupConfig[];
+  providers?: string;
   triggers: {
-    preSignUp: boolean,
-    preAuth: boolean,
-    postAuth: boolean,
-    defAuthChallenge: boolean,
-    createAuthChallenge: boolean,
-    verifyAuthChallenge: boolean,
-    postConfirm: boolean,
-    preGenToken: boolean,
-    customMessge: boolean,
-    userMigrate: boolean,
-  },
+    preSignUp: boolean;
+    preAuth: boolean;
+    postAuth: boolean;
+    defAuthChallenge: boolean;
+    createAuthChallenge: boolean;
+    verifyAuthChallenge: boolean;
+    postConfirm: boolean;
+    preGenToken: boolean;
+    customMessge: boolean;
+    userMigrate: boolean;
+  };
 }
 
 const app = new App();
@@ -33,9 +36,7 @@ const env = app.node.tryGetContext('env') as string;
 const context = app.node.tryGetContext(env) as Context;
 const tags = (app.node.tryGetContext('tags') as string).split(',');
 
-const {
-  region, groups, domain, providers,
-} = context;
+const { region, groups, domain, providers } = context;
 
 let triggers = {};
 if (context.triggers.preSignUp) {
@@ -138,7 +139,6 @@ if (context.triggers.customMessge) {
   };
 }
 
-// eslint-disable-next-line no-new
 new LambdaExamplesStack(app, `${env}-lambda-stack`, {
   name: `${env}-lambda`,
   region,

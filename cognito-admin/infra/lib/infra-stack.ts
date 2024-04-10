@@ -1,12 +1,23 @@
 import {
-  Effect, FederatedPrincipal, PolicyDocument, PolicyStatement, Role, ServicePrincipal,
+  Effect,
+  FederatedPrincipal,
+  PolicyDocument,
+  PolicyStatement,
+  Role,
+  ServicePrincipal,
 } from 'aws-cdk-lib/aws-iam';
 import {
-  AccountRecovery, Mfa, OAuthScope, UserPoolClient, CfnIdentityPoolRoleAttachment, UserPool, CfnIdentityPool, CfnUserPoolIdentityProvider, UserPoolClientIdentityProvider,
+  AccountRecovery,
+  Mfa,
+  OAuthScope,
+  UserPoolClient,
+  CfnIdentityPoolRoleAttachment,
+  UserPool,
+  CfnIdentityPool,
+  CfnUserPoolIdentityProvider,
+  UserPoolClientIdentityProvider,
 } from 'aws-cdk-lib/aws-cognito';
-import {
-  Stack, StackProps, Duration, RemovalPolicy, Tags,
-} from 'aws-cdk-lib';
+import { Stack, StackProps, Duration, RemovalPolicy, Tags } from 'aws-cdk-lib';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
@@ -17,26 +28,26 @@ import { HttpMethod } from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { IdentityProviderTypeType } from '@aws-sdk/client-cognito-identity-provider';
 
 export interface InfraStackStackProps extends StackProps {
-  adminUserPool: string,
-  endUserPool: string,
-  region: string,
-  environment: string,
-  domain: string,
-  endUserDomain: string,
-  provider: string,
+  adminUserPool: string;
+  endUserPool: string;
+  region: string;
+  environment: string;
+  domain: string;
+  endUserDomain: string;
+  provider: string;
   lambda: {
     app: {
       userMaagement: {
-        name: string,
-        entry: string,
-      },
-    },
-  },
+        name: string;
+        entry: string;
+      };
+    };
+  };
   groupRoleClassificationTag: {
-    name: string | undefined,
-    value: string | undefined
-  },
-  testRoles: number | undefined,
+    name: string | undefined;
+    value: string | undefined;
+  };
+  testRoles: number | undefined;
 }
 
 export class InfraStack extends Stack {
@@ -77,26 +88,26 @@ export class InfraStack extends Stack {
                   'logs:CreateLogStream',
                   'logs:PutLogEvents',
                 ],
-                resources: [`arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-user-console-sign-in:*`],
+                resources: [
+                  `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-user-console-sign-in:*`,
+                ],
               }),
             ],
           }),
-          'assumed-role-policy': new PolicyDocument(
-            {
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'cognito-identity:*',
-                    'cognito-idp:*',
-                    'sts:GetFederationToken',
-                    'sts:AssumeRoleWithWebIdentity',
-                  ],
-                  resources: ['*'],
-                }),
-              ],
-            },
-          ),
+          'assumed-role-policy': new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                  'cognito-identity:*',
+                  'cognito-idp:*',
+                  'sts:GetFederationToken',
+                  'sts:AssumeRoleWithWebIdentity',
+                ],
+                resources: ['*'],
+              }),
+            ],
+          }),
         },
       }),
     });
@@ -119,26 +130,26 @@ export class InfraStack extends Stack {
                   'logs:CreateLogStream',
                   'logs:PutLogEvents',
                 ],
-                resources: [`arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-user-console-sign-out:*`],
+                resources: [
+                  `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-user-console-sign-out:*`,
+                ],
               }),
             ],
           }),
-          'assumed-role-policy': new PolicyDocument(
-            {
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'cognito-identity:*',
-                    'cognito-idp:*',
-                    'sts:GetFederationToken',
-                    'sts:AssumeRoleWithWebIdentity',
-                  ],
-                  resources: ['*'],
-                }),
-              ],
-            },
-          ),
+          'assumed-role-policy': new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                  'cognito-identity:*',
+                  'cognito-idp:*',
+                  'sts:GetFederationToken',
+                  'sts:AssumeRoleWithWebIdentity',
+                ],
+                resources: ['*'],
+              }),
+            ],
+          }),
         },
       }),
     });
@@ -147,69 +158,62 @@ export class InfraStack extends Stack {
       apiName: `Cognito Console Lambda API (${environment})`,
       defaultIntegration: new HttpLambdaIntegration(
         'default-handler',
-        signInFn,
+        signInFn
       ),
     });
     api.addRoutes({
       path: '/signin',
       methods: [HttpMethod.GET, HttpMethod.POST],
-      integration: new HttpLambdaIntegration(
-        'signin-handler',
-        signInFn,
-      ),
+      integration: new HttpLambdaIntegration('signin-handler', signInFn),
     });
 
     api.addRoutes({
       path: '/signout',
       methods: [HttpMethod.GET, HttpMethod.POST],
-      integration: new HttpLambdaIntegration(
-        'signout-handler',
-        signOutFn,
-      ),
+      integration: new HttpLambdaIntegration('signout-handler', signOutFn),
     });
 
-    const blockExternalUserFn = new NodejsFunction(this, 'BlockExternalUserLambdaFunction', {
-      runtime: Runtime.NODEJS_20_X,
-      entry: 'lambda/block-external-user/index.ts',
-      functionName: `${environment}-cognito-admin-block-external-user`,
-      logRetention: RetentionDays.ONE_DAY,
-      retryAttempts: 0,
-      role: new Role(this, 'BlockExternalUserExecutionRole', {
-        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-        inlinePolicies: {
-          'logs-policy': new PolicyDocument({
-            statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
-                actions: [
-                  'logs:CreateLogGroup',
-                  'logs:CreateLogStream',
-                  'logs:PutLogEvents',
-                ],
-                resources: [
-                  `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-block-external-user`,
-                  `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-block-external-user:*`,
-                ],
-              }),
-            ],
-          }),
-          'assumed-role-policy': new PolicyDocument(
-            {
+    const blockExternalUserFn = new NodejsFunction(
+      this,
+      'BlockExternalUserLambdaFunction',
+      {
+        runtime: Runtime.NODEJS_20_X,
+        entry: 'lambda/block-external-user/index.ts',
+        functionName: `${environment}-cognito-admin-block-external-user`,
+        logRetention: RetentionDays.ONE_DAY,
+        retryAttempts: 0,
+        role: new Role(this, 'BlockExternalUserExecutionRole', {
+          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+          inlinePolicies: {
+            'logs-policy': new PolicyDocument({
               statements: [
                 new PolicyStatement({
                   effect: Effect.ALLOW,
                   actions: [
-                    'cognito-identity:*',
-                    'cognito-idp:*',
+                    'logs:CreateLogGroup',
+                    'logs:CreateLogStream',
+                    'logs:PutLogEvents',
                   ],
+                  resources: [
+                    `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-block-external-user`,
+                    `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-block-external-user:*`,
+                  ],
+                }),
+              ],
+            }),
+            'assumed-role-policy': new PolicyDocument({
+              statements: [
+                new PolicyStatement({
+                  effect: Effect.ALLOW,
+                  actions: ['cognito-identity:*', 'cognito-idp:*'],
                   resources: ['*'],
                 }),
               ],
-            },
-          ),
-        },
-      }),
-    });
+            }),
+          },
+        }),
+      }
+    );
 
     const endUserPool = new UserPool(this, endUserPoolName, {
       userPoolName: endUserPoolName,
@@ -256,52 +260,51 @@ export class InfraStack extends Stack {
       },
     });
 
-    const addAdminUserFn = new NodejsFunction(this, 'AddAdminUserLambdaFunction', {
-      runtime: Runtime.NODEJS_20_X,
-      entry: 'lambda/add-admin-user/index.ts',
-      functionName: `${environment}-cognito-admin-add-admin-user`,
-      logRetention: RetentionDays.ONE_DAY,
-      retryAttempts: 0,
-      environment: {
-        DEST_USER_POOL_ID: endUserPool.userPoolId,
-        PROVIDER: provider,
-      },
-      role: new Role(this, 'AddAdminUserExecutionRole', {
-        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-        inlinePolicies: {
-          'logs-policy': new PolicyDocument({
-            statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
-                actions: [
-                  'logs:CreateLogGroup',
-                  'logs:CreateLogStream',
-                  'logs:PutLogEvents',
-                ],
-                resources: [
-                  `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-add-admin-user`,
-                  `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-add-admin-user:*`,
-                ],
-              }),
-            ],
-          }),
-          'assumed-role-policy': new PolicyDocument(
-            {
+    const addAdminUserFn = new NodejsFunction(
+      this,
+      'AddAdminUserLambdaFunction',
+      {
+        runtime: Runtime.NODEJS_20_X,
+        entry: 'lambda/add-admin-user/index.ts',
+        functionName: `${environment}-cognito-admin-add-admin-user`,
+        logRetention: RetentionDays.ONE_DAY,
+        retryAttempts: 0,
+        environment: {
+          DEST_USER_POOL_ID: endUserPool.userPoolId,
+          PROVIDER: provider,
+        },
+        role: new Role(this, 'AddAdminUserExecutionRole', {
+          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+          inlinePolicies: {
+            'logs-policy': new PolicyDocument({
               statements: [
                 new PolicyStatement({
                   effect: Effect.ALLOW,
                   actions: [
-                    'cognito-identity:*',
-                    'cognito-idp:*',
+                    'logs:CreateLogGroup',
+                    'logs:CreateLogStream',
+                    'logs:PutLogEvents',
                   ],
+                  resources: [
+                    `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-add-admin-user`,
+                    `arn:aws:logs:${region}:${this.account}:log-group:/aws/lambda/${environment}-cognito-admin-add-admin-user:*`,
+                  ],
+                }),
+              ],
+            }),
+            'assumed-role-policy': new PolicyDocument({
+              statements: [
+                new PolicyStatement({
+                  effect: Effect.ALLOW,
+                  actions: ['cognito-identity:*', 'cognito-idp:*'],
                   resources: ['*'],
                 }),
               ],
-            },
-          ),
-        },
-      }),
-    });
+            }),
+          },
+        }),
+      }
+    );
 
     const adminUserPool = new UserPool(this, adminUserPoolName, {
       userPoolName: adminUserPoolName,
@@ -337,7 +340,6 @@ export class InfraStack extends Stack {
       accountRecovery: AccountRecovery.EMAIL_ONLY,
       lambdaTriggers: {
         postAuthentication: addAdminUserFn,
-
       },
       removalPolicy: RemovalPolicy.DESTROY,
     });
@@ -358,7 +360,10 @@ export class InfraStack extends Stack {
         custom: true,
       },
       oAuth: {
-        callbackUrls: ['http://localhost:3000', `https://${endUserDomain}.auth.${region}.amazoncognito.com/oauth2/idpresponse`],
+        callbackUrls: [
+          'http://localhost:3000',
+          `https://${endUserDomain}.auth.${region}.amazoncognito.com/oauth2/idpresponse`,
+        ],
         // logoutUrls,
         flows: {
           authorizationCodeGrant: true,
@@ -386,67 +391,82 @@ export class InfraStack extends Stack {
       identityPoolName: `${environment} admin users`,
     });
 
-    const adminUnauthenticatedRole = new Role(this, 'AdminCognitoDefaultUnauthenticatedRole', {
-      roleName: `${environment}-cognito-admin-users-unauth-role`,
-      assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
-        StringEquals: {
-          'cognito-identity.amazonaws.com:aud': adminPoolIdentityPool.ref,
+    const adminUnauthenticatedRole = new Role(
+      this,
+      'AdminCognitoDefaultUnauthenticatedRole',
+      {
+        roleName: `${environment}-cognito-admin-users-unauth-role`,
+        assumedBy: new FederatedPrincipal(
+          'cognito-identity.amazonaws.com',
+          {
+            StringEquals: {
+              'cognito-identity.amazonaws.com:aud': adminPoolIdentityPool.ref,
+            },
+            'ForAnyValue:StringLike': {
+              'cognito-identity.amazonaws.com:amr': 'unauthenticated',
+            },
+          },
+          'sts:AssumeRoleWithWebIdentity'
+        ),
+        inlinePolicies: {
+          'allow-assume-role': new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                  'cognito-identity:*',
+                  'cognito-idp:*',
+                  'sts:GetFederationToken',
+                  'sts:AssumeRoleWithWebIdentity',
+                ],
+                resources: ['*'],
+              }),
+            ],
+          }),
         },
-        'ForAnyValue:StringLike': {
-          'cognito-identity.amazonaws.com:amr': 'unauthenticated',
-        },
-      }, 'sts:AssumeRoleWithWebIdentity'),
-      inlinePolicies: {
-        'allow-assume-role': new PolicyDocument({
-          statements: [
-            new PolicyStatement({
-              effect: Effect.ALLOW,
-              actions: [
-                'cognito-identity:*',
-                'cognito-idp:*',
-                'sts:GetFederationToken',
-                'sts:AssumeRoleWithWebIdentity',
-              ],
-              resources: ['*'],
-            }),
-          ],
-        }),
-      },
-    });
+      }
+    );
 
-    const adminAuthenticatedRole = new Role(this, 'AdminCognitoDefaultAuthenticatedRole', {
-      roleName: `${environment}-cognito-admin-users-auth-role`,
-      assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
-        StringEquals: {
-          'cognito-identity.amazonaws.com:aud': adminPoolIdentityPool.ref,
+    const adminAuthenticatedRole = new Role(
+      this,
+      'AdminCognitoDefaultAuthenticatedRole',
+      {
+        roleName: `${environment}-cognito-admin-users-auth-role`,
+        assumedBy: new FederatedPrincipal(
+          'cognito-identity.amazonaws.com',
+          {
+            StringEquals: {
+              'cognito-identity.amazonaws.com:aud': adminPoolIdentityPool.ref,
+            },
+            'ForAnyValue:StringLike': {
+              'cognito-identity.amazonaws.com:amr': 'authenticated',
+            },
+          },
+          'sts:AssumeRoleWithWebIdentity'
+        ),
+        maxSessionDuration: Duration.hours(12),
+        inlinePolicies: {
+          'allow-assume-role': new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                  'cognito-identity:*',
+                  'cognito-idp:*',
+                  'sts:GetFederationToken',
+                  'sts:AssumeRoleWithWebIdentity',
+                  'iam:ListRoles',
+                  'iam:PassRole',
+                  'iam:GetRole',
+                ],
+                resources: ['*'],
+              }),
+            ],
+          }),
         },
-        'ForAnyValue:StringLike': {
-          'cognito-identity.amazonaws.com:amr': 'authenticated',
-        },
-      }, 'sts:AssumeRoleWithWebIdentity'),
-      maxSessionDuration: Duration.hours(12),
-      inlinePolicies: {
-        'allow-assume-role': new PolicyDocument({
-          statements: [
-            new PolicyStatement({
-              effect: Effect.ALLOW,
-              actions: [
-                'cognito-identity:*',
-                'cognito-idp:*',
-                'sts:GetFederationToken',
-                'sts:AssumeRoleWithWebIdentity',
-                'iam:ListRoles',
-                'iam:PassRole',
-                'iam:GetRole',
-              ],
-              resources: ['*'],
-            }),
-          ],
-        }),
-      },
-    });
+      }
+    );
 
-    // eslint-disable-next-line no-new
     new CfnIdentityPoolRoleAttachment(this, 'AdminIdPoolRoleAttachment', {
       identityPoolId: adminPoolIdentityPool.ref,
       roles: {
@@ -517,64 +537,79 @@ export class InfraStack extends Stack {
       identityPoolName: `${environment} end users`,
     });
 
-    const endUserUnauthenticatedRole = new Role(this, 'EndUserCognitoDefaultUnauthenticatedRole', {
-      roleName: `${environment}-cognito-end-users-unauth-role`,
-      assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
-        StringEquals: {
-          'cognito-identity.amazonaws.com:aud': endUserPoolIdentityPool.ref,
+    const endUserUnauthenticatedRole = new Role(
+      this,
+      'EndUserCognitoDefaultUnauthenticatedRole',
+      {
+        roleName: `${environment}-cognito-end-users-unauth-role`,
+        assumedBy: new FederatedPrincipal(
+          'cognito-identity.amazonaws.com',
+          {
+            StringEquals: {
+              'cognito-identity.amazonaws.com:aud': endUserPoolIdentityPool.ref,
+            },
+            'ForAnyValue:StringLike': {
+              'cognito-identity.amazonaws.com:amr': 'unauthenticated',
+            },
+          },
+          'sts:AssumeRoleWithWebIdentity'
+        ),
+        inlinePolicies: {
+          'allow-assume-role': new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                  'cognito-identity:*',
+                  'cognito-idp:*',
+                  'sts:GetFederationToken',
+                  'sts:AssumeRoleWithWebIdentity',
+                ],
+                resources: ['*'],
+              }),
+            ],
+          }),
         },
-        'ForAnyValue:StringLike': {
-          'cognito-identity.amazonaws.com:amr': 'unauthenticated',
-        },
-      }, 'sts:AssumeRoleWithWebIdentity'),
-      inlinePolicies: {
-        'allow-assume-role': new PolicyDocument({
-          statements: [
-            new PolicyStatement({
-              effect: Effect.ALLOW,
-              actions: [
-                'cognito-identity:*',
-                'cognito-idp:*',
-                'sts:GetFederationToken',
-                'sts:AssumeRoleWithWebIdentity',
-              ],
-              resources: ['*'],
-            }),
-          ],
-        }),
-      },
-    });
+      }
+    );
 
-    const endUserAuthenticatedRole = new Role(this, 'EndUserCognitoDefaultAuthenticatedRole', {
-      roleName: `${environment}-cognito-end-users-auth-role`,
-      assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
-        StringEquals: {
-          'cognito-identity.amazonaws.com:aud': endUserPoolIdentityPool.ref,
+    const endUserAuthenticatedRole = new Role(
+      this,
+      'EndUserCognitoDefaultAuthenticatedRole',
+      {
+        roleName: `${environment}-cognito-end-users-auth-role`,
+        assumedBy: new FederatedPrincipal(
+          'cognito-identity.amazonaws.com',
+          {
+            StringEquals: {
+              'cognito-identity.amazonaws.com:aud': endUserPoolIdentityPool.ref,
+            },
+            'ForAnyValue:StringLike': {
+              'cognito-identity.amazonaws.com:amr': 'authenticated',
+            },
+          },
+          'sts:AssumeRoleWithWebIdentity'
+        ).withSessionTags(),
+        maxSessionDuration: Duration.hours(12),
+        inlinePolicies: {
+          'allow-assume-role': new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                  'cognito-identity:*',
+                  'cognito-idp:*',
+                  'sts:GetFederationToken',
+                  'sts:AssumeRoleWithWebIdentity',
+                ],
+                resources: ['*'],
+              }),
+            ],
+          }),
         },
-        'ForAnyValue:StringLike': {
-          'cognito-identity.amazonaws.com:amr': 'authenticated',
-        },
-      }, 'sts:AssumeRoleWithWebIdentity').withSessionTags(),
-      maxSessionDuration: Duration.hours(12),
-      inlinePolicies: {
-        'allow-assume-role': new PolicyDocument({
-          statements: [
-            new PolicyStatement({
-              effect: Effect.ALLOW,
-              actions: [
-                'cognito-identity:*',
-                'cognito-idp:*',
-                'sts:GetFederationToken',
-                'sts:AssumeRoleWithWebIdentity',
-              ],
-              resources: ['*'],
-            }),
-          ],
-        }),
-      },
-    });
+      }
+    );
 
-    // eslint-disable-next-line no-new
     new CfnIdentityPoolRoleAttachment(this, 'EndUsersIdPoolRoleAttachment', {
       identityPoolId: endUserPoolIdentityPool.ref,
       roles: {
@@ -590,14 +625,19 @@ export class InfraStack extends Stack {
 
         const groupRole = new Role(this, `TestGroupRole${i + 1}`, {
           roleName,
-          assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
-            StringEquals: {
-              'cognito-identity.amazonaws.com:aud': endUserPoolIdentityPool.ref,
+          assumedBy: new FederatedPrincipal(
+            'cognito-identity.amazonaws.com',
+            {
+              StringEquals: {
+                'cognito-identity.amazonaws.com:aud':
+                  endUserPoolIdentityPool.ref,
+              },
+              'ForAnyValue:StringLike': {
+                'cognito-identity.amazonaws.com:amr': 'authenticated',
+              },
             },
-            'ForAnyValue:StringLike': {
-              'cognito-identity.amazonaws.com:amr': 'authenticated',
-            },
-          }, 'sts:AssumeRoleWithWebIdentity'),
+            'sts:AssumeRoleWithWebIdentity'
+          ),
           maxSessionDuration: Duration.hours(12),
           inlinePolicies: {
             'allow-assume-role': new PolicyDocument({
@@ -620,11 +660,20 @@ export class InfraStack extends Stack {
         signInFn.addEnvironment('USER_POOL_ID', endUserPool.userPoolId);
         signInFn.addEnvironment('CLIENT_ID', endUsersClient.userPoolClientId);
         signInFn.addEnvironment('ID_POOL_ID', endUserPoolIdentityPool.ref);
-        signInFn.addEnvironment('IDENTITY_PROVIDER', endUserPool.userPoolProviderName);
+        signInFn.addEnvironment(
+          'IDENTITY_PROVIDER',
+          endUserPool.userPoolProviderName
+        );
         signInFn.addEnvironment('API_URL', api.url!);
 
-        if (groupRoleClassificationTag.name !== undefined && groupRoleClassificationTag.value !== undefined) {
-          Tags.of(groupRole).add(groupRoleClassificationTag.name, groupRoleClassificationTag.value);
+        if (
+          groupRoleClassificationTag.name !== undefined &&
+          groupRoleClassificationTag.value !== undefined
+        ) {
+          Tags.of(groupRole).add(
+            groupRoleClassificationTag.name,
+            groupRoleClassificationTag.value
+          );
         }
       });
     }

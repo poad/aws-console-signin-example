@@ -6,28 +6,26 @@ export const useGroupDetail = (
   client: UserPoolClient,
   group: Group | undefined,
   onUpdate?: (newGroup: Group) => void,
-  onDelete?: (removeGroup: Group) => void,
+  onDelete?: (removeGroup: Group) => void
 ): {
-    detail?: Group,
-    attacheRole?: string,
-    changeGroupRole: (newRole: string) => void,
-    updateGroupRole: () => void,
-    deleteGroup: () => void,
-    clearAttacheRole: () => void,
-  } => {
+  detail?: Group;
+  attacheRole?: string;
+  changeGroupRole: (newRole: string) => void;
+  updateGroupRole: () => void;
+  deleteGroup: () => void;
+  clearAttacheRole: () => void;
+} => {
   const [detail, setDetail] = useState<Group | undefined>(group);
   const [attacheRole, setAttacheRole] = useState<string | undefined>(undefined);
 
-
   const deleteGroup = useCallback(() => {
     if (detail) {
-      client.deleteGroup(detail.groupName)
-        .then(() => {
-          if (onDelete) {
-            onDelete(detail);
-          }
-          setDetail(undefined);
-        });
+      client.deleteGroup(detail.groupName).then(() => {
+        if (onDelete) {
+          onDelete(detail);
+        }
+        setDetail(undefined);
+      });
     }
   }, []);
 
@@ -39,10 +37,16 @@ export const useGroupDetail = (
   };
 
   const changeGroupRole = useCallback((newRole: string) => {
-    if ((!detail?.roleArn || detail?.roleArn?.length === 0) && newRole.length !== 0) {
+    if (
+      (!detail?.roleArn || detail?.roleArn?.length === 0) &&
+      newRole.length !== 0
+    ) {
       setAttacheRole(newRole);
     } else if (detail?.roleArn !== newRole) {
-      updateGroup({ ...detail, roleArn: newRole.length > 0 ? newRole : undefined } as Group);
+      updateGroup({
+        ...detail,
+        roleArn: newRole.length > 0 ? newRole : undefined,
+      } as Group);
       setAttacheRole(undefined);
     }
   }, []);
@@ -65,4 +69,3 @@ export const useGroupDetail = (
     clearAttacheRole,
   };
 };
-

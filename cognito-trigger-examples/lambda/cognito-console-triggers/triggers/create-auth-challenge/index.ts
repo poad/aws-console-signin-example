@@ -1,13 +1,15 @@
 // import { CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import {
-  Callback, Context, CreateAuthChallengeTriggerEvent, CreateAuthChallengeTriggerHandler,
+import type {
+  Callback,
+  Context,
+  CreateAuthChallengeTriggerEvent,
+  CreateAuthChallengeTriggerHandler,
 } from 'aws-lambda';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handler: CreateAuthChallengeTriggerHandler = async (
   event: CreateAuthChallengeTriggerEvent,
   _: Context,
-  callback: Callback<any>,
+  callback: Callback<any>
 ): Promise<any> => {
   // console.log(JSON.stringify(event));
 

@@ -1,13 +1,15 @@
 // import { CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import {
-  Callback, Context, CustomMessageTriggerEvent, CustomMessageTriggerHandler,
+import type {
+  Callback,
+  Context,
+  CustomMessageTriggerEvent,
+  CustomMessageTriggerHandler,
 } from 'aws-lambda';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handler: CustomMessageTriggerHandler = async (
   event: CustomMessageTriggerEvent,
   _: Context,
-  callback: Callback<any>,
+  callback: Callback<any>
 ): Promise<any> => {
   // console.log(JSON.stringify(event));
 

@@ -1,7 +1,4 @@
-
-import {
-  Backdrop, useTheme, styled,
-} from '@mui/material';
+import { Backdrop, useTheme, styled } from '@mui/material';
 import Loader from 'react-loader';
 
 export const StyledSpinner = styled(Loader)({
@@ -18,12 +15,17 @@ export const StyledSpinner = styled(Loader)({
 export const LoadingSpinner = ({ expose }: { expose: boolean }) => {
   const theme = useTheme();
   return (
-    <Backdrop open={expose} invisible={!expose} color='#fff' sx={{
-      zIndex: theme.zIndex.drawer + 1,
-    }}>
+    <Backdrop
+      open={expose}
+      invisible={!expose}
+      color="#fff"
+      sx={{
+        zIndex: theme.zIndex.drawer + 1,
+      }}
+    >
       <StyledSpinner loaded={expose} />
-    </Backdrop>);
+    </Backdrop>
+  );
 };
-
 
 export default LoadingSpinner;

@@ -1,5 +1,9 @@
 import {
-  GetRoleCommand, GetRoleResponse, IAMClient, ListRolesCommand, ListRolesResponse,
+  GetRoleCommand,
+  GetRoleResponse,
+  IAMClient,
+  ListRolesCommand,
+  ListRolesResponse,
 } from '@aws-sdk/client-iam';
 import { IamRole } from '../../interfaces';
 
@@ -17,7 +21,6 @@ class IamClient {
 
   constructor(credentials: ICredentials, region: string) {
     if (!credentials.authenticated) {
-      // eslint-disable-next-line no-console
       console.error('unauthenticated');
       throw Error('unauthenticated');
     }
@@ -27,10 +30,15 @@ class IamClient {
     });
   }
 
-  private listRole = (marker: string | undefined): Promise<ListRolesResponse> => this.client.send(new ListRolesCommand({
-    MaxItems: 1000,
-    Marker: marker,
-  })).then((resp: ListRolesResponse) => resp);
+  private listRole = (marker: string | undefined): Promise<ListRolesResponse> =>
+    this.client
+      .send(
+        new ListRolesCommand({
+          MaxItems: 1000,
+          Marker: marker,
+        })
+      )
+      .then((resp: ListRolesResponse) => resp);
 
   listRoles = async (): Promise<IamRole[]> => {
     let marker;
@@ -46,38 +54,43 @@ class IamClient {
 
     const roles = resps
       .filter((resp) => resp.Roles !== undefined && resp.Roles.length > 0)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       .map((resp) => resp.Roles!)
       .reduce((cur, acc) => acc.concat(cur), []);
-    return roles.map((role) => ({
-      path: role.Path,
-      roleName: role.RoleName,
-      roleId: role.RoleId,
-      arn: role.Arn,
-      createDate: role.CreateDate,
-      assumeRolePolicyDocument: role.AssumeRolePolicyDocument,
-      description: role.Description,
-      maxSessionDuration: role.MaxSessionDuration,
-      permissionsBoundary: {
-        permissionsBoundaryType: role.PermissionsBoundary?.PermissionsBoundaryType,
-        permissionsBoundaryArn: role.PermissionsBoundary?.PermissionsBoundaryArn,
-      },
-      tags: role.Tags?.map((tag) => ({
-        key: tag.Key,
-        value: tag.Value,
-      })),
-      roleLastUsed: {
-        lastUsedDate: role.RoleLastUsed?.LastUsedDate,
-        region: role.RoleLastUsed?.Region,
-      },
-    } as IamRole));
+    return roles.map(
+      (role) =>
+        ({
+          path: role.Path,
+          roleName: role.RoleName,
+          roleId: role.RoleId,
+          arn: role.Arn,
+          createDate: role.CreateDate,
+          assumeRolePolicyDocument: role.AssumeRolePolicyDocument,
+          description: role.Description,
+          maxSessionDuration: role.MaxSessionDuration,
+          permissionsBoundary: {
+            permissionsBoundaryType:
+              role.PermissionsBoundary?.PermissionsBoundaryType,
+            permissionsBoundaryArn:
+              role.PermissionsBoundary?.PermissionsBoundaryArn,
+          },
+          tags: role.Tags?.map((tag) => ({
+            key: tag.Key,
+            value: tag.Value,
+          })),
+          roleLastUsed: {
+            lastUsedDate: role.RoleLastUsed?.LastUsedDate,
+            region: role.RoleLastUsed?.Region,
+          },
+        }) as IamRole
+    );
   };
 
   getRole = async (roleName: string): Promise<IamRole> => {
-    const resp: GetRoleResponse = await this.client.send(new GetRoleCommand({
-      RoleName: roleName,
-    }));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const resp: GetRoleResponse = await this.client.send(
+      new GetRoleCommand({
+        RoleName: roleName,
+      })
+    );
     const role = resp.Role!;
     return {
       path: role.Path,
@@ -89,8 +102,10 @@ class IamClient {
       description: role.Description,
       maxSessionDuration: role.MaxSessionDuration,
       permissionsBoundary: {
-        permissionsBoundaryType: role.PermissionsBoundary?.PermissionsBoundaryType,
-        permissionsBoundaryArn: role.PermissionsBoundary?.PermissionsBoundaryArn,
+        permissionsBoundaryType:
+          role.PermissionsBoundary?.PermissionsBoundaryType,
+        permissionsBoundaryArn:
+          role.PermissionsBoundary?.PermissionsBoundaryArn,
       },
       tags: role.Tags?.map((tag) => ({
         key: tag.Key,
