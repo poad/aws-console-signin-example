@@ -40,7 +40,7 @@
     "@next/bundle-analyzer": "^14.2.1",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/node": "^20.12.7",
-    "@types/react": "^18.2.77",
+    "@types/react": "^18.2.78",
     "@types/react-loader": "^2.4.8",
     "next-transpile-modules": "^10.0.1",
     "typescript": "^5.4.5"
