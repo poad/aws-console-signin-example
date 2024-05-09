@@ -23,16 +23,16 @@
     "lint-fix": "pnpm run /^.*:fix/"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.569.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.569.0",
-    "@aws-sdk/client-sts": "^3.569.0",
+    "@aws-sdk/client-cognito-identity": "^3.572.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.572.0",
+    "@aws-sdk/client-sts": "^3.572.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.12.10",
+    "@types/node": "^20.12.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
