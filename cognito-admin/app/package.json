@@ -18,7 +18,7 @@
     "all": "pnpm install && pnpm lint && pnpm build"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.1.10",
+    "@aws-amplify/ui-react": "^6.1.11",
     "@aws-sdk/client-cognito-identity-provider": "^3.577.0",
     "@aws-sdk/client-iam": "^3.577.0",
     "@aws-sdk/client-sts": "^3.577.0",
