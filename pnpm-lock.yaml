@@ -151,8 +151,8 @@ importers:
         specifier: ^3.616.0
         version: 3.616.0
       aws-cdk-lib:
-        specifier: ^2.149.0
-        version: 2.149.0(constructs@10.3.0)
+        specifier: ^2.150.0
+        version: 2.150.0(constructs@10.3.0)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -185,8 +185,8 @@ importers:
         specifier: ^20.14.11
         version: 20.14.11
       aws-cdk:
-        specifier: ^2.149.0
-        version: 2.149.0
+        specifier: ^2.150.0
+        version: 2.150.0
       esbuild:
         specifier: ^0.23.0
         version: 0.23.0
@@ -212,8 +212,8 @@ importers:
         specifier: link:common/cognito-singin
         version: link:common/cognito-singin
       aws-cdk-lib:
-        specifier: ^2.149.0
-        version: 2.149.0(constructs@10.3.0)
+        specifier: ^2.150.0
+        version: 2.150.0(constructs@10.3.0)
       constructs:
         specifier: ^10.3.0
         version: 10.3.0
@@ -231,8 +231,8 @@ importers:
         specifier: ^20.14.11
         version: 20.14.11
       aws-cdk:
-        specifier: ^2.149.0
-        version: 2.149.0
+        specifier: ^2.150.0
+        version: 2.150.0
       esbuild:
         specifier: ^0.23.0
         version: 0.23.0
@@ -2299,8 +2299,8 @@ packages:
   aws-amplify@6.4.2:
     resolution: {integrity: sha512-56VQJdLBTMZEjmYQ1h21tv5P6iCdUQjGlzmkLvUpa30LtsfvnQ+Aync750OB6VG5g0rL1A/H5sscnngCEodKtg==}
 
-  aws-cdk-lib@2.149.0:
-    resolution: {integrity: sha512-bmbgnF2dEYlsZlVaNoSfcjyIUirnvmsvNXJwBMmUCZn2IZ+YWvkMv+rr4e/GO3gPKrdNzew1jNVvHSYxlun6rA==}
+  aws-cdk-lib@2.150.0:
+    resolution: {integrity: sha512-A5dJ6iIAXlkSgUIKhhSd5slEjvDBiREv6/xw8CgrXU+puoFULu5bC0SOQARjTzcsAgAVtxdlaZ7qy7u9It7nHQ==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       constructs: ^10.0.0
@@ -2317,8 +2317,8 @@ packages:
       - yaml
       - mime-types
 
-  aws-cdk@2.149.0:
-    resolution: {integrity: sha512-X+FGIJuBbsFPwA5tM4uOh9qdK1pbPZ6WK1QbtVfN7YsruwEgdx12wB8H3oLh3waFS87/rCww05Z1PzDdM+edCg==}
+  aws-cdk@2.150.0:
+    resolution: {integrity: sha512-leo4J70QrJp+SYm/87VuoOVfALsW11F7JpkAGu5TLL/qd2k/CbovZ8k9/3Ov+jCVsvAgdn9DeHL01Sn6hSl6Zg==}
     engines: {node: '>= 14.15.0'}
     hasBin: true
 
@@ -2671,8 +2671,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.832:
-    resolution: {integrity: sha512-cTen3SB0H2SGU7x467NRe1eVcQgcuS6jckKfWJHia2eo0cHIGOqHoAxevIYZD4eRHcWjkvFzo93bi3vJ9W+1lA==}
+  electron-to-chromium@1.4.833:
+    resolution: {integrity: sha512-aVGP9xK70Ysrzip1m5LoJjCp1EDrYzZ7Pg/O3QR1h3PAhmc8SNfSXV3kmmtkg5rNO42EcTYmLX3eFMgqALlGIA==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -7958,14 +7958,14 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  aws-cdk-lib@2.149.0(constructs@10.3.0):
+  aws-cdk-lib@2.150.0(constructs@10.3.0):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.202
       '@aws-cdk/asset-kubectl-v20': 2.1.2
       '@aws-cdk/asset-node-proxy-agent-v6': 2.0.3
       constructs: 10.3.0
 
-  aws-cdk@2.149.0:
+  aws-cdk@2.150.0:
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -8075,7 +8075,7 @@ snapshots:
   browserslist@4.23.2:
     dependencies:
       caniuse-lite: 1.0.30001643
-      electron-to-chromium: 1.4.832
+      electron-to-chromium: 1.4.833
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.2)
 
@@ -8413,7 +8413,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.4.832: {}
+  electron-to-chromium@1.4.833: {}
 
   emittery@0.13.1: {}
 
