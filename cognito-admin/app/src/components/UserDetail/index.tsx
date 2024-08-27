@@ -14,7 +14,7 @@ import {
   Input,
   InputLabel,
   List,
-  ListItem,
+  ListItemText,
   MenuItem,
   Paper,
   Select,
@@ -197,12 +197,8 @@ const UserDetail = ({
                           ? Object.keys(detailValue.attributes)
                               .filter((attribute) => attribute !== 'email')
                               .map((attributeName) => (
-                                <ListItem
-                                  component="li"
-                                  dense={true}
+                                <ListItemText
                                   key={`${detailValue.email}-attr-${attributeName}`}
-                                  button={false}
-                                  disabled={true}
                                 >
                                   <ReadOnlyTextField
                                     id={attributeName}
@@ -213,7 +209,7 @@ const UserDetail = ({
                                       detailValue.attributes[attributeName]
                                     }
                                   />
-                                </ListItem>
+                                </ListItemText>
                               ))
                           : ''}
                       </List>
