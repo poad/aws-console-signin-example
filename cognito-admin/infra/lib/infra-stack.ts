@@ -1,33 +1,15 @@
-import {
-  Effect,
-  FederatedPrincipal,
-  PolicyDocument,
-  PolicyStatement,
-  Role,
-  ServicePrincipal,
-} from 'aws-cdk-lib/aws-iam';
-import {
-  AccountRecovery,
-  Mfa,
-  OAuthScope,
-  UserPoolClient,
-  CfnIdentityPoolRoleAttachment,
-  UserPool,
-  CfnIdentityPool,
-  CfnUserPoolIdentityProvider,
-  UserPoolClientIdentityProvider,
-} from 'aws-cdk-lib/aws-cognito';
-import { Stack, StackProps, Duration, RemovalPolicy, Tags } from 'aws-cdk-lib';
-import { RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as cdk from 'aws-cdk-lib';
+import * as awslogs from 'aws-cdk-lib/aws-logs';
+import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
+import * as integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
+import * as idp from '@aws-sdk/client-cognito-identity-provider';
 import { Construct } from 'constructs';
-import { HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
-import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
-import { HttpMethod } from 'aws-cdk-lib/aws-stepfunctions-tasks';
-import { IdentityProviderTypeType } from '@aws-sdk/client-cognito-identity-provider';
 
-export interface InfraStackStackProps extends StackProps {
+export interface InfraStackStackProps extends cdk.StackProps {
   adminUserPool: string;
   endUserPool: string;
   region: string;
@@ -50,7 +32,7 @@ export interface InfraStackStackProps extends StackProps {
   testRoles: number | undefined;
 }
 
-export class InfraStack extends Stack {
+export class InfraStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: InfraStackStackProps) {
     super(scope, id, props);
 
@@ -66,23 +48,23 @@ export class InfraStack extends Stack {
       testRoles,
     } = props;
 
-    const signInFn = new NodejsFunction(this, 'SignInLambdaFunction', {
-      runtime: Runtime.NODEJS_20_X,
+    const signInFn = new nodejs.NodejsFunction(this, 'SignInLambdaFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/signin/index.ts',
       functionName: `${environment}-cognito-admin-user-console-sign-in`,
-      logRetention: RetentionDays.ONE_DAY,
+      logRetention: awslogs.RetentionDays.ONE_DAY,
       retryAttempts: 0,
       environment: {
         DOMAIN: endUserDomain,
         REGION: region,
       },
-      role: new Role(this, 'SignInLambdaExecutionRole', {
-        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+      role: new iam.Role(this, 'SignInLambdaExecutionRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
         inlinePolicies: {
-          'logs-policy': new PolicyDocument({
+          'logs-policy': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'logs:CreateLogGroup',
                   'logs:CreateLogStream',
@@ -94,10 +76,10 @@ export class InfraStack extends Stack {
               }),
             ],
           }),
-          'assumed-role-policy': new PolicyDocument({
+          'assumed-role-policy': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'cognito-identity:*',
                   'cognito-idp:*',
@@ -112,19 +94,19 @@ export class InfraStack extends Stack {
       }),
     });
 
-    const signOutFn = new NodejsFunction(this, 'SignOutLambdaFunction', {
-      runtime: Runtime.NODEJS_20_X,
+    const signOutFn = new nodejs.NodejsFunction(this, 'SignOutLambdaFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/signout/index.ts',
       functionName: `${environment}-cognito-admin-user-console-sign-out`,
-      logRetention: RetentionDays.ONE_DAY,
+      logRetention: awslogs.RetentionDays.ONE_DAY,
       retryAttempts: 0,
-      role: new Role(this, 'SignOutLambdaExecutionRole', {
-        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+      role: new iam.Role(this, 'SignOutLambdaExecutionRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
         inlinePolicies: {
-          'logs-policy': new PolicyDocument({
+          'logs-policy': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'logs:CreateLogGroup',
                   'logs:CreateLogStream',
@@ -136,10 +118,10 @@ export class InfraStack extends Stack {
               }),
             ],
           }),
-          'assumed-role-policy': new PolicyDocument({
+          'assumed-role-policy': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'cognito-identity:*',
                   'cognito-idp:*',
@@ -154,41 +136,41 @@ export class InfraStack extends Stack {
       }),
     });
 
-    const api = new HttpApi(this, 'HttpApi', {
+    const api = new apigatewayv2.HttpApi(this, 'HttpApi', {
       apiName: `Cognito Console Lambda API (${environment})`,
-      defaultIntegration: new HttpLambdaIntegration(
+      defaultIntegration: new integrations.HttpLambdaIntegration(
         'default-handler',
         signInFn
       ),
     });
     api.addRoutes({
       path: '/signin',
-      methods: [HttpMethod.GET, HttpMethod.POST],
-      integration: new HttpLambdaIntegration('signin-handler', signInFn),
+      methods: [apigatewayv2.HttpMethod.GET, apigatewayv2.HttpMethod.POST],
+      integration: new integrations.HttpLambdaIntegration('signin-handler', signInFn),
     });
 
     api.addRoutes({
       path: '/signout',
-      methods: [HttpMethod.GET, HttpMethod.POST],
-      integration: new HttpLambdaIntegration('signout-handler', signOutFn),
+      methods: [apigatewayv2.HttpMethod.GET, apigatewayv2.HttpMethod.POST],
+      integration: new integrations.HttpLambdaIntegration('signout-handler', signOutFn),
     });
 
-    const blockExternalUserFn = new NodejsFunction(
+    const blockExternalUserFn = new nodejs.NodejsFunction(
       this,
       'BlockExternalUserLambdaFunction',
       {
-        runtime: Runtime.NODEJS_20_X,
+        runtime: lambda.Runtime.NODEJS_20_X,
         entry: 'lambda/block-external-user/index.ts',
         functionName: `${environment}-cognito-admin-block-external-user`,
-        logRetention: RetentionDays.ONE_DAY,
+        logRetention: awslogs.RetentionDays.ONE_DAY,
         retryAttempts: 0,
-        role: new Role(this, 'BlockExternalUserExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+        role: new iam.Role(this, 'BlockExternalUserExecutionRole', {
+          assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
           inlinePolicies: {
-            'logs-policy': new PolicyDocument({
+            'logs-policy': new iam.PolicyDocument({
               statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
+                new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
                   actions: [
                     'logs:CreateLogGroup',
                     'logs:CreateLogStream',
@@ -201,10 +183,10 @@ export class InfraStack extends Stack {
                 }),
               ],
             }),
-            'assumed-role-policy': new PolicyDocument({
+            'assumed-role-policy': new iam.PolicyDocument({
               statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
+                new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
                   actions: ['cognito-identity:*', 'cognito-idp:*'],
                   resources: ['*'],
                 }),
@@ -215,7 +197,7 @@ export class InfraStack extends Stack {
       }
     );
 
-    const endUserPool = new UserPool(this, endUserPoolName, {
+    const endUserPool = new cognito.UserPool(this, endUserPoolName, {
       userPoolName: endUserPoolName,
       signInAliases: {
         username: true,
@@ -239,7 +221,7 @@ export class InfraStack extends Stack {
         },
       },
       enableSmsRole: false,
-      mfa: Mfa.OPTIONAL,
+      mfa: cognito.Mfa.OPTIONAL,
       mfaSecondFactor: {
         sms: false,
         otp: true,
@@ -247,11 +229,11 @@ export class InfraStack extends Stack {
       passwordPolicy: {
         minLength: 6,
       },
-      accountRecovery: AccountRecovery.EMAIL_ONLY,
+      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
       lambdaTriggers: {
         preSignUp: blockExternalUserFn,
       },
-      removalPolicy: RemovalPolicy.DESTROY,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     endUserPool.addDomain('EndUserPoolDomain', {
@@ -260,26 +242,26 @@ export class InfraStack extends Stack {
       },
     });
 
-    const addAdminUserFn = new NodejsFunction(
+    const addAdminUserFn = new nodejs.NodejsFunction(
       this,
       'AddAdminUserLambdaFunction',
       {
-        runtime: Runtime.NODEJS_20_X,
+        runtime: lambda.Runtime.NODEJS_20_X,
         entry: 'lambda/add-admin-user/index.ts',
         functionName: `${environment}-cognito-admin-add-admin-user`,
-        logRetention: RetentionDays.ONE_DAY,
+        logRetention: awslogs.RetentionDays.ONE_DAY,
         retryAttempts: 0,
         environment: {
           DEST_USER_POOL_ID: endUserPool.userPoolId,
           PROVIDER: provider,
         },
-        role: new Role(this, 'AddAdminUserExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+        role: new iam.Role(this, 'AddAdminUserExecutionRole', {
+          assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
           inlinePolicies: {
-            'logs-policy': new PolicyDocument({
+            'logs-policy': new iam.PolicyDocument({
               statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
+                new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
                   actions: [
                     'logs:CreateLogGroup',
                     'logs:CreateLogStream',
@@ -292,10 +274,10 @@ export class InfraStack extends Stack {
                 }),
               ],
             }),
-            'assumed-role-policy': new PolicyDocument({
+            'assumed-role-policy': new iam.PolicyDocument({
               statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
+                new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
                   actions: ['cognito-identity:*', 'cognito-idp:*'],
                   resources: ['*'],
                 }),
@@ -306,7 +288,7 @@ export class InfraStack extends Stack {
       }
     );
 
-    const adminUserPool = new UserPool(this, adminUserPoolName, {
+    const adminUserPool = new cognito.UserPool(this, adminUserPoolName, {
       userPoolName: adminUserPoolName,
       signInAliases: {
         username: true,
@@ -329,7 +311,7 @@ export class InfraStack extends Stack {
         },
       },
       enableSmsRole: false,
-      mfa: Mfa.OPTIONAL,
+      mfa: cognito.Mfa.OPTIONAL,
       mfaSecondFactor: {
         sms: false,
         otp: true,
@@ -337,11 +319,11 @@ export class InfraStack extends Stack {
       passwordPolicy: {
         minLength: 6,
       },
-      accountRecovery: AccountRecovery.EMAIL_ONLY,
+      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
       lambdaTriggers: {
         postAuthentication: addAdminUserFn,
       },
-      removalPolicy: RemovalPolicy.DESTROY,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     adminUserPool.addDomain('AdminnUserPoolDomain', {
@@ -350,7 +332,7 @@ export class InfraStack extends Stack {
       },
     });
 
-    const adminPoolClient = new UserPoolClient(this, 'AdminPoolAppClient', {
+    const adminPoolClient = new cognito.UserPoolClient(this, 'AdminPoolAppClient', {
       userPool: adminUserPool,
       userPoolClientName: `${environment}-admin-user-pool-client`,
       authFlows: {
@@ -370,16 +352,16 @@ export class InfraStack extends Stack {
           implicitCodeGrant: true,
         },
         scopes: [
-          OAuthScope.COGNITO_ADMIN,
-          OAuthScope.EMAIL,
-          OAuthScope.OPENID,
-          OAuthScope.PROFILE,
+          cognito.OAuthScope.COGNITO_ADMIN,
+          cognito.OAuthScope.EMAIL,
+          cognito.OAuthScope.OPENID,
+          cognito.OAuthScope.PROFILE,
         ],
       },
       preventUserExistenceErrors: true,
     });
 
-    const adminPoolIdentityPool = new CfnIdentityPool(this, 'AdminIdPool', {
+    const adminPoolIdentityPool = new cognito.CfnIdentityPool(this, 'AdminIdPool', {
       allowUnauthenticatedIdentities: false,
       cognitoIdentityProviders: [
         {
@@ -391,12 +373,12 @@ export class InfraStack extends Stack {
       identityPoolName: `${environment} admin users`,
     });
 
-    const adminUnauthenticatedRole = new Role(
+    const adminUnauthenticatedRole = new iam.Role(
       this,
       'AdminCognitoDefaultUnauthenticatedRole',
       {
         roleName: `${environment}-cognito-admin-users-unauth-role`,
-        assumedBy: new FederatedPrincipal(
+        assumedBy: new iam.FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
@@ -409,10 +391,10 @@ export class InfraStack extends Stack {
           'sts:AssumeRoleWithWebIdentity'
         ),
         inlinePolicies: {
-          'allow-assume-role': new PolicyDocument({
+          'allow-assume-role': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'cognito-identity:*',
                   'cognito-idp:*',
@@ -427,12 +409,12 @@ export class InfraStack extends Stack {
       }
     );
 
-    const adminAuthenticatedRole = new Role(
+    const adminAuthenticatedRole = new iam.Role(
       this,
       'AdminCognitoDefaultAuthenticatedRole',
       {
         roleName: `${environment}-cognito-admin-users-auth-role`,
-        assumedBy: new FederatedPrincipal(
+        assumedBy: new iam.FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
@@ -444,12 +426,12 @@ export class InfraStack extends Stack {
           },
           'sts:AssumeRoleWithWebIdentity'
         ),
-        maxSessionDuration: Duration.hours(12),
+        maxSessionDuration: cdk.Duration.hours(12),
         inlinePolicies: {
-          'allow-assume-role': new PolicyDocument({
+          'allow-assume-role': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'cognito-identity:*',
                   'cognito-idp:*',
@@ -467,7 +449,7 @@ export class InfraStack extends Stack {
       }
     );
 
-    new CfnIdentityPoolRoleAttachment(this, 'AdminIdPoolRoleAttachment', {
+    new cognito.CfnIdentityPoolRoleAttachment(this, 'AdminIdPoolRoleAttachment', {
       identityPoolId: adminPoolIdentityPool.ref,
       roles: {
         authenticated: adminAuthenticatedRole.roleArn,
@@ -475,9 +457,9 @@ export class InfraStack extends Stack {
       },
     });
 
-    const cfnIdp = new CfnUserPoolIdentityProvider(this, 'OIDCProvider', {
+    const cfnIdp = new cognito.CfnUserPoolIdentityProvider(this, 'OIDCProvider', {
       providerName: provider,
-      providerType: IdentityProviderTypeType.OIDC,
+      providerType: idp.IdentityProviderTypeType.OIDC,
       userPoolId: endUserPool.userPoolId,
       providerDetails: {
         client_id: adminPoolClient.userPoolClientId,
@@ -492,7 +474,7 @@ export class InfraStack extends Stack {
 
     cfnIdp.node.addDependency(adminPoolClient, endUserPool);
 
-    const endUsersClient = new UserPoolClient(this, 'EndUserPoolAppClient', {
+    const endUsersClient = new cognito.UserPoolClient(this, 'EndUserPoolAppClient', {
       userPool: endUserPool,
       userPoolClientName: `${environment}-end-user-pool-client`,
       authFlows: {
@@ -509,22 +491,22 @@ export class InfraStack extends Stack {
           implicitCodeGrant: true,
         },
         scopes: [
-          OAuthScope.COGNITO_ADMIN,
-          OAuthScope.EMAIL,
-          OAuthScope.OPENID,
-          OAuthScope.PROFILE,
+          cognito.OAuthScope.COGNITO_ADMIN,
+          cognito.OAuthScope.EMAIL,
+          cognito.OAuthScope.OPENID,
+          cognito.OAuthScope.PROFILE,
         ],
       },
       preventUserExistenceErrors: true,
       supportedIdentityProviders: [
-        UserPoolClientIdentityProvider.COGNITO,
-        UserPoolClientIdentityProvider.custom(cfnIdp.providerName),
+        cognito.UserPoolClientIdentityProvider.COGNITO,
+        cognito.UserPoolClientIdentityProvider.custom(cfnIdp.providerName),
       ],
     });
 
     endUsersClient.node.addDependency(endUserPool, cfnIdp);
 
-    const endUserPoolIdentityPool = new CfnIdentityPool(this, 'EndUserIdPool', {
+    const endUserPoolIdentityPool = new cognito.CfnIdentityPool(this, 'EndUserIdPool', {
       allowUnauthenticatedIdentities: false,
       allowClassicFlow: true,
       cognitoIdentityProviders: [
@@ -537,12 +519,12 @@ export class InfraStack extends Stack {
       identityPoolName: `${environment} end users`,
     });
 
-    const endUserUnauthenticatedRole = new Role(
+    const endUserUnauthenticatedRole = new iam.Role(
       this,
       'EndUserCognitoDefaultUnauthenticatedRole',
       {
         roleName: `${environment}-cognito-end-users-unauth-role`,
-        assumedBy: new FederatedPrincipal(
+        assumedBy: new iam.FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
@@ -555,10 +537,10 @@ export class InfraStack extends Stack {
           'sts:AssumeRoleWithWebIdentity'
         ),
         inlinePolicies: {
-          'allow-assume-role': new PolicyDocument({
+          'allow-assume-role': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'cognito-identity:*',
                   'cognito-idp:*',
@@ -573,12 +555,12 @@ export class InfraStack extends Stack {
       }
     );
 
-    const endUserAuthenticatedRole = new Role(
+    const endUserAuthenticatedRole = new iam.Role(
       this,
       'EndUserCognitoDefaultAuthenticatedRole',
       {
         roleName: `${environment}-cognito-end-users-auth-role`,
-        assumedBy: new FederatedPrincipal(
+        assumedBy: new iam.FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
@@ -590,12 +572,12 @@ export class InfraStack extends Stack {
           },
           'sts:AssumeRoleWithWebIdentity'
         ).withSessionTags(),
-        maxSessionDuration: Duration.hours(12),
+        maxSessionDuration: cdk.Duration.hours(12),
         inlinePolicies: {
-          'allow-assume-role': new PolicyDocument({
+          'allow-assume-role': new iam.PolicyDocument({
             statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
                 actions: [
                   'cognito-identity:*',
                   'cognito-idp:*',
@@ -610,7 +592,7 @@ export class InfraStack extends Stack {
       }
     );
 
-    new CfnIdentityPoolRoleAttachment(this, 'EndUsersIdPoolRoleAttachment', {
+    new cognito.CfnIdentityPoolRoleAttachment(this, 'EndUsersIdPoolRoleAttachment', {
       identityPoolId: endUserPoolIdentityPool.ref,
       roles: {
         authenticated: endUserAuthenticatedRole.roleArn,
@@ -623,9 +605,9 @@ export class InfraStack extends Stack {
       range.forEach((i) => {
         const roleName = `${environment}-test-group-role-${i + 1}`;
 
-        const groupRole = new Role(this, `TestGroupRole${i + 1}`, {
+        const groupRole = new iam.Role(this, `TestGroupRole${i + 1}`, {
           roleName,
-          assumedBy: new FederatedPrincipal(
+          assumedBy: new iam.FederatedPrincipal(
             'cognito-identity.amazonaws.com',
             {
               StringEquals: {
@@ -638,12 +620,12 @@ export class InfraStack extends Stack {
             },
             'sts:AssumeRoleWithWebIdentity'
           ),
-          maxSessionDuration: Duration.hours(12),
+          maxSessionDuration: cdk.Duration.hours(12),
           inlinePolicies: {
-            'allow-assume-role': new PolicyDocument({
+            'allow-assume-role': new iam.PolicyDocument({
               statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
+                new iam.PolicyStatement({
+                  effect: iam.Effect.ALLOW,
                   actions: [
                     'cognito-identity:*',
                     'cognito-idp:*',
@@ -670,7 +652,7 @@ export class InfraStack extends Stack {
           groupRoleClassificationTag.name !== undefined &&
           groupRoleClassificationTag.value !== undefined
         ) {
-          Tags.of(groupRole).add(
+          cdk.Tags.of(groupRole).add(
             groupRoleClassificationTag.name,
             groupRoleClassificationTag.value
           );
