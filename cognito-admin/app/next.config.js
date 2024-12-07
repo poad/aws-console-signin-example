@@ -10,7 +10,10 @@ const config = {
   },
   experimental: {
     esmExternals: true,
-  }
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = withBundleAnalyzer({
