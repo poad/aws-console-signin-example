@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { JSX, useState, useEffect } from 'react';
 import IamClient from '../../service/IamClient';
 import UserPoolClient from '../../service/UserPoolClient';
 import { ErrorDialogProps, Group } from '../../interfaces';

@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material';

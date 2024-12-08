@@ -21,7 +21,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Group } from '../../interfaces';
 import UserPoolClient from '../../service/UserPoolClient';

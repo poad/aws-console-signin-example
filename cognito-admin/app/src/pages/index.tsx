@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import { Amplify } from 'aws-amplify';
 import { useAuthenticator, withAuthenticator } from '@aws-amplify/ui-react';
