@@ -11,57 +11,18 @@ updates:
     rebase-strategy: auto
     assignees:
       - poad
-
-  - package-ecosystem: npm
-    directory: '/cognito-admin/app/'
-    schedule:
-      interval: daily
-      timezone: Asia/Tokyo
-      time: "12:00"
-    allow:
-      - dependency-type: all
-    rebase-strategy: auto
-    assignees:
-      - poad
     groups:
-      cognito-admin-app:
+      actions:
         patterns:
           - "*"
 
   - package-ecosystem: npm
-    directory: '/cognito-admin/infra/'
-    schedule:
-      interval: daily
-      timezone: Asia/Tokyo
-      time: "12:00"
-    allow:
-      - dependency-type: all
-    rebase-strategy: auto
-    assignees:
-      - poad
-    groups:
-      cognito-admin-infra:
-        patterns:
-          - "*"
-
-  - package-ecosystem: npm
-    directory: '/cognito-trigger-examples/'
-    schedule:
-      interval: daily
-      timezone: Asia/Tokyo
-      time: "12:00"
-    allow:
-      - dependency-type: all
-    rebase-strategy: auto
-    assignees:
-      - poad
-    groups:
-      cognito-trigger-examples:
-        patterns:
-          - "*"
-
-  - package-ecosystem: npm
-    directory: '/aws-console-signin-example/common/cognito-singin/'
+    directories:
+      - '/'
+      - '/cognito-admin/app/'
+      - '/cognito-admin/infra/'
+      - '/cognito-trigger-examples/'
+      - '/aws-console-signin-example/common/cognito-singin/'
     schedule:
       interval: daily
       timezone: Asia/Tokyo
@@ -73,21 +34,5 @@ updates:
       - poad
     groups:
       common:
-        patterns:
-          - "*"
-
-  - package-ecosystem: npm
-    directory: '/'
-    schedule:
-      interval: daily
-      timezone: Asia/Tokyo
-      time: "12:00"
-    allow:
-      - dependency-type: all
-    rebase-strategy: auto
-    assignees:
-      - poad
-    groups:
-      root:
         patterns:
           - "*"
