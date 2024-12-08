@@ -139,7 +139,7 @@ importers:
   cognito-admin/infra:
     dependencies:
       '@aws-console-signin-example/common-cognito-singin':
-        specifier: link:common/cognito-singin
+        specifier: ./common/cognito-singin/
         version: link:common/cognito-singin
       '@aws-lambda-powertools/logger':
         specifier: ^2.11.0
@@ -212,7 +212,7 @@ importers:
   cognito-trigger-examples:
     dependencies:
       '@aws-console-signin-example/common-cognito-singin':
-        specifier: link:common/cognito-singin
+        specifier: ./common/cognito-singin/
         version: link:common/cognito-singin
       aws-cdk-lib:
         specifier: ^2.172.0
