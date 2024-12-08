@@ -1,7 +1,7 @@
 import { Container, Box } from '@mui/material';
 import { Page } from '../../hooks/usePagenationTable';
 import { useUser } from '../../hooks/useUser';
-import { useState, Fragment } from 'react';
+import { JSX, useState, Fragment } from 'react';
 import CreateUserDialog from '../CreateUserDialog';
 import UserDetail from '../UserDetail';
 import { User } from '../../interfaces';

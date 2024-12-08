@@ -16,7 +16,7 @@ import {
   InputLabel,
   type SelectChangeEvent,
 } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { JSX, useState, useEffect } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type UserPoolClient from '../../service/UserPoolClient';
 import type { Group } from '../../interfaces';

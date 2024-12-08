@@ -23,7 +23,7 @@ import {
   useTheme,
   SelectChangeEvent,
 } from '@mui/material';
-import { useDeferredValue } from 'react';
+import { JSX, useDeferredValue } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { User } from '../../interfaces';
 import UserPoolClient from '../../service/UserPoolClient';

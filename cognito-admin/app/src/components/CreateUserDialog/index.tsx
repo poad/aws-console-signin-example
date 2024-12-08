@@ -11,7 +11,7 @@ import {
   TextField,
   DialogTitle,
 } from '@mui/material';
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import UserPoolClient from '../../service/UserPoolClient';
 import { User } from '../../interfaces';
