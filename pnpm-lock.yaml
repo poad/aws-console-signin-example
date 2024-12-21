@@ -139,7 +139,7 @@ importers:
   cognito-admin/infra:
     dependencies:
       '@aws-console-signin-example/common-cognito-singin':
-        specifier: ./common/cognito-singin/
+        specifier: link:common/cognito-singin
         version: link:common/cognito-singin
       '@aws-lambda-powertools/logger':
         specifier: ^2.12.0
@@ -203,7 +203,7 @@ importers:
   cognito-trigger-examples:
     dependencies:
       '@aws-console-signin-example/common-cognito-singin':
-        specifier: ./common/cognito-singin/
+        specifier: link:common/cognito-singin
         version: link:common/cognito-singin
       aws-cdk-lib:
         specifier: ^2.173.2
@@ -2988,6 +2988,10 @@ packages:
     resolution: {integrity: sha512-xkjOecfnKGkSsOwtZ5Pz7Us/T6mrbPQrq0nh+aCO5V9nk5NLWmasAHumTKjiPJPWANe+kAZ84Jc8ooJkzZ88Sw==}
     hasBin: true
 
+  fast-xml-parser@4.5.1:
+    resolution: {integrity: sha512-y655CeyUQ+jj7KBbYMc4FG01V8ZQqjN+gDYGJ50RtfsUB8iG9AmwmwoAgeKLJdmueKKMrH1RJ7yXHTSoczdv5w==}
+    hasBin: true
+
   fastest-levenshtein@1.0.16:
     resolution: {integrity: sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==}
     engines: {node: '>= 4.9.1'}
@@ -4884,7 +4888,7 @@ snapshots:
       '@smithy/md5-js': 2.0.7
       buffer: 4.9.2
       crc-32: 1.2.2
-      fast-xml-parser: 4.4.1
+      fast-xml-parser: 4.5.1
       tslib: 2.8.1
 
   '@aws-amplify/ui-react-core@3.1.2(@aws-amplify/core@6.8.0)(@types/react@19.0.2)(aws-amplify@6.11.0)(react@19.0.0)':
@@ -4943,7 +4947,7 @@ snapshots:
   '@aws-crypto/crc32@5.2.0':
     dependencies:
       '@aws-crypto/util': 5.2.0
-      '@aws-sdk/types': 3.714.0
+      '@aws-sdk/types': 3.609.0
       tslib: 2.8.1
 
   '@aws-crypto/sha256-browser@5.2.0':
@@ -7536,17 +7540,17 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.10.2
+      '@types/node': 20.17.10
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.10.2
+      '@types/node': 20.17.10
 
   '@types/estree@1.0.6': {}
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 22.10.2
+      '@types/node': 20.17.10
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -7585,7 +7589,7 @@ snapshots:
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
-      '@types/node': 22.10.2
+      '@types/node': 20.17.10
 
   '@types/mime@1.3.5': {}
 
@@ -7626,12 +7630,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.10.2
+      '@types/node': 20.17.10
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.10.2
+      '@types/node': 20.17.10
       '@types/send': 0.17.4
 
   '@types/stack-utils@2.0.3': {}
@@ -8831,6 +8835,10 @@ snapshots:
   fast-uri@3.0.3: {}
 
   fast-xml-parser@4.4.1:
+    dependencies:
+      strnum: 1.0.5
+
+  fast-xml-parser@4.5.1:
     dependencies:
       strnum: 1.0.5
 
