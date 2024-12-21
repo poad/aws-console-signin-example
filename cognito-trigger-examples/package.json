@@ -5,9 +5,8 @@
   "bin": "bin/lambda-examples.js",
   "type": "module",
   "scripts": {
-    "build": "tsc bin/*.ts lib/*.ts",
+    "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
     "cdk": "cdk",
     "style:fix": "prettier --write bin lib lambda",
     "style:check": "prettier --check bin lib lambda",
@@ -18,12 +17,8 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.146",
-    "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
     "aws-cdk": "^2.173.2",
-    "esbuild": "^0.24.1",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },

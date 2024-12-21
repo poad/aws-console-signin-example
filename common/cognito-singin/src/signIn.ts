@@ -314,7 +314,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       code,
     });
 
-    const client = jwksClient({
+    const client = new jwksClient.JwksClient({
       jwksUri: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/.well-known/jwks.json`,
     });
 

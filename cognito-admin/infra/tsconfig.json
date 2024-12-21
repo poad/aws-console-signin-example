@@ -20,7 +20,11 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "rootDirs": [
+      "bin",
+      "lib"
+    ],
   },
   "exclude": [
     "cdk.out"

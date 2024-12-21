@@ -22,7 +22,12 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "rootDirs": [
+      "src"
+    ]
   },
   "exclude": ["dist"]
 }

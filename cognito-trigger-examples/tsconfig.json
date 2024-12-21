@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2024",
+    "target": "ES2022",
     "module": "es2022",
     "lib": [
-      "es2024",
+      "ES2022",
       "DOM"
     ],
+    "skipLibCheck": true,
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -21,7 +22,17 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "rootDirs": [
+      "bin",
+      "lib",
+      "lambda"
+    ],
+    "paths": {
+      "@aws-console-signin-example/cognito-singin": [
+        "../common/cognito-singin/src"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
