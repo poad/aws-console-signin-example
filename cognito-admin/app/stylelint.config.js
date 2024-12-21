@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   overrides: [
     {
       files: ["**/*.{jsx,tsx}"],

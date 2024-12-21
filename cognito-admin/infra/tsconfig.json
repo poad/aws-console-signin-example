@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "lib": [
       "DOM",
-      "es2020"
+      "esnext"
     ],
     "declaration": true,
     "strict": true,
@@ -19,7 +19,8 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "moduleResolution": "bundler"
   },
   "exclude": [
     "cdk.out"

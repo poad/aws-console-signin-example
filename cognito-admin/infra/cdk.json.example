@@ -1,5 +1,5 @@
 {
-  "app": "yarn lint && npx ts-node --prefer-ts-exts bin/infra.ts",
+  "app": "pnpm lint && pnpm dlx tsx bin/infra.ts",
   "watch": {
     "include": [
       "**"
