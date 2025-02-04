@@ -8,16 +8,12 @@
     "build": "tsc",
     "watch": "tsc -w",
     "cdk": "cdk",
-    "style:fix": "prettier --write bin lib lambda",
-    "style:check": "prettier --check bin lib lambda",
-    "eslint:fix": "eslint './{bin,lib,lambda}/**/*.{ts,tsx}' --fix",
-    "eslint:check": "eslint './{bin,lib,lambda}/**/*.{ts,tsx}'",
-    "lint": "pnpm run --parallel /^.*:check/",
-    "lint-fix": "pnpm run /^.*:fix/"
+    "lint-fix": "eslint --fix",
+    "lint": "eslint"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.147",
-    "@types/node": "^22.13.0",
+    "@types/node": "^22.13.1",
     "aws-cdk": "^2.177.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"

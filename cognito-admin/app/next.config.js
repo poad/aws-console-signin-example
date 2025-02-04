@@ -4,12 +4,8 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 const config = {
   output: "export",
   reactStrictMode: true,
-  swcMinify: false,
   compiler: {
     emotion: true,
-  },
-  experimental: {
-    esmExternals: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
