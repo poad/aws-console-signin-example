@@ -22,7 +22,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.741.0",
+    "@aws-sdk/client-cognito-identity": "^3.742.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.741.0",
     "@aws-sdk/client-sts": "^3.741.0",
     "jsonwebtoken": "^9.0.2",
