@@ -15,7 +15,7 @@
     "all": "pnpm install && pnpm lint && pnpm build"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.9.1",
+    "@aws-amplify/ui-react": "^6.9.2",
     "@aws-sdk/client-cognito-identity-provider": "^3.750.0",
     "@aws-sdk/client-iam": "^3.750.0",
     "@aws-sdk/client-sts": "^3.750.0",
@@ -23,10 +23,10 @@
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.5",
-    "@mui/material": "^6.4.5",
-    "aws-amplify": "^6.13.1",
-    "next": "^15.1.7",
+    "@mui/icons-material": "^6.4.6",
+    "@mui/material": "^6.4.6",
+    "aws-amplify": "^6.13.2",
+    "next": "^15.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
@@ -34,7 +34,7 @@
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^15.1.7",
+    "@next/bundle-analyzer": "^15.2.0",
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
