@@ -12,7 +12,7 @@
     "lint": "eslint"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.148",
+    "@types/aws-lambda": "^8.10.149",
     "@types/node": "^22.14.0",
     "aws-cdk": "^2.1007.0",
     "ts-node": "^10.9.2",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
-    "aws-cdk-lib": "^2.188.0",
+    "aws-cdk-lib": "^2.189.0",
     "constructs": "^10.4.2",
     "source-map-support": "^0.5.21"
   },
