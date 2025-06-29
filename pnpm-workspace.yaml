@@ -2,3 +2,16 @@ packages:
   - './**'
   - '!**/.next'
   - '!**/cdk.out'
+
+engineStrict: true
+
+### https://thedaviddias.dev/notes/how-to-fix-post-pre-build-pnpm
+enablePrePostScripts: true
+
+strictPeerDependencies: false
+
+legacyPeerDeps: true
+autoInstallPeers: true
+shamefullyHoist: true
+nodeLinker: hoisted
+symlink: false
