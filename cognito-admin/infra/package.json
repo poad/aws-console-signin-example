@@ -27,9 +27,9 @@
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
     "@aws-lambda-powertools/logger": "^2.24.1",
-    "@aws-sdk/client-cognito-identity": "^3.858.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.858.0",
-    "@aws-sdk/client-sts": "^3.858.0",
+    "@aws-sdk/client-cognito-identity": "^3.859.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.859.0",
+    "@aws-sdk/client-sts": "^3.859.0",
     "aws-cdk-lib": "^2.208.0",
     "aws-lambda": "^1.0.7",
     "constructs": "^10.4.2",
