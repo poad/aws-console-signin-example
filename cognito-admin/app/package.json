@@ -40,7 +40,7 @@
     "@types/react-dom": "^19.1.9",
     "@types/react-loader": "^2.4.8",
     "next-transpile-modules": "^10.0.1",
-    "stylelint": "^16.23.1",
+    "stylelint": "^16.24.0",
     "stylelint-config-standard-scss": "^14.0.0",
     "typescript": "^5.9.2"
   }
