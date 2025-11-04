@@ -12,15 +12,15 @@
     "lint": "eslint"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.156",
-    "@types/node": "^22.18.11",
-    "aws-cdk": "^2.1030.0",
+    "@types/aws-lambda": "^8.10.157",
+    "@types/node": "^22.19.0",
+    "aws-cdk": "^2.1031.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
-    "aws-cdk-lib": "^2.220.0",
+    "aws-cdk-lib": "^2.221.1",
     "constructs": "^10.4.2",
     "source-map-support": "^0.5.21"
   },
