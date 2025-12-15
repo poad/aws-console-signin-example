@@ -13,8 +13,8 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.159",
-    "@types/node": "^22.19.2",
-    "aws-cdk": "^2.1034.0",
+    "@types/node": "^22.19.3",
+    "aws-cdk": "^2.1100.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
