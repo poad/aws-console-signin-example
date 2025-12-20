@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
-    "aws-cdk-lib": "^2.232.2",
+    "aws-cdk-lib": "^2.233.0",
     "constructs": "^10.4.4",
     "source-map-support": "^0.5.21"
   },
