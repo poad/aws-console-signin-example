@@ -26,7 +26,7 @@
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "aws-amplify": "^6.15.9",
-    "next": "^15.5.9",
+    "next": "^16.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.69.0",
@@ -34,8 +34,8 @@
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^15.5.9",
-    "@types/node": "^22.19.3",
+    "@next/bundle-analyzer": "^16.1.0",
+    "@types/node": "^24.10.4",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/react-loader": "^2.4.8",
