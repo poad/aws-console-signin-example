@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.13.2",
-    "@aws-sdk/client-cognito-identity-provider": "^3.956.0",
-    "@aws-sdk/client-iam": "^3.956.0",
-    "@aws-sdk/client-sts": "^3.956.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.957.0",
+    "@aws-sdk/client-iam": "^3.957.0",
+    "@aws-sdk/client-sts": "^3.957.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
@@ -26,7 +26,7 @@
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "aws-amplify": "^6.15.9",
-    "next": "^16.1.0",
+    "next": "^16.1.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.69.0",
@@ -34,7 +34,7 @@
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.1.0",
+    "@next/bundle-analyzer": "^16.1.1",
     "@types/node": "^24.10.4",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
