@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.13.2",
-    "@aws-sdk/client-cognito-identity-provider": "^3.971.0",
-    "@aws-sdk/client-iam": "^3.971.0",
-    "@aws-sdk/client-sts": "^3.971.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.972.0",
+    "@aws-sdk/client-iam": "^3.972.0",
+    "@aws-sdk/client-sts": "^3.972.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^16.1.4",
     "@types/node": "^24.10.9",
-    "@types/react": "^19.2.8",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "@types/react-loader": "^2.4.8",
     "next-transpile-modules": "^10.0.1",
