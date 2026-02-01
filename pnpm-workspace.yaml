@@ -1,17 +1,25 @@
 packages:
-  - './**'
+  - ./**
   - '!**/.next'
   - '!**/cdk.out'
 
+autoInstallPeers: true
+
+enablePrePostScripts: true
+
 engineStrict: true
 
-### https://thedaviddias.dev/notes/how-to-fix-post-pre-build-pnpm
-enablePrePostScripts: true
+legacyPeerDeps: true
+
+nodeLinker: hoisted
+
+overrides:
+  '@aws-console-signin-example/common-cognito-singin': ./common/cognito-singin/
+  fast-xml-parser@>=4.3.6 <=5.3.3: '>=5.3.4'
+  lodash@>=4.0.0 <=4.17.22: '>=4.17.23'
+
+shamefullyHoist: true
 
 strictPeerDependencies: false
 
-legacyPeerDeps: true
-autoInstallPeers: true
-shamefullyHoist: true
-nodeLinker: hoisted
 symlink: false

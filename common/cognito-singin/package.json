@@ -22,9 +22,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.975.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.975.0",
-    "@aws-sdk/client-sts": "^3.975.0",
+    "@aws-sdk/client-cognito-identity": "^3.980.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.980.0",
+    "@aws-sdk/client-sts": "^3.980.0",
     "jsonwebtoken": "^9.0.3",
     "jwks-rsa": "^3.2.2",
     "source-map-support": "^0.5.21"
