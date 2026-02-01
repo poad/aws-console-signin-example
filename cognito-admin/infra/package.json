@@ -16,7 +16,6 @@
     "@middy/core": "^7.0.2",
     "@types/aws-lambda": "^8.10.160",
     "@types/node": "^24.10.9",
-    "aws-cdk": "^2.1104.0",
     "esbuild": "^0.27.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
@@ -29,19 +28,7 @@
     "@aws-sdk/client-cognito-identity-provider": "^3.980.0",
     "@aws-sdk/client-sts": "^3.980.0",
     "aws-cdk-lib": "^2.236.0",
-    "aws-lambda": "^1.0.7",
     "constructs": "^10.4.5",
     "source-map-support": "^0.5.21"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/test"
-    ],
-    "testMatch": [
-      "**/*.test.ts"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    }
   }
 }

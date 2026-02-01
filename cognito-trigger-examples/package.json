@@ -23,16 +23,5 @@
     "aws-cdk-lib": "^2.236.0",
     "constructs": "^10.4.5",
     "source-map-support": "^0.5.21"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/test"
-    ],
-    "testMatch": [
-      "**/*.test.ts"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    }
   }
 }

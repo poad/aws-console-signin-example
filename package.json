@@ -27,9 +27,6 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "typescript-eslint": "^8.54.0"
   },
-  "resolutions": {
-    "@aws-console-signin-example/common-cognito-singin": "./common/cognito-singin/"
-  },
   "engines": {
     "npm": "use pnpm please!",
     "yarn": "use pnpm please!",
