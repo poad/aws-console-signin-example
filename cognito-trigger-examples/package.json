@@ -13,14 +13,14 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.160",
-    "@types/node": "^24.10.9",
+    "@types/node": "^24.10.10",
     "aws-cdk": "^2.1104.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
-    "aws-cdk-lib": "^2.236.0",
+    "aws-cdk-lib": "^2.237.1",
     "constructs": "^10.4.5",
     "source-map-support": "^0.5.21"
   }
