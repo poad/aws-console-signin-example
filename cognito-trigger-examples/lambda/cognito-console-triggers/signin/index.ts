@@ -39,17 +39,17 @@ const getSignInToken = async (param: {
         sessionId: param.accessKeyId,
         sessionKey: param.secretKey,
         sessionToken: param.sessionToken,
-      })
+      }),
     )}`,
     {
       redirect: 'follow',
-    }
+    },
   );
   return resp.json();
 };
 
 export const handler = async (
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   try {
     console.log('request:', JSON.stringify(event, undefined, 2));

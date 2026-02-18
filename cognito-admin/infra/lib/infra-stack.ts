@@ -140,7 +140,7 @@ export class InfraStack extends cdk.Stack {
       apiName: `Cognito Console Lambda API (${environment})`,
       defaultIntegration: new integrations.HttpLambdaIntegration(
         'default-handler',
-        signInFn
+        signInFn,
       ),
     });
     api.addRoutes({
@@ -194,7 +194,7 @@ export class InfraStack extends cdk.Stack {
             }),
           },
         }),
-      }
+      },
     );
 
     const endUserPool = new cognito.UserPool(this, endUserPoolName, {
@@ -285,7 +285,7 @@ export class InfraStack extends cdk.Stack {
             }),
           },
         }),
-      }
+      },
     );
 
     const adminUserPool = new cognito.UserPool(this, adminUserPoolName, {
@@ -388,7 +388,7 @@ export class InfraStack extends cdk.Stack {
               'cognito-identity.amazonaws.com:amr': 'unauthenticated',
             },
           },
-          'sts:AssumeRoleWithWebIdentity'
+          'sts:AssumeRoleWithWebIdentity',
         ),
         inlinePolicies: {
           'allow-assume-role': new iam.PolicyDocument({
@@ -406,7 +406,7 @@ export class InfraStack extends cdk.Stack {
             ],
           }),
         },
-      }
+      },
     );
 
     const adminAuthenticatedRole = new iam.Role(
@@ -424,7 +424,7 @@ export class InfraStack extends cdk.Stack {
               'cognito-identity.amazonaws.com:amr': 'authenticated',
             },
           },
-          'sts:AssumeRoleWithWebIdentity'
+          'sts:AssumeRoleWithWebIdentity',
         ),
         maxSessionDuration: cdk.Duration.hours(12),
         inlinePolicies: {
@@ -446,7 +446,7 @@ export class InfraStack extends cdk.Stack {
             ],
           }),
         },
-      }
+      },
     );
 
     new cognito.CfnIdentityPoolRoleAttachment(this, 'AdminIdPoolRoleAttachment', {
@@ -534,7 +534,7 @@ export class InfraStack extends cdk.Stack {
               'cognito-identity.amazonaws.com:amr': 'unauthenticated',
             },
           },
-          'sts:AssumeRoleWithWebIdentity'
+          'sts:AssumeRoleWithWebIdentity',
         ),
         inlinePolicies: {
           'allow-assume-role': new iam.PolicyDocument({
@@ -552,7 +552,7 @@ export class InfraStack extends cdk.Stack {
             ],
           }),
         },
-      }
+      },
     );
 
     const endUserAuthenticatedRole = new iam.Role(
@@ -570,7 +570,7 @@ export class InfraStack extends cdk.Stack {
               'cognito-identity.amazonaws.com:amr': 'authenticated',
             },
           },
-          'sts:AssumeRoleWithWebIdentity'
+          'sts:AssumeRoleWithWebIdentity',
         ).withSessionTags(),
         maxSessionDuration: cdk.Duration.hours(12),
         inlinePolicies: {
@@ -589,7 +589,7 @@ export class InfraStack extends cdk.Stack {
             ],
           }),
         },
-      }
+      },
     );
 
     new cognito.CfnIdentityPoolRoleAttachment(this, 'EndUsersIdPoolRoleAttachment', {
@@ -618,7 +618,7 @@ export class InfraStack extends cdk.Stack {
                 'cognito-identity.amazonaws.com:amr': 'authenticated',
               },
             },
-            'sts:AssumeRoleWithWebIdentity'
+            'sts:AssumeRoleWithWebIdentity',
           ),
           maxSessionDuration: cdk.Duration.hours(12),
           inlinePolicies: {
@@ -644,9 +644,9 @@ export class InfraStack extends cdk.Stack {
         signInFn.addEnvironment('ID_POOL_ID', endUserPoolIdentityPool.ref);
         signInFn.addEnvironment(
           'IDENTITY_PROVIDER',
-          endUserPool.userPoolProviderName
+          endUserPool.userPoolProviderName,
         );
-        signInFn.addEnvironment('API_URL', api.url!);
+        signInFn.addEnvironment('API_URL', api.url ?? '');
 
         if (
           groupRoleClassificationTag.name !== undefined &&
@@ -654,7 +654,7 @@ export class InfraStack extends cdk.Stack {
         ) {
           cdk.Tags.of(groupRole).add(
             groupRoleClassificationTag.name,
-            groupRoleClassificationTag.value
+            groupRoleClassificationTag.value,
           );
         }
       });

@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 import UserPoolClient from '../service/UserPoolClient';
 
 export const useGroup = (
-  client: UserPoolClient
+  client: UserPoolClient,
 ): { group?: Group; loadGroup: (origin: Group) => void } => {
   const [group, setGroup] = useState<Group | undefined>(undefined);
   const loadGroup = useCallback(async (origin: Group) => {

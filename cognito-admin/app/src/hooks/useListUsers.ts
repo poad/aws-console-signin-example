@@ -35,10 +35,10 @@ export const useListUsers = (client: UserPoolClient) => {
                 mfa,
                 email,
               } as User;
-            }
+            },
           ),
           loaded: true,
-        })
+        }),
       )
       .catch((error) => setState({ error, loaded: false }));
 

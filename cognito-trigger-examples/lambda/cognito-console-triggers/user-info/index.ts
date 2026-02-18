@@ -16,7 +16,7 @@ export const environments: EnvironmentVariables = {
 };
 
 export const handler = async (
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   console.trace(JSON.stringify(event));
 
@@ -30,7 +30,7 @@ export const handler = async (
         const response = await identityProviderCleint.send(
           new GetUserCommand({
             AccessToken: accessToken,
-          })
+          }),
         );
         return {
           cookies: [],

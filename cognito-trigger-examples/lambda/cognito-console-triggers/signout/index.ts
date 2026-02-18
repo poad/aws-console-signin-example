@@ -21,7 +21,7 @@ interface Session {
 }
 
 export const handler = async (
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   const { refreshToken } =
     event.cookies !== undefined && event.cookies.length > 0
@@ -38,14 +38,14 @@ export const handler = async (
             REFRESH_TOKEN: refreshToken,
           },
           ClientId: environments.clientId,
-        })
+        }),
       );
 
       if (AuthenticationResult?.AccessToken !== undefined) {
         await identityProviderCleint.send(
           new GlobalSignOutCommand({
             AccessToken: AuthenticationResult?.AccessToken ?? '',
-          })
+          }),
         );
       }
     } catch (e) {

@@ -9,8 +9,8 @@ import type {
 export const handler: PreAuthenticationTriggerHandler = async (
   event: PreAuthenticationTriggerEvent,
   _: Context,
-  callback: Callback<any>
-): Promise<any> => {
+  callback: Callback,
+): Promise<void> => {
   // console.log(JSON.stringify(event));
 
   // const { userPoolId, request, triggerSource } = event;

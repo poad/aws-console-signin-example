@@ -21,8 +21,9 @@ interface HeaderProps {
   consoleUrl: string;
   handleChange: (
     _event: React.SyntheticEvent<Element, Event>,
-    newValue: number
+    newValue: number,
   ) => void;
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   signOut: (opts?: any) => void;
 }
 

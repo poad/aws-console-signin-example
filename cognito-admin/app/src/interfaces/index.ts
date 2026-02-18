@@ -1,8 +1,6 @@
 export interface User {
   username: string;
-  attributes: {
-    [key: string]: string | undefined;
-  };
+  attributes: Record<string, string | undefined>;
   createdAt: Date | undefined;
   lastModifiedAt: Date | undefined;
   enabled: string;

@@ -36,7 +36,7 @@ class IamClient {
         new ListRolesCommand({
           MaxItems: 1000,
           Marker: marker,
-        })
+        }),
       )
       .then((resp: ListRolesResponse) => resp);
 
@@ -54,7 +54,7 @@ class IamClient {
 
     const roles = resps
       .filter((resp) => resp.Roles !== undefined && resp.Roles.length > 0)
-      .map((resp) => resp.Roles!)
+      .map((resp) => resp.Roles ?? [])
       .reduce((cur, acc) => acc.concat(cur), []);
     return roles.map(
       (role) =>
@@ -81,7 +81,7 @@ class IamClient {
             lastUsedDate: role.RoleLastUsed?.LastUsedDate,
             region: role.RoleLastUsed?.Region,
           },
-        }) as IamRole
+        }) as IamRole,
     );
   };
 
@@ -89,8 +89,9 @@ class IamClient {
     const resp: GetRoleResponse = await this.client.send(
       new GetRoleCommand({
         RoleName: roleName,
-      })
+      }),
     );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const role = resp.Role!;
     return {
       path: role.Path,

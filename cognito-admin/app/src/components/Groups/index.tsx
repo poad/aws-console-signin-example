@@ -77,16 +77,18 @@ const Groups = ({
       throw Error('Group not found');
     }
     const index = groups.findIndex(
-      (item) => group?.groupName === item.groupName
+      (item) => group?.groupName === item.groupName,
     );
     if (index === -1) {
       throw Error('Group not found');
     }
+    // eslint-disable-next-line react-hooks/immutability
     groups[index] = iamGroup;
     loadGroup(iamGroup);
     update(groups);
   };
 
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onError = (err: any) => {
     setErrorDialog({
       open: true,

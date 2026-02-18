@@ -1,5 +1,3 @@
-// @ts-check
-
 import { defineConfig } from 'eslint/config';
 import eslint from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
@@ -8,7 +6,6 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 // @ts-expect-error ignore plugin type
 import pluginPromise from 'eslint-plugin-promise';
-// import reactRefresh from "eslint-plugin-react-refresh";
 import nextPlugin from '@next/eslint-plugin-next';
 import globals from 'globals';
 import { configs, parser } from 'typescript-eslint';

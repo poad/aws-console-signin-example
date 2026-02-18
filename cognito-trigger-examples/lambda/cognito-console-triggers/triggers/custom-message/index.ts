@@ -9,8 +9,8 @@ import type {
 export const handler: CustomMessageTriggerHandler = async (
   event: CustomMessageTriggerEvent,
   _: Context,
-  callback: Callback<any>
-): Promise<any> => {
+  callback: Callback,
+): Promise<void> => {
   // console.log(JSON.stringify(event));
 
   // const { userPoolId, request, triggerSource } = event;

@@ -6,7 +6,7 @@ export const useGroupDetail = (
   client: UserPoolClient,
   group: Group | undefined,
   onUpdate?: (newGroup: Group) => void,
-  onDelete?: (removeGroup: Group) => void
+  onDelete?: (removeGroup: Group) => void,
 ): {
   detail?: Group;
   attacheRole?: string;

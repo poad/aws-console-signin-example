@@ -14,20 +14,20 @@ export interface SortOrder<Label> {
 
 export function usePagenationTable<T, Label extends keyof T>(
   initPage: Page,
-  initOrder: SortOrder<Label>
+  initOrder: SortOrder<Label>,
 ): {
   page: Page;
   handleChangePage: (_: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   createSortHandler: (
-    property: Label
+    property: Label,
   ) => (event: React.MouseEvent<unknown>) => void;
   getComparator(
     order: Order,
     orderBy: Label
   ): (
-    a: { [key in Label]: number | string },
-    b: { [key in Label]: number | string }
+    a: Record<Label, number | string>,
+    b: Record<Label, number | string>,
   ) => number;
   stableSort: (array: T[], comparator: (a: T, b: T) => number) => T[];
   sortOrder: SortOrder<Label>;
@@ -51,7 +51,7 @@ export function usePagenationTable<T, Label extends keyof T>(
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setPage({
       page: page.page,
@@ -59,6 +59,7 @@ export function usePagenationTable<T, Label extends keyof T>(
     });
   };
 
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   function descendingComparator(a: any, b: any, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -76,10 +77,10 @@ export function usePagenationTable<T, Label extends keyof T>(
 
   function getComparator<Key extends Label>(
     order: Order,
-    orderBy: Key
+    orderBy: Key,
   ): (
-    a: { [key in Key]: number | string },
-    b: { [key in Key]: number | string }
+    a: Record<Key, number | string>,
+    b: Record<Key, number | string>,
   ) => number {
     return order === 'desc'
       ? (a, b) => descendingComparator(a, b, orderBy)

@@ -88,9 +88,7 @@ export const UsersTable = ({
   } = usePagenationTable<
     {
       username: string;
-      attributes?: {
-        [key: string]: string;
-      };
+      attributes?: Record<string, string>;
       createdAt: string;
       lastModifiedAt: string;
       enabled: string;
@@ -153,11 +151,11 @@ export const UsersTable = ({
                 status: item.status,
                 origin: item,
               })),
-              getComparator(sortOrder.order, sortOrder.orderBy)
+              getComparator(sortOrder.order, sortOrder.orderBy),
             )
               .slice(
                 page.page * page.rowsPerPage,
-                page.page * page.rowsPerPage + page.rowsPerPage
+                page.page * page.rowsPerPage + page.rowsPerPage,
               )
               .map(
                 ({
@@ -182,7 +180,7 @@ export const UsersTable = ({
                     <TableCell>{enabled}</TableCell>
                     <TableCell>{status}</TableCell>
                   </TableRow>
-                )
+                ),
               )}
           </TableBody>
         </Table>

@@ -61,35 +61,35 @@ class UserPoolClient {
 
   private static userConversion(
     users: UserType[],
-    group: string | undefined = undefined
+    group: string | undefined = undefined,
   ): User[] {
     return users.map((user) => {
       const attributes =
         user.Attributes?.filter(
           (attribute) =>
-            attribute.Name !== undefined && attribute.Value !== undefined
+            attribute.Name !== undefined && attribute.Value !== undefined,
         )
           .map((attribute) => {
-            const entity: { [key: string]: string | undefined } = {};
-            entity[attribute.Name!] = attribute.Value;
+            const entity: Record<string, string | undefined> = {};
+            entity[attribute.Name ?? ''] = attribute.Value;
             return entity;
           })
           .reduce((cur, acc) => ({ ...acc, ...cur })) || {};
 
       return {
         email: attributes.email,
-        username: user.Username!,
+        username: user.Username ?? '',
         attributes,
         createdAt: user.UserCreateDate,
         lastModifiedAt: user.UserLastModifiedDate,
         enabled: `${user.Enabled !== undefined ? user.Enabled : true}`,
-        status: user.UserStatus!,
+        status: user.UserStatus ?? '',
         mfa:
           user.MFAOptions !== undefined
             ? user.MFAOptions.map((mfaOption) => ({
-                deliveryMedium: mfaOption.DeliveryMedium,
-                ttributeName: mfaOption.AttributeName,
-              }))
+              deliveryMedium: mfaOption.DeliveryMedium,
+              ttributeName: mfaOption.AttributeName,
+            }))
             : [],
         group,
         groups: undefined,
@@ -105,11 +105,11 @@ class UserPoolClient {
         Description: params.description,
         Precedence: params.precedence,
         RoleArn: params.roleArn,
-      })
+      }),
     );
-    const newGroup = resp.Group!;
+    const newGroup = resp.Group ?? {};
     return {
-      groupName: newGroup.GroupName!,
+      groupName: newGroup.GroupName ?? '',
       description: newGroup.Description,
       precedence: newGroup.Precedence,
       roleArn: newGroup.RoleArn,
@@ -126,11 +126,11 @@ class UserPoolClient {
         Description: group.description,
         Precedence: group.precedence,
         RoleArn: group.roleArn,
-      })
+      }),
     );
-    const newGroup = resp.Group!;
+    const newGroup = resp.Group ?? {};
     return {
-      groupName: newGroup.GroupName!,
+      groupName: newGroup.GroupName ?? '',
       description: newGroup.Description,
       precedence: newGroup.Precedence,
       roleArn: newGroup.RoleArn,
@@ -145,8 +145,8 @@ class UserPoolClient {
         new DeleteGroupCommand({
           UserPoolId: this.userPoolId,
           GroupName: groupName,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -162,9 +162,9 @@ class UserPoolClient {
             Value: params.email,
           },
         ],
-      })
+      }),
     );
-    return UserPoolClient.userConversion([resp.User!])[0];
+    return UserPoolClient.userConversion([resp.User ?? {}])[0];
   }
 
   async deleteUser(username: string): Promise<void> {
@@ -172,7 +172,7 @@ class UserPoolClient {
       new AdminDeleteUserCommand({
         UserPoolId: this.userPoolId,
         Username: username,
-      })
+      }),
     );
   }
 
@@ -181,7 +181,7 @@ class UserPoolClient {
       new AdminEnableUserCommand({
         UserPoolId: this.userPoolId,
         Username: username,
-      })
+      }),
     );
   }
 
@@ -190,7 +190,7 @@ class UserPoolClient {
       new AdminDisableUserCommand({
         UserPoolId: this.userPoolId,
         Username: username,
-      })
+      }),
     );
   }
 
@@ -199,7 +199,7 @@ class UserPoolClient {
       new AdminResetUserPasswordCommand({
         UserPoolId: this.userPoolId,
         Username: username,
-      })
+      }),
     );
   }
 
@@ -209,7 +209,7 @@ class UserPoolClient {
         GroupName: params.groupName,
         Username: params.username,
         UserPoolId: this.userPoolId,
-      })
+      }),
     );
   }
 
@@ -219,7 +219,7 @@ class UserPoolClient {
         GroupName: params.groupName,
         Username: params.username,
         UserPoolId: this.userPoolId,
-      })
+      }),
     );
   }
 
@@ -230,7 +230,7 @@ class UserPoolClient {
           UserPoolId: this.userPoolId,
           Limit: 60,
           NextToken: nextToken,
-        })
+        }),
       );
       const groups = Groups ? Groups : [];
       if (NextToken) {
@@ -244,13 +244,13 @@ class UserPoolClient {
       .map(
         (group) =>
           ({
-            groupName: group.GroupName!,
+            groupName: group.GroupName ?? '',
             description: group.Description,
             precedence: group.Precedence,
             creationDate: group.CreationDate,
             lastModifiedDate: group.LastModifiedDate,
             roleArn: group.RoleArn,
-          }) as Group
+          }) as Group,
       );
   }
 
@@ -262,7 +262,7 @@ class UserPoolClient {
           UserPoolId: this.userPoolId,
           Limit: 60,
           NextToken: nextToken,
-        })
+        }),
       );
       const groups = Users ? Users : [];
       if (NextToken) {
@@ -283,7 +283,7 @@ class UserPoolClient {
           UserPoolId: this.userPoolId,
           Limit: 60,
           NextToken: nextToken,
-        })
+        }),
       );
       const groups = Groups ? Groups : [];
       if (NextToken) {
@@ -292,7 +292,7 @@ class UserPoolClient {
       return groups;
     };
     const groups = await handler();
-    return groups.map((group) => group.GroupName!);
+    return groups.map((group) => group.GroupName ?? '');
   }
 
   async listUsers(): Promise<User[]> {
@@ -301,7 +301,7 @@ class UserPoolClient {
         new ListUsersCommand({
           UserPoolId: this.userPoolId,
           PaginationToken: paginationToken,
-        })
+        }),
       );
       const groups = Users ? Users : [];
       if (PaginationToken) {

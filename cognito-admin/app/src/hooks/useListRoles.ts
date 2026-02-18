@@ -4,7 +4,7 @@ import { appConfig } from '../aws-config';
 import { useState, useEffect } from 'react';
 
 export const useListRoles = (
-  iamClient: IamClient
+  iamClient: IamClient,
 ): { roles?: IamRole[]; error?: Error; loaded: boolean } => {
   const [state, setState] = useState<{
     data?: IamRole[];
@@ -18,11 +18,11 @@ export const useListRoles = (
     const check = name !== undefined && value !== undefined;
     const filered = check
       ? iamRoles.filter(
-          (iamRole) =>
-            iamRole.tags?.find(
-              (tag) => tag.key === name && tag.value === value
-            ) !== undefined
-        )
+        (iamRole) =>
+          iamRole.tags?.find(
+            (tag) => tag.key === name && tag.value === value,
+          ) !== undefined,
+      )
       : iamRoles;
     return filered;
   };
@@ -36,7 +36,7 @@ export const useListRoles = (
       .then((items) =>
         items
           .filter((item) => item.roleName !== undefined)
-          .map(async (item) => iamClient.getRole(item.roleName!))
+          .map(async (item) => iamClient.getRole(item.roleName ?? '')),
       )
       .then(async (items) => {
         const roles = await Promise.all(items);

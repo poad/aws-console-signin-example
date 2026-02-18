@@ -22,7 +22,7 @@ import type UserPoolClient from '../../service/UserPoolClient';
 import type { Group } from '../../interfaces';
 import type IamClient from '../../service/IamClient';
 import { useListRoles } from '../../hooks/useListRoles';
-import StyledTextField from '../styled/StyledTextField';
+import { StyledTextField } from '../styled/StyledTextField';
 
 interface CreateGroupDialogProps {
   /**
@@ -33,6 +33,7 @@ interface CreateGroupDialogProps {
   client: UserPoolClient;
   iamClient: IamClient;
   onCreate?: (newUser: Group) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onError?: (error: any) => void;
 }
 
@@ -42,12 +43,12 @@ const CreateGroupDialog = ({
   onCreate,
   onError,
 }: CreateGroupDialogProps): JSX.Element => {
-  type Inputs = {
+  interface Inputs {
     groupName: string;
     description?: string;
     precedence?: number;
     roleArn?: string;
-  };
+  }
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -76,6 +77,7 @@ const CreateGroupDialog = ({
         if (onError !== undefined) {
           onError(err);
         }
+        return;
       })
       .finally(() => {
         reset({
@@ -88,13 +90,14 @@ const CreateGroupDialog = ({
         setRole(undefined);
         setOpen(false);
       });
+    return;
   };
 
   useEffect(() => {
     if (error && onError) {
       onError(error);
     }
-  }, [error, loaded]);
+  }, [error, onError, loaded]);
   const onClose = () => {
     setRole(undefined);
     setOpen(false);

@@ -13,7 +13,7 @@ import Document, {
 
 export default class NextDocument extends Document {
   static getInitialProps: (
-    ctx: DocumentContext
+    ctx: DocumentContext,
   ) => Promise<DocumentInitialProps>;
 
   render(): JSX.Element {
@@ -45,6 +45,7 @@ NextDocument.getInitialProps = async (ctx: DocumentContext) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       enhanceApp: (App: any) => (props) => (
         <App emotionCache={cache} {...props} />
       ),
@@ -55,13 +56,14 @@ NextDocument.getInitialProps = async (ctx: DocumentContext) => {
   // See https://github.com/mui-org/material-ui/issues/26561#issuecomment-855286153
   const emotionStyles = extractCriticalToChunks(initialProps.html);
   const emotionStyleTags = emotionStyles.styles.map(
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     (style: { key: React.Key | null | undefined; ids: any[]; css: any }) => (
       <style
-        data-emotion={`${style.key} ${style.ids.join(' ')}`}
+        data-emotion={`${String(style.key)} ${style.ids.join(' ')}`}
         key={style.key}
         dangerouslySetInnerHTML={{ __html: style.css }}
       />
-    )
+    ),
   );
 
   return {

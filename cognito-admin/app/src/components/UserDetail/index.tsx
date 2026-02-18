@@ -195,22 +195,22 @@ const UserDetail = ({
                       >
                         {detailValue?.attributes !== undefined
                           ? Object.keys(detailValue.attributes)
-                              .filter((attribute) => attribute !== 'email')
-                              .map((attributeName) => (
-                                <ListItemText
-                                  key={`${detailValue.email}-attr-${attributeName}`}
-                                >
-                                  <ReadOnlyTextField
-                                    id={attributeName}
-                                    label={attributeName}
-                                    variant="outlined"
-                                    key={attributeName}
-                                    defaultValue={
-                                      detailValue.attributes[attributeName]
-                                    }
-                                  />
-                                </ListItemText>
-                              ))
+                            .filter((attribute) => attribute !== 'email')
+                            .map((attributeName) => (
+                              <ListItemText
+                                key={`${detailValue.email}-attr-${attributeName}`}
+                              >
+                                <ReadOnlyTextField
+                                  id={attributeName}
+                                  label={attributeName}
+                                  variant="outlined"
+                                  key={attributeName}
+                                  defaultValue={
+                                    detailValue.attributes[attributeName]
+                                  }
+                                />
+                              </ListItemText>
+                            ))
                           : ''}
                       </List>
                     </Box>

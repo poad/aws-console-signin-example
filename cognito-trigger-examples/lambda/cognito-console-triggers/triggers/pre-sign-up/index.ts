@@ -13,8 +13,8 @@ import type {
 export const handler: PreSignUpTriggerHandler = async (
   event: PreSignUpTriggerEvent,
   _: Context,
-  callback: Callback<any>
-): Promise<any> => {
+  callback: Callback,
+): Promise<void> => {
   const { userPoolId, request, triggerSource } = event;
 
   if (triggerSource === 'PreSignUp_ExternalProvider') {
@@ -28,10 +28,10 @@ export const handler: PreSignUpTriggerHandler = async (
         new ListUsersCommand({
           UserPoolId: userPoolId,
           Filter: `email = "${email}"`,
-        })
+        }),
       )
     ).Users?.find(
-      (u) => (u.UserStatus as string | undefined) !== 'EXTERNAL_PROVIDER'
+      (u) => (u.UserStatus as string | undefined) !== 'EXTERNAL_PROVIDER',
     );
 
     // create a new user
@@ -46,10 +46,10 @@ export const handler: PreSignUpTriggerHandler = async (
               .filter(
                 (attr) =>
                   attr[0] !== 'cognito:email_alias' &&
-                  attr[0] !== 'cognito:phone_number_alias'
+                  attr[0] !== 'cognito:phone_number_alias',
               )
               .map((attr) => ({ Name: attr[0], Value: attr[1] })),
-          })
+          }),
         )
       ).User;
     if (!targetUser) {
@@ -57,18 +57,18 @@ export const handler: PreSignUpTriggerHandler = async (
     }
 
     const provider = event.userName.split('_')[0];
-    const identities: { [name: string]: string }[] = (
+    const identities: Record<string, string>[] = (
       targetUser.Attributes ?? []
     )
       .filter((attribute) => attribute.Name === 'identities' && attribute.Value)
       .flatMap(
         (attribute) =>
-          JSON.parse(attribute.Value!) as { [name: string]: string }[]
+          JSON.parse(attribute.Value ?? '') as Record<string, string>[],
       );
     if (
       !identities.find(
         (identity) =>
-          identity.providerName && identity.providerName === provider
+          identity.providerName && identity.providerName === provider,
       )
     ) {
       return callback('No such link target', event);

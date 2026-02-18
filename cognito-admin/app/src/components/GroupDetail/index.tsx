@@ -82,6 +82,7 @@ const UserDetail = ({
 
   useEffect(() => {
     if (error) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDetailErrorDialog({
         message: JSON.stringify(error),
       });
@@ -259,20 +260,20 @@ const UserDetail = ({
                     >
                       {detail?.users !== undefined
                         ? detail?.users.map((user) => (
-                            <ListItem
-                              component="li"
-                              key={`${detail?.groupName}-user-${user.username}`}
-                            >
-                              <StyledTextField
-                                id={user.username}
-                                label={user.username}
-                                fullWidth
-                                key={user.username}
-                                InputProps={{ readOnly: true }}
-                                defaultValue={user.username}
-                              />
-                            </ListItem>
-                          ))
+                          <ListItem
+                            component="li"
+                            key={`${detail?.groupName}-user-${user.username}`}
+                          >
+                            <StyledTextField
+                              id={user.username}
+                              label={user.username}
+                              fullWidth
+                              key={user.username}
+                              InputProps={{ readOnly: true }}
+                              defaultValue={user.username}
+                            />
+                          </ListItem>
+                        ))
                         : ''}
                     </List>
                   </AccordionDetails>

@@ -24,6 +24,7 @@ interface CreateUserDialogProps {
   container?: Element;
   client: UserPoolClient;
   onCreate?: (newUser: User) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onError?: (error: any) => void;
 }
 
@@ -32,10 +33,10 @@ function CreateUserDialog({
   onCreate,
   onError,
 }: CreateUserDialogProps): JSX.Element {
-  type Inputs = {
+  interface Inputs {
     username: string;
     email: string;
-  };
+  }
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));

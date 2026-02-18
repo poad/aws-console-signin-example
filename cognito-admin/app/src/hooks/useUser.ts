@@ -3,7 +3,7 @@ import { User } from '../interfaces';
 import UserPoolClient from '../service/UserPoolClient';
 
 export const useUser = (
-  client: UserPoolClient
+  client: UserPoolClient,
 ): {
   user?: User;
   setUser: Dispatch<SetStateAction<User | undefined>>;

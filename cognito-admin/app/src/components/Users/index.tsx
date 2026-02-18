@@ -47,7 +47,7 @@ const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
     setUser(newUser);
     if (users?.find((item) => item.email === newUser.email)) {
       setUsers(
-        users?.filter((item) => item.email !== newUser.email)?.concat(newUser)
+        users?.filter((item) => item.email !== newUser.email)?.concat(newUser),
       );
     }
   };

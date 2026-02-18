@@ -3,19 +3,19 @@ import {
   GetIdCommand,
   GetIdentityPoolRolesCommand,
   GetOpenIdTokenCommand,
-} from "@aws-sdk/client-cognito-identity";
+} from '@aws-sdk/client-cognito-identity';
 import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
-} from "@aws-sdk/client-cognito-identity-provider";
+} from '@aws-sdk/client-cognito-identity-provider';
 import {
   AssumeRoleWithWebIdentityCommand,
   STSClient,
-} from "@aws-sdk/client-sts";
-import * as jwt from "jsonwebtoken";
-import * as jwksClient from "jwks-rsa";
+} from '@aws-sdk/client-sts';
+import * as jwt from 'jsonwebtoken';
+import * as jwksClient from 'jwks-rsa';
 
-import { SignInParam, SimpleLogger } from "./types";
+import { SignInParam, SimpleLogger } from './types';
 
 interface TokenAuthParam {
   domain: string;
@@ -69,13 +69,11 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
     tokenType: string;
   }> => {
     const body = Object.entries({
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
       client_id: param.clientId,
       code: param.code,
       redirect_uri: param.redirectUri,
-    } as {
-      [key: string]: string;
-    })
+    } as Record<string, string>)
       .map(
         ([key, value]) =>
           `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
@@ -85,11 +83,11 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
     const authUri = `https://${param.domain}.auth.us-west-2.amazoncognito.com/oauth2/token`;
 
     const resp = await fetch(authUri, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      redirect: "follow",
+      redirect: 'follow',
       body,
     });
     const json = (await resp.json()) as Promise<{
@@ -121,7 +119,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
     });
 
     const resp = await client.send(req);
-    return resp.IdentityId!;
+    return resp.IdentityId ?? '';
   };
 
   const initiateAuth = async (
@@ -136,7 +134,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
   }> => {
     const res = await idProvider.send(
       new InitiateAuthCommand({
-        AuthFlow: "REFRESH_TOKEN_AUTH",
+        AuthFlow: 'REFRESH_TOKEN_AUTH',
         AuthParameters: {
           REFRESH_TOKEN: param.refreshToken,
         },
@@ -144,14 +142,14 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       }),
     );
 
-    const result = res.AuthenticationResult!;
+    const result = res.AuthenticationResult ?? {};
 
     return {
-      idToken: result.IdToken!,
-      accessToken: result.AccessToken!,
-      refreshToken: result.RefreshToken!,
-      expiresIn: result.ExpiresIn!,
-      tokenType: result.TokenType!,
+      idToken: result.IdToken ?? '',
+      accessToken: result.AccessToken ?? '',
+      refreshToken: result.RefreshToken ?? '',
+      expiresIn: result.ExpiresIn ?? 0,
+      tokenType: result.TokenType ?? '',
     };
   };
 
@@ -225,9 +223,9 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       idToken,
     });
 
-    const payload = jwt.decode(idToken) as { [key: string]: string | string[] };
-    const preferredRole = payload["cognito:preferred_role"] as string;
-    const username = payload["cognito:username"] as string;
+    const payload = jwt.decode(idToken) as Record<string, string | string[]>;
+    const preferredRole = payload['cognito:preferred_role'] as string;
+    const username = payload['cognito:username'] as string;
     const { email } = payload;
     logger.debug(`JWT: ${JSON.stringify(payload)}`);
 
@@ -235,7 +233,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       preferredRole !== undefined
         ? preferredRole
         : (await getDefaultRoles(identityClient, { idPoolId })).Roles
-            ?.authenticated;
+          ?.authenticated;
 
     logger.debug(`role arn: ${roleArn}`);
     try {
@@ -246,8 +244,8 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       });
 
       const credentials = await assumeRoleWithWebIdentity(new STSClient({}), {
-        token: openIdToken.Token!,
-        roleArn: roleArn!,
+        token: openIdToken.Token ?? '',
+        roleArn: roleArn ?? '',
         roleSessionName: email !== undefined ? `${email}` : username,
       });
 
@@ -322,7 +320,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       header: jwt.JwtHeader,
       callback: jwt.SigningKeyCallback,
     ) => {
-      if (!header.kid) throw new Error("not found kid!");
+      if (!header.kid) throw new Error('not found kid!');
       client.getSigningKey(header.kid, (err, key) => {
         if (err) throw err;
         callback(null, key?.getPublicKey());
@@ -334,7 +332,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
 
     jwt.verify(idToken, getKey, (err, decoded) => {
       if (err) throw err;
-      logger.error(decoded ? JSON.stringify(decoded) : "undefined");
+      logger.error(decoded ? JSON.stringify(decoded) : 'undefined');
     });
 
     const identityId = await getId(identityClient, {
@@ -343,9 +341,9 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       idToken,
     });
 
-    const payload = jwt.decode(idToken) as { [key: string]: string | string[] };
-    const preferredRole = payload["cognito:preferred_role"] as string;
-    const username = payload["cognito:username"] as string;
+    const payload = jwt.decode(idToken) as Record<string, string | string[]>;
+    const preferredRole = payload['cognito:preferred_role'] as string;
+    const username = payload['cognito:username'] as string;
     const { email } = payload;
     logger.debug(`JWT: ${JSON.stringify(payload)}`);
 
@@ -363,8 +361,8 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       });
 
       const credentials = await assumeRoleWithWebIdentity(new STSClient({}), {
-        token: openIdToken.Token!,
-        roleArn: roleArn!,
+        token: openIdToken.Token ?? '',
+        roleArn: roleArn ?? '',
         roleSessionName: email ? `${email}` : username,
       });
 

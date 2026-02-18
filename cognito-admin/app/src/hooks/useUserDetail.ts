@@ -8,7 +8,7 @@ export const useUserDetail = (
   client: UserPoolClient,
   onClose: () => void,
   onUpdate?: (newUser: User) => void,
-  onDelete?: (removeUser: User) => void
+  onDelete?: (removeUser: User) => void,
 ): {
   open: boolean;
   detail: User | undefined;
@@ -40,7 +40,7 @@ export const useUserDetail = (
         setOpen(initOpen);
         setDetail(user);
       });
-  }, [user, initOpen]);
+  }, [client, user, initOpen]);
 
   const deleteUser = () => {
     if (detail) {
@@ -133,23 +133,23 @@ export const useUserDetail = (
       const currentGroups = detail.groups || [];
 
       const deletionGroups = currentGroups.filter(
-        (current) => newGroups.indexOf(current) === -1
+        (current) => newGroups.indexOf(current) === -1,
       );
       const additionGroups = newGroups.filter(
-        (current) => currentGroups.indexOf(current) === -1
+        (current) => currentGroups.indexOf(current) === -1,
       );
 
       deletionGroups.forEach((group) =>
         client.removeUserFromGroup({
           username: detail.username || '',
           groupName: group,
-        })
+        }),
       );
       additionGroups.forEach((group) =>
         client.addUserToGroup({
           username: detail.username || '',
           groupName: group,
-        })
+        }),
       );
 
       setDetail({ ...detail, groups: newGroups });

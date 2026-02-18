@@ -134,11 +134,11 @@ export const GroupsTable = ({
                 precedence: item.precedence || '',
                 origin: item,
               })),
-              getComparator(sortOrder.order, sortOrder.orderBy)
+              getComparator(sortOrder.order, sortOrder.orderBy),
             )
               .slice(
                 page.page * page.rowsPerPage,
-                page.page * page.rowsPerPage + page.rowsPerPage
+                page.page * page.rowsPerPage + page.rowsPerPage,
               )
               .map((item) => (
                 <TableRow

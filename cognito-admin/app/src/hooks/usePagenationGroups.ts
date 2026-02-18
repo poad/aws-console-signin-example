@@ -3,7 +3,7 @@ import UserPoolClient from '../service/UserPoolClient';
 import { Group } from '../interfaces';
 
 export const usePagenationGroups = (
-  client: UserPoolClient
+  client: UserPoolClient,
 ): {
   groups?: Group[];
   error?: Error;
@@ -26,7 +26,7 @@ export const usePagenationGroups = (
         setState({
           data: items,
           loaded: true,
-        })
+        }),
       )
       .catch((error) => setState({ error, loaded: false }));
 
@@ -47,7 +47,7 @@ export const usePagenationGroups = (
       const groups = state.data;
       if (groups) {
         const newGroups = groups.filter(
-          (group) => group.groupName !== target.groupName
+          (group) => group.groupName !== target.groupName,
         );
         if (newGroups) {
           setState({ ...state, data: newGroups });

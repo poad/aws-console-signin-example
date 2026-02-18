@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import React, { JSX, useState } from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import { Amplify } from 'aws-amplify';
 import { useAuthenticator, withAuthenticator } from '@aws-amplify/ui-react';
@@ -9,18 +9,18 @@ import awsconfig, { appConfig } from '../aws-config';
 import Users from '../components/Users';
 import TabPanel from '../components/TabPanel';
 import Groups from '../components/Groups';
-import React from 'react';
 import IamClient, { ICredentials } from '../service/IamClient';
 import UserPoolClient from '../service/UserPoolClient';
-import LoadingSpinner from '../components/styled/LoadingSpinner';
+import { LoadingSpinner } from '../components/styled/LoadingSpinner';
 import { ErrorDialogProps } from '../interfaces';
-import ErrorDialog from '../components/ErrorDialog';
+import { ErrorDialog } from '../components/ErrorDialog';
 import { Header } from '../components/Header';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 Amplify.configure(awsconfig);
 
 interface HomeProps {
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   signOut: (opts?: any) => Promise<any>;
 }
 
@@ -55,7 +55,7 @@ function Home(props?: HomeProps): JSX.Element {
               client: new UserPoolClient(
                 credentials,
                 appConfig.endUserPoolId,
-                appConfig.region
+                appConfig.region,
               ),
               iamClient: new IamClient(credentials, appConfig.region),
             },
@@ -77,13 +77,14 @@ function Home(props?: HomeProps): JSX.Element {
   const clientId = process.env.NEXT_PUBLIC_AWS_WEB_CLIENT_ID_CONSOLE;
   const scopes = process.env.NEXT_PUBLIC_SCOPES;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const { signOut } = props ? props : { signOut: () => {} };
 
   const consoleUrl = `${endpoint}/oauth2/authorize?${idp}redirect_uri=${redirect}&response_type=CODE&client_id=${clientId}&scope=${scopes}`;
 
   const handleChange = (
     _event: React.SyntheticEvent<Element, Event>,
-    newValue: number
+    newValue: number,
   ) => {
     setTab(newValue);
   };

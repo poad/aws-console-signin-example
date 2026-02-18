@@ -12,8 +12,8 @@ import type {
 export const handler: PostAuthenticationTriggerHandler = async (
   event: PostAuthenticationTriggerEvent,
   _: Context,
-  callback: Callback<any>
-): Promise<any> => {
+  callback: Callback,
+): Promise<void> => {
   // console.log(JSON.stringify(event));
 
   const { userPoolId, request, triggerSource } = event;
@@ -25,9 +25,9 @@ export const handler: PostAuthenticationTriggerHandler = async (
         (provider) =>
           identities.length === 0 ||
           identities.find(
-            (identity?: { [name: string]: string }) =>
-              identity?.providerName !== provider
-          ) !== undefined
+            (identity?: Record<string, string>) =>
+              identity?.providerName !== provider,
+          ) !== undefined,
       );
 
       providers.forEach(async (provider) => {
@@ -43,7 +43,7 @@ export const handler: PostAuthenticationTriggerHandler = async (
               ProviderAttributeName: 'Cognito_Subject',
               ProviderAttributeValue: event.userName,
             },
-          })
+          }),
         );
       });
     }

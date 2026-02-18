@@ -9,8 +9,8 @@ import type {
 export const handler: PostConfirmationTriggerHandler = async (
   event: PostConfirmationTriggerEvent,
   _: Context,
-  callback: Callback<any>
-): Promise<any> => {
+  callback: Callback,
+): Promise<void> => {
   // console.log(JSON.stringify(event));
 
   // const { userPoolId, userName, request, triggerSource } = event;
