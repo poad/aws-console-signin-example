@@ -13,12 +13,12 @@
     "lint": "eslint"
   },
   "devDependencies": {
-    "@middy/core": "^7.0.3",
-    "@stylistic/eslint-plugin": "^5.8.0",
+    "@middy/core": "^7.1.1",
+    "@stylistic/eslint-plugin": "^5.9.0",
     "@types/aws-lambda": "^8.10.160",
     "@types/node": "^24.10.13",
     "esbuild": "^0.27.3",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.3",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-promise": "^7.2.1",
@@ -30,11 +30,11 @@
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
     "@aws-lambda-powertools/logger": "^2.31.0",
-    "@aws-sdk/client-cognito-identity": "^3.992.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.992.0",
-    "@aws-sdk/client-sts": "^3.992.0",
-    "aws-cdk-lib": "^2.238.0",
-    "constructs": "^10.5.0",
+    "@aws-sdk/client-cognito-identity": "^3.995.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.995.0",
+    "@aws-sdk/client-sts": "^3.995.0",
+    "aws-cdk-lib": "^2.239.0",
+    "constructs": "^10.5.1",
     "source-map-support": "^0.5.21"
   }
 }
