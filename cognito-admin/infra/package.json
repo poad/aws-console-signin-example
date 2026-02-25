@@ -13,7 +13,7 @@
     "lint": "eslint"
   },
   "devDependencies": {
-    "@middy/core": "^7.1.1",
+    "@middy/core": "^7.1.2",
     "@stylistic/eslint-plugin": "^5.9.0",
     "@types/aws-lambda": "^8.10.160",
     "@types/node": "^24.10.13",
@@ -30,9 +30,9 @@
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
     "@aws-lambda-powertools/logger": "^2.31.0",
-    "@aws-sdk/client-cognito-identity": "^3.996.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.996.0",
-    "@aws-sdk/client-sts": "^3.996.0",
+    "@aws-sdk/client-cognito-identity": "^3.998.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.998.0",
+    "@aws-sdk/client-sts": "^3.998.0",
     "aws-cdk-lib": "^2.240.0",
     "constructs": "^10.5.1",
     "source-map-support": "^0.5.21"
