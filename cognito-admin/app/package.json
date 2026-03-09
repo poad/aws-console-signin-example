@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.15.1",
-    "@aws-sdk/client-cognito-identity-provider": "^3.1004.0",
-    "@aws-sdk/client-iam": "^3.1004.0",
-    "@aws-sdk/client-sts": "^3.1004.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1005.0",
+    "@aws-sdk/client-iam": "^3.1005.0",
+    "@aws-sdk/client-sts": "^3.1005.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
@@ -58,6 +58,6 @@
     "stylelint": "^17.4.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.57.0"
   }
 }
