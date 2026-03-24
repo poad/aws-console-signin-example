@@ -18,7 +18,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/aws-lambda": "^8.10.161",
     "@types/node": "^24.12.0",
-    "aws-cdk": "^2.1112.0",
+    "aws-cdk": "^2.1113.0",
     "eslint": "^9.39.4",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
@@ -28,12 +28,12 @@
     "jiti": "^2.6.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.1"
+    "typescript-eslint": "^8.57.2"
   },
   "dependencies": {
     "@aws-console-signin-example/common-cognito-singin": "link:common/cognito-singin",
-    "aws-cdk-lib": "^2.243.0",
-    "constructs": "^10.5.1",
+    "aws-cdk-lib": "^2.244.0",
+    "constructs": "^10.6.0",
     "source-map-support": "^0.5.21"
   }
 }
