@@ -22,9 +22,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.1015.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.1015.0",
-    "@aws-sdk/client-sts": "^3.1015.0",
+    "@aws-sdk/client-cognito-identity": "^3.1017.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1017.0",
+    "@aws-sdk/client-sts": "^3.1017.0",
     "jwks-rsa": "^3.2.2",
     "source-map-support": "^0.5.21"
   },
@@ -37,7 +37,7 @@
     "eslint": "^9.39.4",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jest": "^29.15.0",
+    "eslint-plugin-jest": "^29.15.1",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-promise": "^7.2.1",
     "jiti": "^2.6.1",
