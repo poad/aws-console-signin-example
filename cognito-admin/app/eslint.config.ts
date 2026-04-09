@@ -1,12 +1,10 @@
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import eslint from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import importPlugin from 'eslint-plugin-import';
 // @ts-expect-error ignore plugin type
 import pluginPromise from 'eslint-plugin-promise';
-import nextPlugin from '@next/eslint-plugin-next';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
 import globals from 'globals';
 import { configs, parser } from 'typescript-eslint';
 
@@ -19,6 +17,16 @@ const __dirname = path.dirname(__filename);
 const gitignorePath = path.resolve(__dirname, './.gitignore');
 
 export default defineConfig(
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+  ]),
   includeIgnoreFile(gitignorePath),
   {
     ignores: [
@@ -35,46 +43,28 @@ export default defineConfig(
   ...configs.strict,
   ...configs.stylistic,
   pluginPromise.configs['flat/recommended'],
-  reactHooks.configs.flat.recommended,
-  // reactRefresh.configs.recommended,
   {
     files: ['**/*.ts', '**/*.tsx'],
-    ...react.configs.flat.recommended,
-    ...react.configs.flat['jsx-runtime'],
     languageOptions: {
-      ...react.configs.flat.recommended.languageOptions,
       parser,
       globals: {
         ...globals.serviceworker,
         ...globals.browser,
       },
-    },
-    extends: [
-      importPlugin.flatConfigs.recommended,
-      importPlugin.flatConfigs.typescript,
-    ],
-    settings: {
-      react: {
-        version: 'detect',
-      },
-      formComponents: ['Form'],
-      linkComponents: [
-        { name: 'Link', linkAttribute: 'to' },
-        { name: 'NavLink', linkAttribute: 'to' },
-      ],
-      'import/internal-regex': '^~/',
-      'import/resolver': {
-        node: {
-          extensions: ['.ts', '.tsx'],
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ['eslint.config.ts', 'next.config.ts'],
         },
-        typescript: {
-          alwaysTryTypes: true,
-        },
+        tsconfigRootDir: __dirname,
       },
     },
     plugins: {
-      '@next/next': nextPlugin,
       '@stylistic': stylistic,
+    },
+    settings: {
+      react: {
+        version: '19.2',
+      },
     },
     rules: {
       '@stylistic/semi': 'error',
@@ -82,11 +72,6 @@ export default defineConfig(
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
       '@stylistic/arrow-parens': ['error', 'always'],
       '@stylistic/quotes': ['error', 'single'],
-      'promise/catch-or-return': 'off',
-      'promise/always-return': 'off',
-      'react-hooks/preserve-manual-memoization': 'off',
-      'react-hooks/rules-of-hooks': 'off',
-      'react-hooks/exhaustive-deps': 'off',
     },
   },
 );

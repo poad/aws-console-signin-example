@@ -42,15 +42,14 @@ class IamClient {
 
   listRoles = async (): Promise<IamRole[]> => {
     let marker;
-    let isTruncated;
     const resps: ListRolesResponse[] = [];
     const mapper = (resp: ListRolesResponse) => {
       marker = resp.Marker;
       resps.push(resp);
     };
     do {
-      this.listRole(marker).then(mapper);
-    } while (marker !== undefined && isTruncated !== true);
+      void this.listRole(marker).then(mapper);
+    } while (marker !== undefined);
 
     const roles = resps
       .filter((resp) => resp.Roles !== undefined && resp.Roles.length > 0)

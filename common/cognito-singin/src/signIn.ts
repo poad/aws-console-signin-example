@@ -1,3 +1,4 @@
+import { SignInParam, SimpleLogger } from './types';
 import {
   CognitoIdentityClient,
   GetIdCommand,
@@ -12,10 +13,7 @@ import {
   AssumeRoleWithWebIdentityCommand,
   STSClient,
 } from '@aws-sdk/client-sts';
-import * as jwt from 'jsonwebtoken';
-import * as jwksClient from 'jwks-rsa';
-
-import { SignInParam, SimpleLogger } from './types';
+import * as jose from 'jose';
 
 interface TokenAuthParam {
   domain: string;
@@ -223,7 +221,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       idToken,
     });
 
-    const payload = jwt.decode(idToken) as Record<string, string | string[]>;
+    const payload = jose.decodeJwt(idToken) as Record<string, string | string[]>;
     const preferredRole = payload['cognito:preferred_role'] as string;
     const username = payload['cognito:username'] as string;
     const { email } = payload;
@@ -312,28 +310,15 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       code,
     });
 
-    const client = new jwksClient.JwksClient({
-      jwksUri: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/.well-known/jwks.json`,
-    });
+    const jwks = jose.createRemoteJWKSet(
+      new URL(
+        `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/.well-known/jwks.json`,
+      ),
+    );
 
-    const getKey = (
-      header: jwt.JwtHeader,
-      callback: jwt.SigningKeyCallback,
-    ) => {
-      if (!header.kid) throw new Error('not found kid!');
-      client.getSigningKey(header.kid, (err, key) => {
-        if (err) throw err;
-        callback(null, key?.getPublicKey());
-      });
-    };
+    const { idToken, expiresIn } = oauthToken;
 
-    const { idToken } = oauthToken;
-    const tokenExpiration = oauthToken.expiresIn;
-
-    jwt.verify(idToken, getKey, (err, decoded) => {
-      if (err) throw err;
-      logger.error(decoded ? JSON.stringify(decoded) : 'undefined');
-    });
+    await jose.jwtVerify(idToken, jwks);
 
     const identityId = await getId(identityClient, {
       idPoolId,
@@ -341,7 +326,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       idToken,
     });
 
-    const payload = jwt.decode(idToken) as Record<string, string | string[]>;
+    const payload = jose.decodeJwt(idToken) as Record<string, string | string[]>;
     const preferredRole = payload['cognito:preferred_role'] as string;
     const username = payload['cognito:username'] as string;
     const { email } = payload;
@@ -374,7 +359,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
         tokens: {
           idToken,
           refreshToken,
-          expiration: tokenExpiration,
+          expiration: expiresIn,
         },
       };
     } catch (e) {

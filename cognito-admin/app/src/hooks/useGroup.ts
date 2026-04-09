@@ -9,6 +9,6 @@ export const useGroup = (
   const loadGroup = useCallback(async (origin: Group) => {
     const users = await client.listUsersInGroup(origin.groupName);
     setGroup({ ...origin, users });
-  }, []);
+  }, [client]);
   return { group, loadGroup };
 };

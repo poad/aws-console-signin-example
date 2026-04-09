@@ -32,25 +32,27 @@ export const useUserDetail = (
   const [groups, setGroups] = useState<string[]>([]);
 
   useEffect(() => {
-    client
+    void client
       .listGroups()
       .then((items) => items.map((item) => item.groupName))
       .then(setGroups)
       .then(() => {
         setOpen(initOpen);
         setDetail(user);
+        return;
       });
   }, [client, user, initOpen]);
 
   const deleteUser = () => {
     if (detail) {
-      client
+      void client
         .deleteUser(detail.username)
         .then(() => {
           if (onDelete) {
             onDelete(detail);
           }
           setDetail(undefined);
+          return;
         })
         .finally(() => {
           setConfirm(false);
@@ -66,13 +68,14 @@ export const useUserDetail = (
     if (detail && detail.attributes.status !== 'FORCE_CHANGE_PASSWORD') {
       const newDetail = { ...detail };
       newDetail.status = 'FORCE_CHANGE_PASSWORD';
-      client
+      void client
         .resetUserPassword(detail.username)
         .then(() => {
           setDetail(newDetail);
           if (onUpdate) {
             onUpdate(newDetail);
           }
+          return;
         })
         .finally(() => {
           onClose();
@@ -88,13 +91,14 @@ export const useUserDetail = (
     if (detail) {
       const newDetail = { ...detail };
       newDetail.enabled = 'false';
-      client
+      void client
         .disableUser(detail.username)
         .then(() => {
           setDetail(newDetail);
           if (onUpdate) {
             onUpdate(newDetail);
           }
+          return;
         })
         .finally(() => {
           onClose();
@@ -110,13 +114,14 @@ export const useUserDetail = (
     if (detail) {
       const newDetail = { ...detail };
       newDetail.enabled = 'true';
-      client
+      void client
         .enableUser(detail.username)
         .then(() => {
           setDetail(newDetail);
           if (onUpdate) {
             onUpdate(newDetail);
           }
+          return;
         })
         .finally(() => {
           onClose();

@@ -27,7 +27,9 @@
     "esModuleInterop": true,
     "rootDirs": [
       "src"
-    ]
+    ],
+    "noEmit": true,
+    "types": ["node"]
   },
-  "exclude": ["dist"]
+  "exclude": ["dist", "eslint.config.ts"]
 }

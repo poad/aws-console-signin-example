@@ -45,7 +45,8 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "types": ["node"]
   },
   "exclude": [
     "node_modules",

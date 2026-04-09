@@ -32,10 +32,13 @@
       "@aws-console-signin-example/cognito-singin": [
         "../common/cognito-singin/src"
       ]
-    }
+    },
+    "noEmit": true,
+    "types": ["node"]
   },
   "exclude": [
     "node_modules",
-    "cdk.out"
+    "cdk.out",
+    "eslint.config.ts"
   ]
 }

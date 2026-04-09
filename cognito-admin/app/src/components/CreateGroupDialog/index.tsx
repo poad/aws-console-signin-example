@@ -66,12 +66,13 @@ const CreateGroupDialog = ({
       precedence: data.precedence || 0,
       roleArn: role === '' ? undefined : role,
     };
-    client
+    void client
       .createGroup(newGroup)
       .then((group) => {
         if (onCreate !== undefined) {
           onCreate(group);
         }
+        return;
       })
       .catch((err) => {
         if (onError !== undefined) {

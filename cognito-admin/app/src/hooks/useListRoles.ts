@@ -1,7 +1,7 @@
 import { IamRole } from '../interfaces';
 import IamClient from '../service/IamClient';
 import { appConfig } from '../aws-config';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const useListRoles = (
   iamClient: IamClient,
@@ -27,7 +27,7 @@ export const useListRoles = (
     return filered;
   };
 
-  const loadRoles = async () =>
+  const loadRoles = useCallback(async () =>
     iamClient
       .listRoles()
       .then((items) => {
@@ -47,11 +47,12 @@ export const useListRoles = (
         setState(s);
         return s;
       })
-      .catch((error) => setState({ error, loaded: false }));
+      .catch((error) => setState({ error, loaded: false })),
+  [iamClient]);
 
   useEffect(() => {
     loadRoles();
-  }, []);
+  }, [loadRoles]);
 
   return { roles: state.data, error: state.error, loaded: state.loaded };
 };

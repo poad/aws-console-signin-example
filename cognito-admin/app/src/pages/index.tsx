@@ -40,7 +40,7 @@ function Home(props?: HomeProps): JSX.Element {
     open: false,
   });
   if (authStatus === 'authenticated') {
-    fetchAuthSession()
+    void fetchAuthSession()
       .then((session) => {
         if (session.credentials) {
           const credentials = {
@@ -62,6 +62,7 @@ function Home(props?: HomeProps): JSX.Element {
             loaded: true,
           });
         }
+        return;
       })
       .catch((error) => setState({ error, loaded: false }));
   }

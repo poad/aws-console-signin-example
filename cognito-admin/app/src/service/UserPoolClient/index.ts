@@ -140,7 +140,7 @@ class UserPoolClient {
   }
 
   async deleteGroup(groupName: string): Promise<void> {
-    Promise.resolve(
+    void Promise.resolve(
       await this.client.send(
         new DeleteGroupCommand({
           UserPoolId: this.userPoolId,

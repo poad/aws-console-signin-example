@@ -13,6 +13,6 @@ export const useUser = (
   const loadUser = useCallback(async (origin: User) => {
     const groups = await client.listGroupsForUser(origin.username);
     setUser({ ...origin, groups });
-  }, []);
+  }, [client]);
   return { user, setUser, loadUser };
 };

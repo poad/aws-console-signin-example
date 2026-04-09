@@ -10,14 +10,14 @@ import * as idp from '@aws-sdk/client-cognito-identity-provider';
 import { Construct } from 'constructs';
 
 export interface InfraStackStackProps extends cdk.StackProps {
-  adminUserPool: string;
-  endUserPool: string;
-  region: string;
-  environment: string;
-  domain: string;
-  endUserDomain: string;
-  provider: string;
-  lambda: {
+  readonly adminUserPool: string;
+  readonly endUserPool: string;
+  readonly region: string;
+  readonly environment: string;
+  readonly domain: string;
+  readonly endUserDomain: string;
+  readonly provider: string;
+  readonly lambda: {
     app: {
       userMaagement: {
         name: string;
@@ -25,11 +25,11 @@ export interface InfraStackStackProps extends cdk.StackProps {
       };
     };
   };
-  groupRoleClassificationTag: {
+  readonly groupRoleClassificationTag: {
     name: string | undefined;
     value: string | undefined;
   };
-  testRoles: number | undefined;
+  readonly testRoles: number | undefined;
 }
 
 export class InfraStack extends cdk.Stack {
@@ -197,7 +197,7 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
-    const endUserPool = new cognito.UserPool(this, endUserPoolName, {
+    const endUserPool = new cognito.UserPool(this, 'EndUserPool', {
       userPoolName: endUserPoolName,
       signInAliases: {
         username: true,
@@ -288,7 +288,7 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
-    const adminUserPool = new cognito.UserPool(this, adminUserPoolName, {
+    const adminUserPool = new cognito.UserPool(this, 'AdminUserPool', {
       userPoolName: adminUserPoolName,
       signInAliases: {
         username: true,

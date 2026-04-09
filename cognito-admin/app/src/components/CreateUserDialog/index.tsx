@@ -46,7 +46,7 @@ function CreateUserDialog({
   // const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    client
+    void client
       .createUser({
         ...data,
       })
@@ -54,6 +54,7 @@ function CreateUserDialog({
         if (onCreate !== undefined) {
           onCreate(user);
         }
+        return;
       })
       .catch((err) => {
         if (onError !== undefined) {

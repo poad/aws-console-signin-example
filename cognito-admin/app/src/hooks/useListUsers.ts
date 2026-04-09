@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { User } from '../interfaces';
 import UserPoolClient from '../service/UserPoolClient';
 
@@ -9,7 +9,7 @@ export const useListUsers = (client: UserPoolClient) => {
     loaded: boolean;
   }>({ loaded: false });
 
-  const loadUsers = async () =>
+  const loadUsers = useCallback(async () =>
     client
       .listUsers()
       .then((items) =>
@@ -40,11 +40,12 @@ export const useListUsers = (client: UserPoolClient) => {
           loaded: true,
         }),
       )
-      .catch((error) => setState({ error, loaded: false }));
+      .catch((error) => setState({ error, loaded: false })),
+  [client]);
 
   useEffect(() => {
     loadUsers();
-  }, [client]);
+  }, [loadUsers]);
 
   return {
     users: state.data,

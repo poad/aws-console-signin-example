@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import { App } from 'aws-cdk-lib';
 import {
   LambdaExamplesStack,
   type GroupConfig,
 } from '../lib/lambda-examples-stack';
+import { App } from 'aws-cdk-lib';
 
 interface Context {
   region: string;

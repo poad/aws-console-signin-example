@@ -33,14 +33,14 @@ export interface GroupConfig {
 }
 
 export interface LambdaExamplesStackProps extends StackProps {
-  name: string;
-  region: string;
-  environment: string;
-  groups: GroupConfig[];
-  domain: string;
-  auth0Domain?: string;
-  providers?: string;
-  Lambda: {
+  readonly name: string;
+  readonly region: string;
+  readonly environment: string;
+  readonly groups: GroupConfig[];
+  readonly domain: string;
+  readonly auth0Domain?: string;
+  readonly providers?: string;
+  readonly Lambda: {
     app: {
       signIn: {
         name: string;
@@ -98,7 +98,7 @@ export interface LambdaExamplesStackProps extends StackProps {
       };
     };
   };
-  targetTags: string[];
+  readonly targetTags: string[];
 }
 
 export class LambdaExamplesStack extends Stack {

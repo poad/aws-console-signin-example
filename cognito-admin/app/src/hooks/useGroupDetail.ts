@@ -20,21 +20,23 @@ export const useGroupDetail = (
 
   const deleteGroup = useCallback(() => {
     if (detail) {
-      client.deleteGroup(detail.groupName).then(() => {
+      return client.deleteGroup(detail.groupName).then(() => {
         if (onDelete) {
           onDelete(detail);
         }
         setDetail(undefined);
+        return undefined;
       });
     }
-  }, []);
+    return undefined;
+  }, [client, detail, onDelete]);
 
-  const updateGroup = async (newGroup: Group) => {
+  const updateGroup = useCallback(async (newGroup: Group) => {
     const result = await client.updateGroup(newGroup);
     if (onUpdate) {
       onUpdate(result);
     }
-  };
+  }, [client, onUpdate]);
 
   const changeGroupRole = useCallback((newRole: string) => {
     if (
@@ -49,12 +51,12 @@ export const useGroupDetail = (
       } as Group);
       setAttacheRole(undefined);
     }
-  }, []);
+  }, [detail, updateGroup]);
 
   const updateGroupRole = useCallback(() => {
     updateGroup({ ...detail, roleArn: attacheRole } as Group);
     setAttacheRole(undefined);
-  }, []);
+  }, [attacheRole, detail, updateGroup]);
 
   const clearAttacheRole = useCallback(() => {
     setAttacheRole(undefined);
