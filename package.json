@@ -11,11 +11,11 @@
     "prebuild": "pnpm -r install"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.3",
+    "@eslint/compat": "^2.0.4",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "eslint-config-next": "^16.2.2",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-flowtype": "^8.0.3",
