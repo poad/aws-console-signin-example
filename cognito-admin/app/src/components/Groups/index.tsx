@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/material';
-import React, { JSX, useState, useEffect } from 'react';
+import React, { JSX, useMemo, useState } from 'react';
 import IamClient from '../../service/IamClient';
 import UserPoolClient from '../../service/UserPoolClient';
 import { ErrorDialogProps, Group } from '../../interfaces';
@@ -41,23 +41,18 @@ const Groups = ({
   const { group, loadGroup } = useGroup(client);
 
   const [openGroup, setOpenGroup] = useState<boolean>(false);
+  const [manualError, setManualError] = useState<Error | null>(null);
 
-  const [errorDialog, setErrorDialog] = useState<ErrorDialogProps>({
-    open: false,
-  });
+  const effectiveError = manualError ?? error ?? null;
 
-  useEffect(() => {
-    if (error) {
-      setErrorDialog({
-        open: true,
-        message: error.name !== undefined ? error.name : JSON.stringify(error),
-      });
-    }
-  }, [error]);
+  const errorDialog = useMemo<ErrorDialogProps>(() => ({
+    open: effectiveError !== null,
+    message: effectiveError?.name ?? JSON.stringify(effectiveError),
+  }), [effectiveError]);
 
   const backdropClose = () => {
     clearError();
-    setErrorDialog({ open: false });
+    setManualError(null);
   };
 
   const onOpenGroup = (origin: Group) => {
@@ -90,10 +85,7 @@ const Groups = ({
 
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onError = (err: any) => {
-    setErrorDialog({
-      open: true,
-      message: err.name !== undefined ? err.name : JSON.stringify(err),
-    });
+    setManualError(new Error(err.name !== undefined ? err.name : JSON.stringify(err)));
   };
 
   return (
