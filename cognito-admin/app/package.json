@@ -16,17 +16,17 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.15.3",
-    "@aws-sdk/client-cognito-identity-provider": "^3.1041.0",
-    "@aws-sdk/client-iam": "^3.1041.0",
-    "@aws-sdk/client-sts": "^3.1041.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1043.0",
+    "@aws-sdk/client-iam": "^3.1043.0",
+    "@aws-sdk/client-sts": "^3.1043.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.10",
     "@mui/material": "^7.3.10",
-    "aws-amplify": "^6.16.4",
-    "next": "^16.2.4",
+    "aws-amplify": "^6.17.0",
+    "next": "^16.2.6",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.75.0",
@@ -48,11 +48,11 @@
     "eslint-config-next": "^16.2.4",
     "eslint-import-resolver-typescript": "^4.4.4",
     "globals": "^17.6.0",
-    "jiti": "^2.6.1",
+    "jiti": "^2.7.0",
     "next-transpile-modules": "^10.0.1",
-    "stylelint": "^17.9.1",
+    "stylelint": "^17.11.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.1"
+    "typescript-eslint": "^8.59.2"
   }
 }
