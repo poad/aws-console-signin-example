@@ -13,7 +13,6 @@ minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeExclude:
   - postcss@8.5.10
   - pnpm@11.6.0
-  - esbuild@0.28.1
   - '@esbuild/aix-ppc64@0.28.1'
   - '@esbuild/android-arm64@0.28.1'
   - '@esbuild/android-arm@0.28.1'
@@ -40,11 +39,7 @@ minimumReleaseAgeExclude:
   - '@esbuild/win32-arm64@0.28.1'
   - '@esbuild/win32-ia32@0.28.1'
   - '@esbuild/win32-x64@0.28.1'
-
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - esbuild
-  - unrs-resolver
+  - esbuild@0.28.1
 
 overrides:
   chokidar: '>=5'
