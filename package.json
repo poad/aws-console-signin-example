@@ -12,21 +12,21 @@
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
-    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "eslint": "^10.5.0",
-    "eslint-config-next": "^16.2.9",
+    "eslint": "^10.7.0",
+    "eslint-config-next": "^16.2.11",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jest": "^29.15.2",
+    "eslint-plugin-jest": "^29.15.5",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "jiti": "^2.7.0",
-    "typescript-eslint": "^8.62.0"
+    "typescript-eslint": "^8.65.0"
   },
   "devEngines": {
     "packageManager": {
@@ -40,7 +40,7 @@
     "yarn": "use pnpm please!",
     "runtime": {
       "name": "node",
-      "version": "^24.18.0",
+      "version": "^24.18.1",
       "onFail": "download"
     }
   },
