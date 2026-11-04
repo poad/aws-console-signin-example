@@ -14,8 +14,8 @@
     "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "eslint": "^10.12.0",
-    "eslint-config-next": "^16.4.3",
+    "eslint": "^10.13.0",
+    "eslint-config-next": "^16.4.5",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.32.0",
@@ -26,17 +26,17 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.13.0",
     "jiti": "^2.7.0",
-    "typescript-eslint": "^8.71.2"
+    "typescript-eslint": "^8.72.1"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.15.0",
+      "version": "12.17.0",
       "onFail": "download"
     },
     "runtime": {
       "name": "node",
-      "version": "^24.22.1",
+      "version": "^26.13.0",
       "onFail": "download"
     }
   },
