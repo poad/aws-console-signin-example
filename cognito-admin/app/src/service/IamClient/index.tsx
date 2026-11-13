@@ -1,3 +1,4 @@
+import { IamRole } from '../../interfaces';
 import {
   GetRoleCommand,
   GetRoleResponse,
@@ -5,7 +6,6 @@ import {
   ListRolesCommand,
   ListRolesResponse,
 } from '@aws-sdk/client-iam';
-import { IamRole } from '../../interfaces';
 
 export interface ICredentials {
   accessKeyId: string;
@@ -41,14 +41,12 @@ class IamClient {
       .then((resp: ListRolesResponse) => resp);
 
   listRoles = async (): Promise<IamRole[]> => {
-    let marker;
+    let marker: string | undefined;
     const resps: ListRolesResponse[] = [];
-    const mapper = (resp: ListRolesResponse) => {
-      marker = resp.Marker;
-      resps.push(resp);
-    };
     do {
-      void this.listRole(marker).then(mapper);
+      const resp = await this.listRole(marker);
+      resps.push(resp);
+      marker = resp.Marker;
     } while (marker !== undefined);
 
     const roles = resps

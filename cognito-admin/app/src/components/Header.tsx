@@ -1,3 +1,5 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+/* oxlint-disable react/react-in-jsx-scope */
 import {
   AppBar,
   Button,
@@ -7,7 +9,6 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import '@aws-amplify/ui-react/styles.css';
 
@@ -33,24 +34,24 @@ export const Header = ({
   handleChange,
   signOut,
 }: HeaderProps) => (
-  <AppBar position="fixed" sx={{ width: 'calc(100%)' }}>
+  <AppBar position='fixed' sx={{ width: 'calc(100%)' }}>
     <Toolbar>
-      <Typography variant="h6" sx={{ flexGrow: 1 }}>
+      <Typography variant='h6' sx={{ flexGrow: 1 }}>
         Account manager
       </Typography>
       <Tabs
-        textColor="inherit"
-        indicatorColor="secondary"
+        textColor='inherit'
+        indicatorColor='secondary'
         value={tab}
         onChange={handleChange}
         sx={{ flexGrow: 1 }}
-        aria-label="menu tabs"
+        aria-label='menu tabs'
       >
-        <Tab label="Users" />
-        <Tab label="Groups" />
+        <Tab label='Users' />
+        <Tab label='Groups' />
       </Tabs>
-      <Link href={consoleUrl} target="_blank" rel="noopener" underline="none">
-        <Typography variant="h6" noWrap>
+      <Link href={consoleUrl} target='_blank' rel='noopener' underline='none'>
+        <Typography variant='h6' noWrap>
           <Button
             sx={{
               backgroundColor: '#fff',
@@ -60,11 +61,11 @@ export const Header = ({
             }}
           >
             Console
-            <OpenInNewIcon fontSize="inherit" />
+            <OpenInNewIcon fontSize='inherit' />
           </Button>
         </Typography>
       </Link>
-      <Typography variant="h6" noWrap>
+      <Typography variant='h6' noWrap>
         <Button onClick={signOut} sx={{ color: '#fff' }}>
           Sign out
         </Button>

@@ -1,3 +1,9 @@
+import { useListRoles } from '../../hooks/useListRoles';
+import { StyledTextField } from '../styled/StyledTextField';
+import type { Group } from '../../interfaces';
+import type IamClient from '../../service/IamClient';
+import type UserPoolClient from '../../service/UserPoolClient';
+/* oxlint-disable react/react-in-jsx-scope */
 import {
   Button,
   Container,
@@ -18,11 +24,6 @@ import {
 } from '@mui/material';
 import { JSX, useState, useEffect } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import type UserPoolClient from '../../service/UserPoolClient';
-import type { Group } from '../../interfaces';
-import type IamClient from '../../service/IamClient';
-import { useListRoles } from '../../hooks/useListRoles';
-import { StyledTextField } from '../styled/StyledTextField';
 
 interface CreateGroupDialogProps {
   /**
@@ -53,7 +54,7 @@ const CreateGroupDialog = ({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { roles, error, loaded } = useListRoles(iamClient);
+  const { roles, error } = useListRoles(iamClient);
 
   const [open, setOpen] = useState<boolean>(false);
   const [role, setRole] = useState<string | undefined>(undefined);
@@ -98,7 +99,7 @@ const CreateGroupDialog = ({
     if (error && onError) {
       onError(error);
     }
-  }, [error, onError, loaded]);
+  }, [error, onError]);
   const onClose = () => {
     setRole(undefined);
     setOpen(false);
@@ -111,9 +112,9 @@ const CreateGroupDialog = ({
   return (
     <Container>
       <Button
-        variant="contained"
+        variant='contained'
         style={{ margin: 8 }}
-        color="primary"
+        color='primary'
         onClick={() => setOpen(true)}
       >
         CREATE GROUP
@@ -121,63 +122,63 @@ const CreateGroupDialog = ({
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
         <DialogContent>
-          <DialogTitle id="create-user-dialog-title">
-            <Typography variant="h3" component="span" gutterBottom>
+          <DialogTitle id='create-user-dialog-title'>
+            <Typography variant='h3' component='span' gutterBottom>
               {'Create Group'}
             </Typography>
           </DialogTitle>
-          <DialogContentText id="create-user-dialog" component="div">
+          <DialogContentText id='create-user-dialog' component='div'>
             <Container>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <Paper variant="outlined">
+                <Paper variant='outlined'>
                   <StyledTextField
-                    id="groupName"
-                    label="GroupName"
-                    type="groupName"
+                    id='groupName'
+                    label='GroupName'
+                    type='groupName'
                     fullWidth
                     {...register('groupName', { required: true })}
                   />
                   <StyledTextField
-                    id="description"
-                    label="Description"
-                    type="text"
+                    id='description'
+                    label='Description'
+                    type='text'
                     fullWidth
                     {...register('description', { required: false })}
                   />
                   <StyledTextField
-                    id="precedence"
-                    label="Precedence"
-                    type="number"
+                    id='precedence'
+                    label='Precedence'
+                    type='number'
                     fullWidth
                     {...register('precedence', { required: false })}
                   />
 
                   <FormControl
-                    variant="outlined"
+                    variant='outlined'
                     fullWidth
                     style={{ paddingLeft: 2, paddingRight: 2 }}
                   >
                     <InputLabel
-                      id="roleArn-label"
+                      id='roleArn-label'
                       style={{ paddingLeft: 2, paddingRight: 2 }}
                     >
                       Role Arn
                     </InputLabel>
                     <Select
-                      labelId="roleArn-label"
+                      labelId='roleArn-label'
                       style={{ paddingLeft: 2, paddingRight: 2 }}
-                      id="roleArn"
+                      id='roleArn'
                       value={role || ''}
                       onChange={handleRoleChange}
-                      label="Role Arn"
+                      label='Role Arn'
                       fullWidth
                     >
                       <MenuItem
-                        key="None"
-                        value=""
+                        key='None'
+                        value=''
                         style={{ paddingLeft: 2, paddingRight: 2 }}
                       >
                         <em>None</em>
@@ -203,7 +204,7 @@ const CreateGroupDialog = ({
                 </Paper>
                 <DialogActions>
                   <Button
-                    type="reset"
+                    type='reset'
                     autoFocus
                     style={{ margin: 8 }}
                     onClick={onClose}
@@ -211,10 +212,10 @@ const CreateGroupDialog = ({
                     CLOSE
                   </Button>
                   <Button
-                    type="submit"
+                    type='submit'
                     style={{ margin: 8 }}
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                   >
                     CREATE
                   </Button>

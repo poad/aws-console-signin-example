@@ -2,12 +2,12 @@
   "name": "@aws-console-signin-example/common-cognito-singin",
   "version": "0.0.1",
   "license": "MIT",
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.js",
   "files": [
     "./dist/*"
   ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     "default": "./dist/index.js",
     "import": "./dist/index.js",
@@ -16,30 +16,21 @@
   },
   "scripts": {
     "build": "tsc",
-    "style:fix": "prettier --write src",
-    "style:check": "prettier --check src",
-    "lint-fix": "eslint --fix",
-    "lint": "eslint"
+    "lint-fix": "oxfmt --write . && oxlint --fix",
+    "lint": "oxfmt --check . && oxlint"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.1158.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.1158.0",
-    "@aws-sdk/client-sts": "^3.1158.0",
-    "jose": "^6.2.13"
+    "@aws-sdk/client-cognito-identity": "^3.1163.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1163.0",
+    "@aws-sdk/client-sts": "^3.1163.0",
+    "jose": "^6.2.15"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.1.1",
-    "@eslint/eslintrc": "^3.3.7",
-    "@eslint/js": "^10.0.1",
-    "@stylistic/eslint-plugin": "^5.10.0",
-    "@types/node": "^24.19.2",
-    "eslint": "^10.13.0",
-    "eslint-import-resolver-typescript": "^4.4.5",
-    "eslint-plugin-import-x": "^4.17.1",
-    "eslint-plugin-promise": "^7.3.0",
-    "jiti": "^2.7.0",
+    "@types/node": "^26.6.6",
+    "oxfmt": "^0.78.0",
+    "oxlint": "^1.93.0",
     "tsx": "^4.23.15",
-    "typescript-eslint": "^8.72.1"
+    "typescript": "^7.0.2"
   },
   "installConfig": {
     "hoistingLimits": "workspaces"

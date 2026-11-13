@@ -1,16 +1,16 @@
-import { Box, Container } from '@mui/material';
-import React, { JSX, useMemo, useState } from 'react';
+import { useGroup } from '../../hooks/useGroup';
+import { usePagenationGroups } from '../../hooks/usePagenationGroups';
+import { Page } from '../../hooks/usePagenationTable';
+import { ErrorDialogProps, Group } from '../../interfaces';
 import IamClient from '../../service/IamClient';
 import UserPoolClient from '../../service/UserPoolClient';
-import { ErrorDialogProps, Group } from '../../interfaces';
-import GroupDetail from '../GroupDetail';
 import CreateGroupDialog from '../CreateGroupDialog';
-import { Page } from '../../hooks/usePagenationTable';
-import { usePagenationGroups } from '../../hooks/usePagenationGroups';
-import { useGroup } from '../../hooks/useGroup';
-import LoadingSpinner from '../styled/LoadingSpinner';
 import ErrorDialog from '../ErrorDialog';
+import GroupDetail from '../GroupDetail';
+import LoadingSpinner from '../styled/LoadingSpinner';
 import GroupsTable from './GroupsTable';
+import { Box, Container } from '@mui/material';
+import React, { JSX, useMemo, useState } from 'react';
 
 interface GroupsProps {
   /**
@@ -45,10 +45,13 @@ const Groups = ({
 
   const effectiveError = manualError ?? error ?? null;
 
-  const errorDialog = useMemo<ErrorDialogProps>(() => ({
-    open: effectiveError !== null,
-    message: effectiveError?.name ?? JSON.stringify(effectiveError),
-  }), [effectiveError]);
+  const errorDialog = useMemo<ErrorDialogProps>(
+    () => ({
+      open: effectiveError !== null,
+      message: effectiveError?.name ?? JSON.stringify(effectiveError),
+    }),
+    [effectiveError],
+  );
 
   const backdropClose = () => {
     clearError();
@@ -85,14 +88,16 @@ const Groups = ({
 
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onError = (err: any) => {
-    setManualError(new Error(err.name !== undefined ? err.name : JSON.stringify(err)));
+    setManualError(
+      new Error(err.name !== undefined ? err.name : JSON.stringify(err)),
+    );
   };
 
   return (
     <React.Fragment>
       <LoadingSpinner expose={!loaded && !errorDialog.open} />
       <ErrorDialog
-        id="alert-dialog"
+        id='alert-dialog'
         open={errorDialog.open}
         message={JSON.stringify(errorDialog.message)}
         onClose={backdropClose}
@@ -112,7 +117,7 @@ const Groups = ({
         ''
       )}
 
-      <Box component="span" m={1}>
+      <Box sx={{ m: 1 }}>
         <Container fixed>
           <CreateGroupDialog
             client={client}

@@ -1,3 +1,8 @@
+import { Page, usePagenationTable } from '../../hooks/usePagenationTable';
+import { Group } from '../../interfaces';
+import StyledTableCell from '../styled/StyledTableCell';
+import StyledTableSortLabel from '../styled/StyledTableSortLabel';
+/* oxlint-disable react/react-in-jsx-scope */
 import {
   Table,
   TableBody,
@@ -7,10 +12,6 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import StyledTableCell from '../styled/StyledTableCell';
-import StyledTableSortLabel from '../styled/StyledTableSortLabel';
-import { Group } from '../../interfaces';
-import { Page, usePagenationTable } from '../../hooks/usePagenationTable';
 
 type TableHeadLabel =
   | 'groupName'
@@ -93,7 +94,7 @@ export const GroupsTable = ({
   return (
     <>
       <TableContainer>
-        <Table size="small" stickyHeader>
+        <Table size='small' stickyHeader>
           <TableHead>
             <TableRow>
               {headCells.map((headCell) => (
@@ -158,7 +159,7 @@ export const GroupsTable = ({
         </Table>
       </TableContainer>
       <TablePagination
-        component="span"
+        component='span'
         count={groups.length}
         rowsPerPage={page.rowsPerPage}
         rowsPerPageOptions={[10, 25, 100]}

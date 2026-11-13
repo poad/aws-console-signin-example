@@ -1,15 +1,16 @@
-import { Container, Box } from '@mui/material';
+import { useListUsers } from '../../hooks/useListUsers';
 import { Page } from '../../hooks/usePagenationTable';
 import { useUser } from '../../hooks/useUser';
-import { JSX, useState, Fragment } from 'react';
-import CreateUserDialog from '../CreateUserDialog';
-import UserDetail from '../UserDetail';
 import { User } from '../../interfaces';
 import UserPoolClient from '../../service/UserPoolClient';
-import LoadingSpinner from '../styled/LoadingSpinner';
+import CreateUserDialog from '../CreateUserDialog';
 import ErrorDialog from '../ErrorDialog';
+import LoadingSpinner from '../styled/LoadingSpinner';
+import UserDetail from '../UserDetail';
 import UsersTable from './UsersTable';
-import { useListUsers } from '../../hooks/useListUsers';
+/* oxlint-disable react/react-in-jsx-scope */
+import { Container, Box } from '@mui/material';
+import { JSX, useState, Fragment } from 'react';
 
 interface UsersProps {
   /**
@@ -60,7 +61,7 @@ const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
     <Fragment>
       <LoadingSpinner expose={!loaded && !error} />
       <ErrorDialog
-        id="alert-dialog"
+        id='alert-dialog'
         open={error != undefined}
         message={JSON.stringify(error)}
         onClose={backdropClose}
@@ -79,7 +80,7 @@ const Users = ({ client, page: initPage }: UsersProps): JSX.Element => {
         ''
       )}
 
-      <Box component="span" m={1}>
+      <Box sx={{ m: 1 }}>
         <Container fixed>
           <CreateUserDialog client={client} onCreate={onCreate} />
           {users ? (

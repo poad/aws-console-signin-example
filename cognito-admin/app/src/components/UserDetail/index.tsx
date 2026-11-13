@@ -1,3 +1,10 @@
+import { appConfig } from '../../aws-config';
+import { useUserDetail } from '../../hooks/useUserDetail';
+import { User } from '../../interfaces';
+import UserPoolClient from '../../service/UserPoolClient';
+import ReadOnlyTextField from '../ReadOnlyTextField';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+/* oxlint-disable react/react-in-jsx-scope */
 import {
   Accordion,
   AccordionDetails,
@@ -24,12 +31,6 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { JSX, useDeferredValue } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { User } from '../../interfaces';
-import UserPoolClient from '../../service/UserPoolClient';
-import { appConfig } from '../../aws-config';
-import { useUserDetail } from '../../hooks/useUserDetail';
-import ReadOnlyTextField from '../ReadOnlyTextField';
 
 interface UsersDetailProps {
   /**
@@ -114,18 +115,18 @@ const UserDetail = ({
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
         <DialogContent>
-          <DialogTitle id="user-detail-dialog-title">
-            <Typography variant="h3" component="span" gutterBottom>
+          <DialogTitle id='user-detail-dialog-title'>
+            <Typography variant='h3' component='span' gutterBottom>
               {detailValue?.username}
             </Typography>
           </DialogTitle>
-          <DialogContentText id="user-detail-dialog" component="div">
+          <DialogContentText id='user-detail-dialog' component='div'>
             <Container>
               <Paper
-                variant="outlined"
+                variant='outlined'
                 style={{
                   paddingLeft: 4,
                   paddingRight: 4,
@@ -134,46 +135,46 @@ const UserDetail = ({
                 }}
               >
                 <ReadOnlyTextField
-                  id="e-email"
-                  label="E-mail"
-                  variant="outlined"
-                  key="e-mail"
+                  id='e-email'
+                  label='E-mail'
+                  variant='outlined'
+                  key='e-mail'
                   defaultValue={detailValue?.email}
                 />
                 <ReadOnlyTextField
-                  id="createdAt"
-                  label="CreatedAt"
-                  variant="outlined"
-                  key="createdAt"
+                  id='createdAt'
+                  label='CreatedAt'
+                  variant='outlined'
+                  key='createdAt'
                   defaultValue={detailValue?.createdAt?.toLocaleString()}
                 />
                 <ReadOnlyTextField
-                  id="lastModifiedAt"
-                  label="LastModifiedAt"
-                  variant="outlined"
-                  key="lastModifiedAt"
+                  id='lastModifiedAt'
+                  label='LastModifiedAt'
+                  variant='outlined'
+                  key='lastModifiedAt'
                   defaultValue={detailValue?.lastModifiedAt?.toLocaleString()}
                 />
                 <ReadOnlyTextField
-                  id="enabled"
-                  label="Enabled"
-                  variant="outlined"
-                  key="enabled"
+                  id='enabled'
+                  label='Enabled'
+                  variant='outlined'
+                  key='enabled'
                   defaultValue={detailValue?.enabled}
                 />
                 <ReadOnlyTextField
-                  id="status"
-                  label="Status"
-                  variant="outlined"
-                  key="status"
+                  id='status'
+                  label='Status'
+                  variant='outlined'
+                  key='status'
                   defaultValue={detailValue?.status}
                 />
 
                 <Accordion style={{ marginBottom: 16 }}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="attributes-content"
-                    id="attributes-header"
+                    aria-controls='attributes-content'
+                    id='attributes-header'
                   >
                     <Typography
                       sx={{
@@ -184,55 +185,55 @@ const UserDetail = ({
                       Attributes
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails id="attributes-content">
-                    <Box border={1}>
+                  <AccordionDetails id='attributes-content'>
+                    <Box sx={{ border: 1 }}>
                       <List
-                        component="ul"
-                        id="attributes-list"
+                        component='ul'
+                        id='attributes-list'
                         dense={true}
                         disablePadding={true}
                       >
                         {detailValue?.attributes !== undefined
                           ? Object.keys(detailValue.attributes)
-                            .filter((attribute) => attribute !== 'email')
-                            .map((attributeName) => (
-                              <ListItemText
-                                key={`${detailValue.email}-attr-${attributeName}`}
-                              >
-                                <ReadOnlyTextField
-                                  id={attributeName}
-                                  label={attributeName}
-                                  variant="outlined"
-                                  key={attributeName}
-                                  defaultValue={
-                                    detailValue.attributes[attributeName]
-                                  }
-                                />
-                              </ListItemText>
-                            ))
+                              .filter((attribute) => attribute !== 'email')
+                              .map((attributeName) => (
+                                <ListItemText
+                                  key={`${detailValue.email}-attr-${attributeName}`}
+                                >
+                                  <ReadOnlyTextField
+                                    id={attributeName}
+                                    label={attributeName}
+                                    variant='outlined'
+                                    key={attributeName}
+                                    defaultValue={
+                                      detailValue.attributes[attributeName]
+                                    }
+                                  />
+                                </ListItemText>
+                              ))
                           : ''}
                       </List>
                     </Box>
                   </AccordionDetails>
                 </Accordion>
                 <FormControl
-                  variant="outlined"
+                  variant='outlined'
                   fullWidth
                   style={{ paddingLeft: 2, paddingRight: 2 }}
                 >
                   <InputLabel
-                    id="groups-label"
+                    id='groups-label'
                     style={{ paddingLeft: 2, paddingRight: 2 }}
                   >
                     Groups
                   </InputLabel>
                   <Select
-                    labelId="groups-label"
+                    labelId='groups-label'
                     style={{ paddingLeft: 2, paddingRight: 2 }}
-                    id="groups"
+                    id='groups'
                     value={detailValue?.groups || []}
                     onChange={handleGroupChange}
-                    label="Groups"
+                    label='Groups'
                     fullWidth
                     multiple
                     input={<Input />}
@@ -265,8 +266,8 @@ const UserDetail = ({
                 </Button>
                 <Button
                   style={{ margin: 8 }}
-                  variant="contained"
-                  color="secondary"
+                  variant='contained'
+                  color='secondary'
                   disabled={
                     detailValue?.attributes?.identities !== undefined &&
                     JSON.parse(detailValue.attributes.identities)
@@ -279,7 +280,7 @@ const UserDetail = ({
                 {detailValue?.enabled === 'true' ? (
                   <Button
                     style={{ margin: 8 }}
-                    variant="contained"
+                    variant='contained'
                     onClick={handleDisable}
                   >
                     DISABLE
@@ -287,8 +288,8 @@ const UserDetail = ({
                 ) : (
                   <Button
                     style={{ margin: 8 }}
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     onClick={handleEnable}
                   >
                     ENABLE
@@ -296,8 +297,8 @@ const UserDetail = ({
                 )}
                 <Button
                   style={{ margin: 8 }}
-                  variant="contained"
-                  color="primary"
+                  variant='contained'
+                  color='primary'
                   onClick={handleResetPassword}
                   disabled={detailValue?.status === 'FORCE_CHANGE_PASSWORD'}
                 >
@@ -311,20 +312,20 @@ const UserDetail = ({
       <Dialog
         open={confirm}
         onClose={handleCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{'Delete User?'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'Delete User?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             Can&apost undo it. Do you want to delete user?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="primary" autoFocus>
+          <Button onClick={handleCancel} color='primary' autoFocus>
             CANCEL
           </Button>
-          <Button onClick={handleDelete} color="secondary">
+          <Button onClick={handleDelete} color='secondary'>
             DELETE
           </Button>
         </DialogActions>

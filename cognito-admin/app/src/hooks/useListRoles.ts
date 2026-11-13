@@ -1,6 +1,6 @@
+import { appConfig } from '../aws-config';
 import { IamRole } from '../interfaces';
 import IamClient from '../service/IamClient';
-import { appConfig } from '../aws-config';
 import { useState, useEffect, useCallback } from 'react';
 
 export const useListRoles = (
@@ -12,23 +12,22 @@ export const useListRoles = (
     loaded: boolean;
   }>({ loaded: false });
 
-  const filterGroupRoles = (iamRoles: IamRole[]): IamRole[] => {
-    const name = appConfig.groupRoleClassificationTagName;
-    const value = appConfig.groupRoleClassificationTagValue;
-    const check = name !== undefined && value !== undefined;
-    const filered = check
-      ? iamRoles.filter(
-        (iamRole) =>
-          iamRole.tags?.find(
-            (tag) => tag.key === name && tag.value === value,
-          ) !== undefined,
-      )
-      : iamRoles;
-    return filered;
-  };
-
-  const loadRoles = useCallback(async () =>
-    iamClient
+  const loadRoles = useCallback(async () => {
+    const filterGroupRoles = (iamRoles: IamRole[]): IamRole[] => {
+      const name = appConfig.groupRoleClassificationTagName;
+      const value = appConfig.groupRoleClassificationTagValue;
+      const check = name !== undefined && value !== undefined;
+      const filered = check
+        ? iamRoles.filter(
+            (iamRole) =>
+              iamRole.tags?.find(
+                (tag) => tag.key === name && tag.value === value,
+              ) !== undefined,
+          )
+        : iamRoles;
+      return filered;
+    };
+    return iamClient
       .listRoles()
       .then((items) => {
         return items;
@@ -47,8 +46,8 @@ export const useListRoles = (
         setState(s);
         return s;
       })
-      .catch((error) => setState({ error, loaded: false })),
-  [iamClient]);
+      .catch((error) => setState({ error, loaded: false }));
+  }, [iamClient]);
 
   useEffect(() => {
     loadRoles();

@@ -1,3 +1,4 @@
+/* oxlint-disable react/react-in-jsx-scope */
 import { Backdrop, useTheme, styled } from '@mui/material';
 import Loader from 'react-loader';
 
@@ -18,7 +19,7 @@ export const LoadingSpinner = ({ expose }: { expose: boolean }) => {
     <Backdrop
       open={expose}
       invisible={!expose}
-      color="#fff"
+      color='#fff'
       sx={{
         zIndex: theme.zIndex.drawer + 1,
       }}

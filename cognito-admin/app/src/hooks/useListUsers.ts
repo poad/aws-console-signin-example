@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
 import { User } from '../interfaces';
 import UserPoolClient from '../service/UserPoolClient';
+import { useState, useEffect, useCallback } from 'react';
 
 export const useListUsers = (client: UserPoolClient) => {
   const [state, setState] = useState<{
@@ -9,23 +9,14 @@ export const useListUsers = (client: UserPoolClient) => {
     loaded: boolean;
   }>({ loaded: false });
 
-  const loadUsers = useCallback(async () =>
-    client
-      .listUsers()
-      .then((items) =>
-        setState({
-          data: items.map(
-            ({
-              username,
-              attributes,
-              createdAt,
-              lastModifiedAt,
-              enabled,
-              status,
-              mfa,
-            }) => {
-              const { email } = attributes;
-              return {
+  const loadUsers = useCallback(
+    async () =>
+      client
+        .listUsers()
+        .then((items) =>
+          setState({
+            data: items.map(
+              ({
                 username,
                 attributes,
                 createdAt,
@@ -33,15 +24,26 @@ export const useListUsers = (client: UserPoolClient) => {
                 enabled,
                 status,
                 mfa,
-                email,
-              } as User;
-            },
-          ),
-          loaded: true,
-        }),
-      )
-      .catch((error) => setState({ error, loaded: false })),
-  [client]);
+              }) => {
+                const { email } = attributes;
+                return {
+                  username,
+                  attributes,
+                  createdAt,
+                  lastModifiedAt,
+                  enabled,
+                  status,
+                  mfa,
+                  email,
+                } as User;
+              },
+            ),
+            loaded: true,
+          }),
+        )
+        .catch((error) => setState({ error, loaded: false })),
+    [client],
+  );
 
   useEffect(() => {
     loadUsers();

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { User } from '../interfaces';
 import UserPoolClient from '../service/UserPoolClient';
+import { useEffect, useState } from 'react';
 
 export const useUserDetail = (
   initOpen: boolean,

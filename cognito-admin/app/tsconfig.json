@@ -12,12 +12,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext.asynciterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext.asynciterable", "esnext"],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -26,19 +21,11 @@
     "isolatedModules": true,
     "sourceRoot": "src",
     "jsxImportSource": "@emotion/react",
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./node_modules/@types"],
     "paths": {
-      "~/*": [
-        "../*"
-      ],
-      "@/*": [
-        "../*"
-      ],
-      "../*": [
-        "../*"
-      ]
+      "~/*": ["../*"],
+      "@/*": ["../*"],
+      "../*": ["../*"]
     },
     "incremental": true,
     "plugins": [

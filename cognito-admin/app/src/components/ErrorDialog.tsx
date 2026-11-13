@@ -1,5 +1,6 @@
-import { Dialog, DialogContent, DialogContentText } from '@mui/material';
 import { ErrorDialogProps } from '../interfaces';
+/* oxlint-disable react/react-in-jsx-scope */
+import { Dialog, DialogContent, DialogContentText } from '@mui/material';
 
 export const ErrorDialog = ({
   id,

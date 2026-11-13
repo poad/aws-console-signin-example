@@ -221,7 +221,10 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       idToken,
     });
 
-    const payload = jose.decodeJwt(idToken) as Record<string, string | string[]>;
+    const payload = jose.decodeJwt(idToken) as Record<
+      string,
+      string | string[]
+    >;
     const preferredRole = payload['cognito:preferred_role'] as string;
     const username = payload['cognito:username'] as string;
     const { email } = payload;
@@ -231,7 +234,7 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       preferredRole !== undefined
         ? preferredRole
         : (await getDefaultRoles(identityClient, { idPoolId })).Roles
-          ?.authenticated;
+            ?.authenticated;
 
     logger.debug(`role arn: ${roleArn}`);
     try {
@@ -326,7 +329,10 @@ export const cognitoSignInClient = (initParam: { logger?: SimpleLogger }) => {
       idToken,
     });
 
-    const payload = jose.decodeJwt(idToken) as Record<string, string | string[]>;
+    const payload = jose.decodeJwt(idToken) as Record<
+      string,
+      string | string[]
+    >;
     const preferredRole = payload['cognito:preferred_role'] as string;
     const username = payload['cognito:username'] as string;
     const { email } = payload;

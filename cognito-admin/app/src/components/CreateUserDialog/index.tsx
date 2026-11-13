@@ -1,3 +1,6 @@
+import { User } from '../../interfaces';
+import UserPoolClient from '../../service/UserPoolClient';
+/* oxlint-disable react/react-in-jsx-scope */
 import {
   Button,
   Container,
@@ -13,8 +16,6 @@ import {
 } from '@mui/material';
 import { JSX, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import UserPoolClient from '../../service/UserPoolClient';
-import { User } from '../../interfaces';
 
 interface CreateUserDialogProps {
   /**
@@ -74,9 +75,9 @@ function CreateUserDialog({
   return (
     <Container>
       <Button
-        variant="contained"
+        variant='contained'
         style={{ margin: 8 }}
-        color="primary"
+        color='primary'
         onClick={() => setOpen(true)}
       >
         CREATE USER
@@ -84,36 +85,36 @@ function CreateUserDialog({
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
         <DialogContent>
-          <DialogTitle id="create-user-dialog-title">
-            <Typography variant="h3" component="span" gutterBottom>
+          <DialogTitle id='create-user-dialog-title'>
+            <Typography variant='h3' component='span' gutterBottom>
               {'Create User'}
             </Typography>
           </DialogTitle>
-          <DialogContentText id="create-user-dialog" component="div">
+          <DialogContentText id='create-user-dialog' component='div'>
             <Container>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
-                  id="username"
-                  label="Username"
-                  type="username"
+                  id='username'
+                  label='Username'
+                  type='username'
                   style={{ margin: 8 }}
-                  margin="dense"
+                  margin='dense'
                   {...register('username', { required: true })}
                 />
                 <TextField
-                  id="email"
-                  label="Email Address"
-                  type="name"
+                  id='email'
+                  label='Email Address'
+                  type='name'
                   style={{ margin: 8 }}
-                  margin="dense"
+                  margin='dense'
                   {...register('email', { required: true })}
                 />
                 <DialogActions>
                   <Button
-                    type="reset"
+                    type='reset'
                     autoFocus
                     style={{ margin: 8 }}
                     onClick={onClose}
@@ -121,10 +122,10 @@ function CreateUserDialog({
                     CLOSE
                   </Button>
                   <Button
-                    type="submit"
+                    type='submit'
                     style={{ margin: 8 }}
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                   >
                     CREATE
                   </Button>

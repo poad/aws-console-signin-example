@@ -1,13 +1,13 @@
-import {
-  AdminLinkProviderForUserCommand,
-  CognitoIdentityProviderClient,
-} from '@aws-sdk/client-cognito-identity-provider';
 import type {
   Callback,
   Context,
   PostAuthenticationTriggerEvent,
   PostAuthenticationTriggerHandler,
 } from 'aws-lambda';
+import {
+  AdminLinkProviderForUserCommand,
+  CognitoIdentityProviderClient,
+} from '@aws-sdk/client-cognito-identity-provider';
 
 export const handler: PostAuthenticationTriggerHandler = async (
   event: PostAuthenticationTriggerEvent,

@@ -1,9 +1,10 @@
-import { JSX } from 'react';
-import { AppProps } from 'next/app';
-import Head from 'next/head';
+import theme from '../styles/theme';
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from '../styles/theme';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+/* oxlint-disable react/react-in-jsx-scope */
+import { JSX } from 'react';
 
 const App = (props: AppProps): JSX.Element => {
   const { Component, pageProps } = props;
@@ -12,7 +13,7 @@ const App = (props: AppProps): JSX.Element => {
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <Head>
         <title>Account manager</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       {/* ThemeProvider makes the theme available down the React
           tree thanks to React context. */}

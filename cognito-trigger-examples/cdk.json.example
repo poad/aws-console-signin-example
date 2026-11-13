@@ -1,9 +1,7 @@
 {
   "app": "pnpm lint && pnpm dlx tsx bin/lambda-examples.ts",
   "watch": {
-    "include": [
-      "**"
-    ],
+    "include": ["**"],
     "exclude": [
       "README.md",
       "cdk*.json",

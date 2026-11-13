@@ -1,3 +1,5 @@
+import { User, Group } from '../../interfaces';
+import { ICredentials } from '../IamClient';
 import {
   AdminAddUserToGroupCommand,
   AdminCreateUserCommand,
@@ -17,8 +19,6 @@ import {
   UpdateGroupCommand,
   UserType,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { User, Group } from '../../interfaces';
-import { ICredentials } from '../IamClient';
 
 interface CreateUserParam {
   username: string;
@@ -87,9 +87,9 @@ class UserPoolClient {
         mfa:
           user.MFAOptions !== undefined
             ? user.MFAOptions.map((mfaOption) => ({
-              deliveryMedium: mfaOption.DeliveryMedium,
-              ttributeName: mfaOption.AttributeName,
-            }))
+                deliveryMedium: mfaOption.DeliveryMedium,
+                ttributeName: mfaOption.AttributeName,
+              }))
             : [],
         group,
         groups: undefined,

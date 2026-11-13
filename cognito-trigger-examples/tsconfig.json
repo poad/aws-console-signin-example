@@ -2,10 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "es2022",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
+    "lib": ["ES2022", "DOM"],
     "skipLibCheck": true,
     "declaration": true,
     "strict": true,
@@ -23,11 +20,7 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "moduleResolution": "bundler",
-    "rootDirs": [
-      "bin",
-      "lib",
-      "lambda"
-    ],
+    "rootDirs": ["bin", "lib", "lambda"],
     "paths": {
       "@aws-console-signin-example/cognito-singin": [
         "../common/cognito-singin/src"
@@ -36,9 +29,5 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "exclude": [
-    "node_modules",
-    "cdk.out",
-    "eslint.config.ts"
-  ]
+  "exclude": ["node_modules", "cdk.out", "eslint.config.ts"]
 }

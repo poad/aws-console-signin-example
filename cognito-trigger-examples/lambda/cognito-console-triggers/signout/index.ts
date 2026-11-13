@@ -1,12 +1,12 @@
+import type {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyStructuredResultV2,
+} from 'aws-lambda';
 import {
   CognitoIdentityProviderClient,
   GlobalSignOutCommand,
   InitiateAuthCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import type {
-  APIGatewayProxyEventV2,
-  APIGatewayProxyStructuredResultV2,
-} from 'aws-lambda';
 
 interface EnvironmentVariables {
   clientId: string;

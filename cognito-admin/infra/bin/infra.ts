@@ -43,6 +43,7 @@ const {
   groupRoleClassificationTagValue,
 } = context;
 
+// oxlint-disable-next-line no-new
 new InfraStack(app, `${env}-cognito-admin-stack`, {
   adminUserPool: `${env}-cognito-admin-user-pool`,
   endUserPool: `${env}-cognito-admin-end-user-pool`,

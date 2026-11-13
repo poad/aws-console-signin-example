@@ -1,11 +1,11 @@
-import {
-  CognitoIdentityProviderClient,
-  GetUserCommand,
-} from '@aws-sdk/client-cognito-identity-provider';
 import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyStructuredResultV2,
 } from 'aws-lambda';
+import {
+  CognitoIdentityProviderClient,
+  GetUserCommand,
+} from '@aws-sdk/client-cognito-identity-provider';
 
 interface EnvironmentVariables {
   clientId: string;

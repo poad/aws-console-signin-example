@@ -1,12 +1,12 @@
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as idp from '@aws-sdk/client-cognito-identity-provider';
 import * as cdk from 'aws-cdk-lib';
-import * as awslogs from 'aws-cdk-lib/aws-logs';
-import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
 import * as integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
-import * as idp from '@aws-sdk/client-cognito-identity-provider';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as awslogs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
 export interface InfraStackStackProps extends cdk.StackProps {
@@ -146,13 +146,19 @@ export class InfraStack extends cdk.Stack {
     api.addRoutes({
       path: '/signin',
       methods: [apigatewayv2.HttpMethod.GET, apigatewayv2.HttpMethod.POST],
-      integration: new integrations.HttpLambdaIntegration('signin-handler', signInFn),
+      integration: new integrations.HttpLambdaIntegration(
+        'signin-handler',
+        signInFn,
+      ),
     });
 
     api.addRoutes({
       path: '/signout',
       methods: [apigatewayv2.HttpMethod.GET, apigatewayv2.HttpMethod.POST],
-      integration: new integrations.HttpLambdaIntegration('signout-handler', signOutFn),
+      integration: new integrations.HttpLambdaIntegration(
+        'signout-handler',
+        signOutFn,
+      ),
     });
 
     const blockExternalUserFn = new nodejs.NodejsFunction(
@@ -332,46 +338,54 @@ export class InfraStack extends cdk.Stack {
       },
     });
 
-    const adminPoolClient = new cognito.UserPoolClient(this, 'AdminPoolAppClient', {
-      userPool: adminUserPool,
-      userPoolClientName: `${environment}-admin-user-pool-client`,
-      authFlows: {
-        adminUserPassword: true,
-        userSrp: true,
-        userPassword: true,
-        custom: true,
-      },
-      oAuth: {
-        callbackUrls: [
-          'http://localhost:3000',
-          `https://${endUserDomain}.auth.${region}.amazoncognito.com/oauth2/idpresponse`,
-        ],
-        // logoutUrls,
-        flows: {
-          authorizationCodeGrant: true,
-          implicitCodeGrant: true,
+    const adminPoolClient = new cognito.UserPoolClient(
+      this,
+      'AdminPoolAppClient',
+      {
+        userPool: adminUserPool,
+        userPoolClientName: `${environment}-admin-user-pool-client`,
+        authFlows: {
+          adminUserPassword: true,
+          userSrp: true,
+          userPassword: true,
+          custom: true,
         },
-        scopes: [
-          cognito.OAuthScope.COGNITO_ADMIN,
-          cognito.OAuthScope.EMAIL,
-          cognito.OAuthScope.OPENID,
-          cognito.OAuthScope.PROFILE,
-        ],
+        oAuth: {
+          callbackUrls: [
+            'http://localhost:3000',
+            `https://${endUserDomain}.auth.${region}.amazoncognito.com/oauth2/idpresponse`,
+          ],
+          // logoutUrls,
+          flows: {
+            authorizationCodeGrant: true,
+            implicitCodeGrant: true,
+          },
+          scopes: [
+            cognito.OAuthScope.COGNITO_ADMIN,
+            cognito.OAuthScope.EMAIL,
+            cognito.OAuthScope.OPENID,
+            cognito.OAuthScope.PROFILE,
+          ],
+        },
+        preventUserExistenceErrors: true,
       },
-      preventUserExistenceErrors: true,
-    });
+    );
 
-    const adminPoolIdentityPool = new cognito.CfnIdentityPool(this, 'AdminIdPool', {
-      allowUnauthenticatedIdentities: false,
-      cognitoIdentityProviders: [
-        {
-          clientId: adminPoolClient.userPoolClientId,
-          providerName: adminUserPool.userPoolProviderName,
-          serverSideTokenCheck: true,
-        },
-      ],
-      identityPoolName: `${environment} admin users`,
-    });
+    const adminPoolIdentityPool = new cognito.CfnIdentityPool(
+      this,
+      'AdminIdPool',
+      {
+        allowUnauthenticatedIdentities: false,
+        cognitoIdentityProviders: [
+          {
+            clientId: adminPoolClient.userPoolClientId,
+            providerName: adminUserPool.userPoolProviderName,
+            serverSideTokenCheck: true,
+          },
+        ],
+        identityPoolName: `${environment} admin users`,
+      },
+    );
 
     const adminUnauthenticatedRole = new iam.Role(
       this,
@@ -449,75 +463,92 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
-    new cognito.CfnIdentityPoolRoleAttachment(this, 'AdminIdPoolRoleAttachment', {
-      identityPoolId: adminPoolIdentityPool.ref,
-      roles: {
-        authenticated: adminAuthenticatedRole.roleArn,
-        unauthenticated: adminUnauthenticatedRole.roleArn,
+    // oxlint-disable-next-line no-new
+    new cognito.CfnIdentityPoolRoleAttachment(
+      this,
+      'AdminIdPoolRoleAttachment',
+      {
+        identityPoolId: adminPoolIdentityPool.ref,
+        roles: {
+          authenticated: adminAuthenticatedRole.roleArn,
+          unauthenticated: adminUnauthenticatedRole.roleArn,
+        },
       },
-    });
+    );
 
-    const cfnIdp = new cognito.CfnUserPoolIdentityProvider(this, 'OIDCProvider', {
-      providerName: provider,
-      providerType: idp.IdentityProviderTypeType.OIDC,
-      userPoolId: endUserPool.userPoolId,
-      providerDetails: {
-        client_id: adminPoolClient.userPoolClientId,
-        authorize_scopes: 'email openid profile',
-        oidc_issuer: `https://cognito-idp.${region}.amazonaws.com/${adminUserPool.userPoolId}`,
-        attributes_request_method: 'GET',
+    const cfnIdp = new cognito.CfnUserPoolIdentityProvider(
+      this,
+      'OIDCProvider',
+      {
+        providerName: provider,
+        providerType: idp.IdentityProviderTypeType.OIDC,
+        userPoolId: endUserPool.userPoolId,
+        providerDetails: {
+          client_id: adminPoolClient.userPoolClientId,
+          authorize_scopes: 'email openid profile',
+          oidc_issuer: `https://cognito-idp.${region}.amazonaws.com/${adminUserPool.userPoolId}`,
+          attributes_request_method: 'GET',
+        },
+        attributeMapping: {
+          email: 'email',
+        },
       },
-      attributeMapping: {
-        email: 'email',
-      },
-    });
+    );
 
     cfnIdp.node.addDependency(adminPoolClient, endUserPool);
 
-    const endUsersClient = new cognito.UserPoolClient(this, 'EndUserPoolAppClient', {
-      userPool: endUserPool,
-      userPoolClientName: `${environment}-end-user-pool-client`,
-      authFlows: {
-        adminUserPassword: true,
-        userSrp: true,
-        userPassword: true,
-        custom: true,
-      },
-      oAuth: {
-        callbackUrls: ['http://localhost:3000', `${api.url}signin`],
-        logoutUrls: [`${api.url}signout`],
-        flows: {
-          authorizationCodeGrant: true,
-          implicitCodeGrant: true,
+    const endUsersClient = new cognito.UserPoolClient(
+      this,
+      'EndUserPoolAppClient',
+      {
+        userPool: endUserPool,
+        userPoolClientName: `${environment}-end-user-pool-client`,
+        authFlows: {
+          adminUserPassword: true,
+          userSrp: true,
+          userPassword: true,
+          custom: true,
         },
-        scopes: [
-          cognito.OAuthScope.COGNITO_ADMIN,
-          cognito.OAuthScope.EMAIL,
-          cognito.OAuthScope.OPENID,
-          cognito.OAuthScope.PROFILE,
+        oAuth: {
+          callbackUrls: ['http://localhost:3000', `${api.url}signin`],
+          logoutUrls: [`${api.url}signout`],
+          flows: {
+            authorizationCodeGrant: true,
+            implicitCodeGrant: true,
+          },
+          scopes: [
+            cognito.OAuthScope.COGNITO_ADMIN,
+            cognito.OAuthScope.EMAIL,
+            cognito.OAuthScope.OPENID,
+            cognito.OAuthScope.PROFILE,
+          ],
+        },
+        preventUserExistenceErrors: true,
+        supportedIdentityProviders: [
+          cognito.UserPoolClientIdentityProvider.COGNITO,
+          cognito.UserPoolClientIdentityProvider.custom(cfnIdp.providerName),
         ],
       },
-      preventUserExistenceErrors: true,
-      supportedIdentityProviders: [
-        cognito.UserPoolClientIdentityProvider.COGNITO,
-        cognito.UserPoolClientIdentityProvider.custom(cfnIdp.providerName),
-      ],
-    });
+    );
 
     endUsersClient.node.addDependency(endUserPool, cfnIdp);
 
-    const endUserPoolIdentityPool = new cognito.CfnIdentityPool(this, 'EndUserIdPool', {
-      allowUnauthenticatedIdentities: false,
-      allowClassicFlow: true,
-      cognitoIdentityProviders: [
-        {
-          clientId: endUsersClient.userPoolClientId,
-          providerName: endUserPool.userPoolProviderName,
-          serverSideTokenCheck: true,
-        },
-      ],
-      identityPoolName: `${environment} end users`,
-    });
+    const endUserPoolIdentityPool = new cognito.CfnIdentityPool(
+      this,
+      'EndUserIdPool',
+      {
+        allowUnauthenticatedIdentities: false,
+        allowClassicFlow: true,
+        cognitoIdentityProviders: [
+          {
+            clientId: endUsersClient.userPoolClientId,
+            providerName: endUserPool.userPoolProviderName,
+            serverSideTokenCheck: true,
+          },
+        ],
+        identityPoolName: `${environment} end users`,
+      },
+    );
 
     const endUserUnauthenticatedRole = new iam.Role(
       this,
@@ -592,13 +623,18 @@ export class InfraStack extends cdk.Stack {
       },
     );
 
-    new cognito.CfnIdentityPoolRoleAttachment(this, 'EndUsersIdPoolRoleAttachment', {
-      identityPoolId: endUserPoolIdentityPool.ref,
-      roles: {
-        authenticated: endUserAuthenticatedRole.roleArn,
-        unauthenticated: endUserUnauthenticatedRole.roleArn,
+    // oxlint-disable-next-line no-new
+    new cognito.CfnIdentityPoolRoleAttachment(
+      this,
+      'EndUsersIdPoolRoleAttachment',
+      {
+        identityPoolId: endUserPoolIdentityPool.ref,
+        roles: {
+          authenticated: endUserAuthenticatedRole.roleArn,
+          unauthenticated: endUserUnauthenticatedRole.roleArn,
+        },
       },
-    });
+    );
 
     if (testRoles !== undefined && testRoles > 0) {
       const range = [...Array(testRoles).keys()];

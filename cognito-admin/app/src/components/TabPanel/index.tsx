@@ -1,3 +1,4 @@
+/* oxlint-disable react/react-in-jsx-scope */
 import { Box, Typography } from '@mui/material';
 import { JSX, ReactNode } from 'react';
 
@@ -12,15 +13,15 @@ function TabPanel(props: TabPanelProps): JSX.Element {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       {value === index && (
-        <Box p={3} component="div">
-          <Typography component="div">{children}</Typography>
+        <Box sx={{ p: 3 }}>
+          <Typography component='div'>{children}</Typography>
         </Box>
       )}
     </div>

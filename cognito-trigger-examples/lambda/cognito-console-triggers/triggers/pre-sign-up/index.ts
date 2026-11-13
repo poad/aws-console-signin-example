@@ -1,14 +1,14 @@
-import {
-  CognitoIdentityProviderClient,
-  ListUsersCommand,
-  AdminCreateUserCommand,
-} from '@aws-sdk/client-cognito-identity-provider';
 import type {
   Callback,
   Context,
   PreSignUpTriggerEvent,
   PreSignUpTriggerHandler,
 } from 'aws-lambda';
+import {
+  CognitoIdentityProviderClient,
+  ListUsersCommand,
+  AdminCreateUserCommand,
+} from '@aws-sdk/client-cognito-identity-provider';
 
 export const handler: PreSignUpTriggerHandler = async (
   event: PreSignUpTriggerEvent,
@@ -57,9 +57,7 @@ export const handler: PreSignUpTriggerHandler = async (
     }
 
     const provider = event.userName.split('_')[0];
-    const identities: Record<string, string>[] = (
-      targetUser.Attributes ?? []
-    )
+    const identities: Record<string, string>[] = (targetUser.Attributes ?? [])
       .filter((attribute) => attribute.Name === 'identities' && attribute.Value)
       .flatMap(
         (attribute) =>

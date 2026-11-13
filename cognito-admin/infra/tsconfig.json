@@ -2,10 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "lib": [
-      "DOM",
-      "esnext"
-    ],
+    "lib": ["DOM", "esnext"],
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -21,15 +18,9 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "moduleResolution": "bundler",
-    "rootDirs": [
-      "bin",
-      "lib"
-    ],
+    "rootDirs": ["bin", "lib"],
     "noEmit": true,
     "types": ["node"]
   },
-  "exclude": [
-    "cdk.out",
-    "eslint.config.ts"
-  ]
+  "exclude": ["cdk.out", "eslint.config.ts"]
 }

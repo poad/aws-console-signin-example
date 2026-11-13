@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { User } from '../interfaces';
 import UserPoolClient from '../service/UserPoolClient';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 export const useUser = (
   client: UserPoolClient,
@@ -10,9 +10,12 @@ export const useUser = (
   loadUser: (origin: User) => void;
 } => {
   const [user, setUser] = useState<User | undefined>();
-  const loadUser = useCallback(async (origin: User) => {
-    const groups = await client.listGroupsForUser(origin.username);
-    setUser({ ...origin, groups });
-  }, [client]);
+  const loadUser = useCallback(
+    async (origin: User) => {
+      const groups = await client.listGroupsForUser(origin.username);
+      setUser({ ...origin, groups });
+    },
+    [client],
+  );
   return { user, setUser, loadUser };
 };

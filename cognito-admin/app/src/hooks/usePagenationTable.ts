@@ -24,7 +24,7 @@ export function usePagenationTable<T, Label extends keyof T>(
   ) => (event: React.MouseEvent<unknown>) => void;
   getComparator(
     order: Order,
-    orderBy: Label
+    orderBy: Label,
   ): (
     a: Record<Label, number | string>,
     b: Record<Label, number | string>,

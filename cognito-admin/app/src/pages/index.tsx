@@ -1,20 +1,20 @@
-import React, { JSX, useState } from 'react';
+import { useAuthenticator, withAuthenticator } from '@aws-amplify/ui-react';
 import { Box, CssBaseline } from '@mui/material';
 import { Amplify } from 'aws-amplify';
-import { useAuthenticator, withAuthenticator } from '@aws-amplify/ui-react';
+import React, { JSX, useState } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 
-import styles from '../styles/Home.module.css';
 import awsconfig, { appConfig } from '../aws-config';
-import Users from '../components/Users';
-import TabPanel from '../components/TabPanel';
+import { ErrorDialog } from '../components/ErrorDialog';
 import Groups from '../components/Groups';
+import { Header } from '../components/Header';
+import { LoadingSpinner } from '../components/styled/LoadingSpinner';
+import TabPanel from '../components/TabPanel';
+import Users from '../components/Users';
+import { ErrorDialogProps } from '../interfaces';
 import IamClient, { ICredentials } from '../service/IamClient';
 import UserPoolClient from '../service/UserPoolClient';
-import { LoadingSpinner } from '../components/styled/LoadingSpinner';
-import { ErrorDialogProps } from '../interfaces';
-import { ErrorDialog } from '../components/ErrorDialog';
-import { Header } from '../components/Header';
+import styles from '../styles/Home.module.css';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 Amplify.configure(awsconfig);

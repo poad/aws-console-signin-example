@@ -1,14 +1,7 @@
-import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
-import {
-  Effect,
-  FederatedPrincipal,
-  ManagedPolicy,
-  PolicyDocument,
-  PolicyStatement,
-  Role,
-  ServicePrincipal,
-  WebIdentityPrincipal,
-} from 'aws-cdk-lib/aws-iam';
+import type { Construct } from 'constructs';
+import { Stack, type StackProps, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { HttpApi, HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
+import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import {
   AccountRecovery,
   Mfa,
@@ -19,12 +12,19 @@ import {
   UserPool,
   CfnIdentityPool,
 } from 'aws-cdk-lib/aws-cognito';
-import { Stack, type StackProps, Duration, RemovalPolicy } from 'aws-cdk-lib';
-import { HttpApi, HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
-import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
-import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import {
+  Effect,
+  FederatedPrincipal,
+  ManagedPolicy,
+  PolicyDocument,
+  PolicyStatement,
+  Role,
+  ServicePrincipal,
+  WebIdentityPrincipal,
+} from 'aws-cdk-lib/aws-iam';
+import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import type { Construct } from 'constructs';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 
 export interface GroupConfig {
   id: string;
@@ -107,42 +107,42 @@ export class LambdaExamplesStack extends Stack {
 
     const preSignUpInFn = props.Lambda.triggers.preSignUp
       ? new NodejsFunction(this, 'PreSignUpLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.preSignUp.entry,
-        functionName: props.Lambda.triggers.preSignUp.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'PreSignUpExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.preSignUp.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.preSignUp.entry,
+          functionName: props.Lambda.triggers.preSignUp.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'PreSignUpExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.preSignUp.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
     if (props.providers) {
       preSignUpInFn?.addEnvironment('PROVIDERS', props.providers);
@@ -150,242 +150,242 @@ export class LambdaExamplesStack extends Stack {
 
     const postConfirmInFn = props.Lambda.triggers.postConfirm
       ? new NodejsFunction(this, 'PostConfirmLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.postConfirm.entry,
-        functionName: props.Lambda.triggers.postConfirm.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'PostConfirmLambdaExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.postConfirm.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.postConfirm.entry,
+          functionName: props.Lambda.triggers.postConfirm.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'PostConfirmLambdaExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.postConfirm.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const preTokenGenInFn = props.Lambda.triggers.preGenToken
       ? new NodejsFunction(this, 'PreTokenGenLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.preGenToken.entry,
-        functionName: props.Lambda.triggers.preGenToken.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'PreTokenGenLambdaExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.preGenToken.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.preGenToken.entry,
+          functionName: props.Lambda.triggers.preGenToken.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'PreTokenGenLambdaExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.preGenToken.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const createAuthChallengeFn = props.Lambda.triggers.createAuthChallenge
       ? new NodejsFunction(this, 'CreateAuthChallengeLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.createAuthChallenge.entry,
-        functionName: props.Lambda.triggers.createAuthChallenge.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'CreateAuthChallengeExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.createAuthChallenge.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.createAuthChallenge.entry,
+          functionName: props.Lambda.triggers.createAuthChallenge.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'CreateAuthChallengeExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.createAuthChallenge.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const defAuthChallengeFn = props.Lambda.triggers.defAuthChallenge
       ? new NodejsFunction(this, 'DefAuthChallengeLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.defAuthChallenge.entry,
-        functionName: props.Lambda.triggers.defAuthChallenge.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'DefAuthChallengeExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.defAuthChallenge.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.defAuthChallenge.entry,
+          functionName: props.Lambda.triggers.defAuthChallenge.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'DefAuthChallengeExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.defAuthChallenge.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const preAuthFn = props.Lambda.triggers.preAuth
       ? new NodejsFunction(this, 'PreAuthLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.preAuth.entry,
-        functionName: props.Lambda.triggers.preAuth.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'PreAuthExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.preAuth.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.preAuth.entry,
+          functionName: props.Lambda.triggers.preAuth.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'PreAuthExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.preAuth.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const postAuthFn = props.Lambda.triggers.postAuth
       ? new NodejsFunction(this, 'PostAuthLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.postAuth.entry,
-        functionName: props.Lambda.triggers.postAuth.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'PostAuthExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.postAuth.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.postAuth.entry,
+          functionName: props.Lambda.triggers.postAuth.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'PostAuthExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.postAuth.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     if (props.providers) {
@@ -394,122 +394,122 @@ export class LambdaExamplesStack extends Stack {
 
     const verifyAuthChallengeFn = props.Lambda.triggers.verifyAuthChallenge
       ? new NodejsFunction(this, 'VerifyAuthChallengeLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.verifyAuthChallenge.entry,
-        functionName: props.Lambda.triggers.verifyAuthChallenge.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'VerifyAuthChallengeExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.verifyAuthChallenge.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.verifyAuthChallenge.entry,
+          functionName: props.Lambda.triggers.verifyAuthChallenge.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'VerifyAuthChallengeExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.verifyAuthChallenge.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const customMessageFn = props.Lambda.triggers.customMessge
       ? new NodejsFunction(this, 'CustomMessageLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.customMessge.entry,
-        functionName: props.Lambda.triggers.customMessge.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'CustomMessageExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.customMessge.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.customMessge.entry,
+          functionName: props.Lambda.triggers.customMessge.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'CustomMessageExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.customMessge.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const userMigrationFn = props.Lambda.triggers.userMigrate
       ? new NodejsFunction(this, 'UserMigrationLambdaFunction', {
-        runtime: Runtime.NODEJS_24_X,
-        architecture: Architecture.ARM_64,
-        entry: props.Lambda.triggers.userMigrate.entry,
-        functionName: props.Lambda.triggers.userMigrate.name,
-        logRetention: RetentionDays.ONE_DAY,
-        retryAttempts: 0,
-        role: new Role(this, 'UserMigrationExecutionRole', {
-          assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-          inlinePolicies: {
-            'logs-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents',
-                  ],
-                  resources: [
-                    `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.userMigrate.name}:*`,
-                  ],
-                }),
-              ],
-            }),
-            'assumed-role-policy': new PolicyDocument({
-              statements: [
-                new PolicyStatement({
-                  effect: Effect.ALLOW,
-                  actions: ['cognito-identity:*', 'cognito-idp:*'],
-                  resources: ['*'],
-                }),
-              ],
-            }),
-          },
-        }),
-      })
+          runtime: Runtime.NODEJS_24_X,
+          architecture: Architecture.ARM_64,
+          entry: props.Lambda.triggers.userMigrate.entry,
+          functionName: props.Lambda.triggers.userMigrate.name,
+          logRetention: RetentionDays.ONE_DAY,
+          retryAttempts: 0,
+          role: new Role(this, 'UserMigrationExecutionRole', {
+            assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+            inlinePolicies: {
+              'logs-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: [
+                      'logs:CreateLogGroup',
+                      'logs:CreateLogStream',
+                      'logs:PutLogEvents',
+                    ],
+                    resources: [
+                      `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${props.Lambda.triggers.userMigrate.name}:*`,
+                    ],
+                  }),
+                ],
+              }),
+              'assumed-role-policy': new PolicyDocument({
+                statements: [
+                  new PolicyStatement({
+                    effect: Effect.ALLOW,
+                    actions: ['cognito-identity:*', 'cognito-idp:*'],
+                    resources: ['*'],
+                  }),
+                ],
+              }),
+            },
+          }),
+        })
       : undefined;
 
     const userPool = new UserPool(this, 'UserPool', {
@@ -721,15 +721,15 @@ export class LambdaExamplesStack extends Stack {
 
     const callbackUrls = props.auth0Domain
       ? [
-        `${api.url}/signin`,
-        `https://${props.auth0Domain}.auth0.com/login/callback`,
-      ]
+          `${api.url}/signin`,
+          `https://${props.auth0Domain}.auth0.com/login/callback`,
+        ]
       : [`${api.url}`];
     const logoutUrls = props.auth0Domain
       ? [
-        `${api.url}/signout`,
-        `https://${props.auth0Domain}.auth0.com/logout/callback`,
-      ]
+          `${api.url}/signout`,
+          `https://${props.auth0Domain}.auth0.com/logout/callback`,
+        ]
       : [`${api.url}`];
 
     const client = new UserPoolClient(this, 'AppClient', {
@@ -855,6 +855,7 @@ export class LambdaExamplesStack extends Stack {
       },
     );
 
+    // oxlint-disable-next-line no-new
     new CfnIdentityPoolRoleAttachment(this, 'IdPoolRoleAttachment', {
       identityPoolId: identityPool.ref,
       roles: {
@@ -910,6 +911,7 @@ export class LambdaExamplesStack extends Stack {
       return { id: group.id, name: group.name, role: groupRole };
     });
     for (const role of roles) {
+      // oxlint-disable-next-line no-new
       new CfnUserPoolGroup(this, role.id, {
         groupName: `${props.environment}-${role.name}`,
         userPoolId: userPool.userPoolId,

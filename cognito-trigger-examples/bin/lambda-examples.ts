@@ -138,6 +138,7 @@ if (context.triggers.customMessge) {
   };
 }
 
+// oxlint-disable-next-line no-new
 new LambdaExamplesStack(app, `${env}-lambda-stack`, {
   name: `${env}-lambda`,
   region,

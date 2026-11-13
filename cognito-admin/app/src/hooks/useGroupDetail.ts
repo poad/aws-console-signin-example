@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
 import { Group } from '../interfaces';
 import UserPoolClient from '../service/UserPoolClient';
+import { useCallback, useState } from 'react';
 
 export const useGroupDetail = (
   client: UserPoolClient,
@@ -31,27 +31,33 @@ export const useGroupDetail = (
     return undefined;
   }, [client, detail, onDelete]);
 
-  const updateGroup = useCallback(async (newGroup: Group) => {
-    const result = await client.updateGroup(newGroup);
-    if (onUpdate) {
-      onUpdate(result);
-    }
-  }, [client, onUpdate]);
+  const updateGroup = useCallback(
+    async (newGroup: Group) => {
+      const result = await client.updateGroup(newGroup);
+      if (onUpdate) {
+        onUpdate(result);
+      }
+    },
+    [client, onUpdate],
+  );
 
-  const changeGroupRole = useCallback((newRole: string) => {
-    if (
-      (!detail?.roleArn || detail?.roleArn?.length === 0) &&
-      newRole.length !== 0
-    ) {
-      setAttacheRole(newRole);
-    } else if (detail?.roleArn !== newRole) {
-      updateGroup({
-        ...detail,
-        roleArn: newRole.length > 0 ? newRole : undefined,
-      } as Group);
-      setAttacheRole(undefined);
-    }
-  }, [detail, updateGroup]);
+  const changeGroupRole = useCallback(
+    (newRole: string) => {
+      if (
+        (!detail?.roleArn || detail?.roleArn?.length === 0) &&
+        newRole.length !== 0
+      ) {
+        setAttacheRole(newRole);
+      } else if (detail?.roleArn !== newRole) {
+        updateGroup({
+          ...detail,
+          roleArn: newRole.length > 0 ? newRole : undefined,
+        } as Group);
+        setAttacheRole(undefined);
+      }
+    },
+    [detail, updateGroup],
+  );
 
   const updateGroupRole = useCallback(() => {
     updateGroup({ ...detail, roleArn: attacheRole } as Group);

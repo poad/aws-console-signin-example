@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
 
 // A theme with custom primary and secondary color.
 // It's optional.

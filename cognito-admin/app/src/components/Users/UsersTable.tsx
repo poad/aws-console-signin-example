@@ -1,4 +1,7 @@
-import { JSX } from 'react';
+import { Page, usePagenationTable } from '../../hooks/usePagenationTable';
+import { User } from '../../interfaces';
+import StyledTableCell from '../styled/StyledTableCell';
+import StyledTableSortLabel from '../styled/StyledTableSortLabel';
 import {
   Table,
   TableBody,
@@ -9,10 +12,8 @@ import {
   TablePagination,
   Box,
 } from '@mui/material';
-import { Page, usePagenationTable } from '../../hooks/usePagenationTable';
-import { User } from '../../interfaces';
-import StyledTableCell from '../styled/StyledTableCell';
-import StyledTableSortLabel from '../styled/StyledTableSortLabel';
+/* oxlint-disable react/react-in-jsx-scope */
+import { JSX } from 'react';
 
 type TableHeadLabel =
   | 'email'
@@ -111,7 +112,7 @@ export const UsersTable = ({
   return (
     <Box>
       <TableContainer>
-        <Table size="small" stickyHeader>
+        <Table size='small' stickyHeader>
           <TableHead>
             <TableRow>
               {headCells.map(({ id, numeric, disablePadding, label }) => (
@@ -187,7 +188,7 @@ export const UsersTable = ({
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
-        component="div"
+        component='div'
         count={users.length}
         rowsPerPage={page.rowsPerPage}
         page={page.page}

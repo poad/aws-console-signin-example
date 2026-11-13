@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import UserPoolClient from '../service/UserPoolClient';
 import { Group } from '../interfaces';
+import UserPoolClient from '../service/UserPoolClient';
+import { useState, useEffect, useCallback } from 'react';
 
 export const usePagenationGroups = (
   client: UserPoolClient,
@@ -19,17 +19,19 @@ export const usePagenationGroups = (
     loaded: boolean;
   }>({ loaded: false });
 
-  const loadGroups = useCallback(async () =>
-    client
-      .listGroups()
-      .then((items) =>
-        setState({
-          data: items,
-          loaded: true,
-        }),
-      )
-      .catch((error) => setState({ error, loaded: false })),
-  [client]);
+  const loadGroups = useCallback(
+    async () =>
+      client
+        .listGroups()
+        .then((items) =>
+          setState({
+            data: items,
+            loaded: true,
+          }),
+        )
+        .catch((error) => setState({ error, loaded: false })),
+    [client],
+  );
 
   useEffect(() => {
     loadGroups();

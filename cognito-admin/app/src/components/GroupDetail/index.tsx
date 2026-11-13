@@ -1,3 +1,12 @@
+import { useGroupDetail } from '../../hooks/useGroupDetail';
+import { useListRoles } from '../../hooks/useListRoles';
+import { Group } from '../../interfaces';
+import IamClient from '../../service/IamClient';
+import UserPoolClient from '../../service/UserPoolClient';
+import ReadOnlyTextField from '../ReadOnlyTextField';
+import StyledTextField from '../styled/StyledTextField';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+/* oxlint-disable react/react-in-jsx-scope */
 import {
   Accordion,
   AccordionDetails,
@@ -22,14 +31,6 @@ import {
   useTheme,
 } from '@mui/material';
 import { JSX, useEffect, useState } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Group } from '../../interfaces';
-import UserPoolClient from '../../service/UserPoolClient';
-import IamClient from '../../service/IamClient';
-import { useListRoles } from '../../hooks/useListRoles';
-import { useGroupDetail } from '../../hooks/useGroupDetail';
-import StyledTextField from '../styled/StyledTextField';
-import ReadOnlyTextField from '../ReadOnlyTextField';
 
 interface DetailErrorDialog {
   title?: string;
@@ -69,7 +70,7 @@ const UserDetail = ({
     DetailErrorDialog | undefined
   >(undefined);
 
-  const { roles, error, loaded } = useListRoles(iamClient);
+  const { roles, error } = useListRoles(iamClient);
 
   const {
     detail,
@@ -87,7 +88,7 @@ const UserDetail = ({
         message: JSON.stringify(error),
       });
     }
-  }, [error, loaded]);
+  }, [error]);
 
   const onDeleteGroup = () => {
     deleteGroup();
@@ -115,13 +116,13 @@ const UserDetail = ({
       <Dialog open={detailErrorDialog !== undefined} onClick={onErrorClose}>
         <DialogContent>
           {detailErrorDialog?.title !== undefined ? (
-            <DialogTitle id="user-detail-dialog-title">
-              <Typography variant="h4" component="span" gutterBottom>
+            <DialogTitle id='user-detail-dialog-title'>
+              <Typography variant='h4' component='span' gutterBottom>
                 {detailErrorDialog.title}
               </Typography>
             </DialogTitle>
           ) : undefined}
-          <DialogContentText id="alert-dialog-description" component="div">
+          <DialogContentText id='alert-dialog-description' component='div'>
             {detailErrorDialog?.message !== undefined
               ? detailErrorDialog.message
               : ''}
@@ -132,18 +133,18 @@ const UserDetail = ({
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
         <DialogContent>
-          <DialogTitle id="user-detail-dialog-title">
-            <Typography variant="h4" component="span" gutterBottom>
+          <DialogTitle id='user-detail-dialog-title'>
+            <Typography variant='h4' component='span' gutterBottom>
               {detail?.groupName}
             </Typography>
           </DialogTitle>
-          <DialogContentText id="user-detail-dialog" component="div">
+          <DialogContentText id='user-detail-dialog' component='div'>
             <Container>
               <Paper
-                variant="outlined"
+                variant='outlined'
                 sx={{
                   paddingLeft: 4,
                   paddingRight: 4,
@@ -152,51 +153,50 @@ const UserDetail = ({
                 }}
               >
                 <ReadOnlyTextField
-                  id="groupName"
-                  label="GroupName"
-                  variant="outlined"
-                  key="groupName"
-                  InputLabelProps={{ shrink: true }}
+                  id='groupName'
+                  label='GroupName'
+                  variant='outlined'
+                  key='groupName'
                   defaultValue={detail?.groupName}
                 />
                 <ReadOnlyTextField
-                  id="createdAt"
-                  label="CreatedAt"
-                  variant="outlined"
-                  key="createdAt"
+                  id='createdAt'
+                  label='CreatedAt'
+                  variant='outlined'
+                  key='createdAt'
                   defaultValue={detail?.creationDate?.toLocaleString()}
                 />
                 <ReadOnlyTextField
-                  id="lastModifiedAt"
-                  label="LastModifiedAt"
-                  variant="outlined"
-                  key="lastModifiedAt"
+                  id='lastModifiedAt'
+                  label='LastModifiedAt'
+                  variant='outlined'
+                  key='lastModifiedAt'
                   defaultValue={detail?.lastModifiedDate?.toLocaleString()}
                 />
                 <FormControl
-                  variant="outlined"
+                  variant='outlined'
                   fullWidth
                   sx={{ paddingLeft: 2, paddingRight: 2 }}
                 >
                   <InputLabel
-                    id="roleArn-label"
+                    id='roleArn-label'
                     sx={{ paddingLeft: 2, paddingRight: 2 }}
                   >
                     Role Arn
                   </InputLabel>
                   <Select
-                    labelId="roleArn-label"
+                    labelId='roleArn-label'
                     sx={{ paddingLeft: 2, paddingRight: 2 }}
-                    id="roleArn"
+                    id='roleArn'
                     value={detail?.roleArn || ''}
                     onChange={handleRoleChange}
-                    label="Role Arn"
+                    label='Role Arn'
                     fullWidth
                   >
                     {detail?.roleArn === undefined ? (
                       <MenuItem
-                        key="None"
-                        value=""
+                        key='None'
+                        value=''
                         sx={{ paddingLeft: 2, paddingRight: 2 }}
                       >
                         <em>None</em>
@@ -221,18 +221,18 @@ const UserDetail = ({
                   </Select>
                 </FormControl>
                 <ReadOnlyTextField
-                  id="precedence"
-                  label="Precedence"
-                  key="precedence"
-                  variant="outlined"
+                  id='precedence'
+                  label='Precedence'
+                  key='precedence'
+                  variant='outlined'
                   defaultValue={detail?.precedence}
                 />
 
-                <Accordion variant="outlined">
+                <Accordion variant='outlined'>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="users-content"
-                    id="users-header"
+                    aria-controls='users-content'
+                    id='users-header'
                   >
                     <Typography
                       sx={{
@@ -245,10 +245,10 @@ const UserDetail = ({
                       Users
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails id="users-content">
+                  <AccordionDetails id='users-content'>
                     <List
-                      component="ul"
-                      id="users-list"
+                      component='ul'
+                      id='users-list'
                       sx={{
                         paddingLeft: 2,
                         paddingRight: 2,
@@ -260,20 +260,20 @@ const UserDetail = ({
                     >
                       {detail?.users !== undefined
                         ? detail?.users.map((user) => (
-                          <ListItem
-                            component="li"
-                            key={`${detail?.groupName}-user-${user.username}`}
-                          >
-                            <StyledTextField
-                              id={user.username}
-                              label={user.username}
-                              fullWidth
-                              key={user.username}
-                              InputProps={{ readOnly: true }}
-                              defaultValue={user.username}
-                            />
-                          </ListItem>
-                        ))
+                            <ListItem
+                              component='li'
+                              key={`${detail?.groupName}-user-${user.username}`}
+                            >
+                              <StyledTextField
+                                id={user.username}
+                                label={user.username}
+                                fullWidth
+                                key={user.username}
+                                disabled
+                                defaultValue={user.username}
+                              />
+                            </ListItem>
+                          ))
                         : ''}
                     </List>
                   </AccordionDetails>
@@ -285,8 +285,8 @@ const UserDetail = ({
                 </Button>
                 <Button
                   sx={{ margin: 8 }}
-                  variant="contained"
-                  color="secondary"
+                  variant='contained'
+                  color='secondary'
                   onClick={handleConfirm}
                 >
                   DELETE
@@ -299,20 +299,20 @@ const UserDetail = ({
       <Dialog
         open={confirm}
         onClose={handleCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{'Delete Group?'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'Delete Group?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             Can&apos;t undo it. Do you want to delete group?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="primary" autoFocus>
+          <Button onClick={handleCancel} color='primary' autoFocus>
             CANCEL
           </Button>
-          <Button onClick={onDeleteGroup} color="secondary">
+          <Button onClick={onDeleteGroup} color='secondary'>
             DELETE
           </Button>
         </DialogActions>
@@ -320,23 +320,23 @@ const UserDetail = ({
       <Dialog
         open={attacheRole !== undefined}
         onClose={handleCancelAttacheRole}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-group-role-dialog-title">
+        <DialogTitle id='alert-group-role-dialog-title'>
           {'Attache IAM role to Group?'}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-group-role-dialog-description">
+          <DialogContentText id='alert-group-role-dialog-description'>
             Once the IAM role is set for a group, it cannot be reverted to the
             state where the IAM role is not set, is that correct?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelAttacheRole} color="primary" autoFocus>
+          <Button onClick={handleCancelAttacheRole} color='primary' autoFocus>
             CANCEL
           </Button>
-          <Button onClick={atttachRoleToGroup} color="secondary">
+          <Button onClick={atttachRoleToGroup} color='secondary'>
             OK
           </Button>
         </DialogActions>
