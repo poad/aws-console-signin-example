@@ -107,7 +107,7 @@ export class LambdaExamplesStack extends Stack {
 
     const preSignUpInFn = props.Lambda.triggers.preSignUp
       ? new NodejsFunction(this, 'PreSignUpLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.preSignUp.entry,
           functionName: props.Lambda.triggers.preSignUp.name,
@@ -150,7 +150,7 @@ export class LambdaExamplesStack extends Stack {
 
     const postConfirmInFn = props.Lambda.triggers.postConfirm
       ? new NodejsFunction(this, 'PostConfirmLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.postConfirm.entry,
           functionName: props.Lambda.triggers.postConfirm.name,
@@ -190,7 +190,7 @@ export class LambdaExamplesStack extends Stack {
 
     const preTokenGenInFn = props.Lambda.triggers.preGenToken
       ? new NodejsFunction(this, 'PreTokenGenLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.preGenToken.entry,
           functionName: props.Lambda.triggers.preGenToken.name,
@@ -230,7 +230,7 @@ export class LambdaExamplesStack extends Stack {
 
     const createAuthChallengeFn = props.Lambda.triggers.createAuthChallenge
       ? new NodejsFunction(this, 'CreateAuthChallengeLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.createAuthChallenge.entry,
           functionName: props.Lambda.triggers.createAuthChallenge.name,
@@ -270,7 +270,7 @@ export class LambdaExamplesStack extends Stack {
 
     const defAuthChallengeFn = props.Lambda.triggers.defAuthChallenge
       ? new NodejsFunction(this, 'DefAuthChallengeLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.defAuthChallenge.entry,
           functionName: props.Lambda.triggers.defAuthChallenge.name,
@@ -310,7 +310,7 @@ export class LambdaExamplesStack extends Stack {
 
     const preAuthFn = props.Lambda.triggers.preAuth
       ? new NodejsFunction(this, 'PreAuthLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.preAuth.entry,
           functionName: props.Lambda.triggers.preAuth.name,
@@ -350,7 +350,7 @@ export class LambdaExamplesStack extends Stack {
 
     const postAuthFn = props.Lambda.triggers.postAuth
       ? new NodejsFunction(this, 'PostAuthLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.postAuth.entry,
           functionName: props.Lambda.triggers.postAuth.name,
@@ -394,7 +394,7 @@ export class LambdaExamplesStack extends Stack {
 
     const verifyAuthChallengeFn = props.Lambda.triggers.verifyAuthChallenge
       ? new NodejsFunction(this, 'VerifyAuthChallengeLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.verifyAuthChallenge.entry,
           functionName: props.Lambda.triggers.verifyAuthChallenge.name,
@@ -434,7 +434,7 @@ export class LambdaExamplesStack extends Stack {
 
     const customMessageFn = props.Lambda.triggers.customMessge
       ? new NodejsFunction(this, 'CustomMessageLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.customMessge.entry,
           functionName: props.Lambda.triggers.customMessge.name,
@@ -474,7 +474,7 @@ export class LambdaExamplesStack extends Stack {
 
     const userMigrationFn = props.Lambda.triggers.userMigrate
       ? new NodejsFunction(this, 'UserMigrationLambdaFunction', {
-          runtime: Runtime.NODEJS_24_X,
+          runtime: Runtime.NODEJS_26_X,
           architecture: Architecture.ARM_64,
           entry: props.Lambda.triggers.userMigrate.entry,
           functionName: props.Lambda.triggers.userMigrate.name,
@@ -562,7 +562,7 @@ export class LambdaExamplesStack extends Stack {
     });
 
     const signInFn = new NodejsFunction(this, 'SignInLambdaFunction', {
-      runtime: Runtime.NODEJS_24_X,
+      runtime: Runtime.NODEJS_26_X,
       architecture: Architecture.ARM_64,
       entry: props.Lambda.app.signIn.entry,
       functionName: props.Lambda.app.signIn.name,
@@ -609,7 +609,7 @@ export class LambdaExamplesStack extends Stack {
     });
 
     const signOutFn = new NodejsFunction(this, 'SignOutLambdaFunction', {
-      runtime: Runtime.NODEJS_24_X,
+      runtime: Runtime.NODEJS_26_X,
       architecture: Architecture.ARM_64,
       entry: props.Lambda.app.signOut.entry,
       functionName: props.Lambda.app.signOut.name,
@@ -652,7 +652,7 @@ export class LambdaExamplesStack extends Stack {
     });
 
     const userInfoFn = new NodejsFunction(this, 'UserInfoLambdaFunction', {
-      runtime: Runtime.NODEJS_24_X,
+      runtime: Runtime.NODEJS_26_X,
       architecture: Architecture.ARM_64,
       entry: props.Lambda.app.userInfo.entry,
       functionName: props.Lambda.app.userInfo.name,

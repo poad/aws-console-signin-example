@@ -20,9 +20,9 @@
     "lint": "oxfmt --check . && oxlint"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity": "^3.1168.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.1168.0",
-    "@aws-sdk/client-sts": "^3.1168.0",
+    "@aws-sdk/client-cognito-identity": "^3.1169.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1169.0",
+    "@aws-sdk/client-sts": "^3.1169.0",
     "jose": "^6.2.17"
   },
   "devDependencies": {
